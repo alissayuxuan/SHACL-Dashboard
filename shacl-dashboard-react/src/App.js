@@ -1,7 +1,23 @@
 import React, {useState, useEffect} from 'react'
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import UploadFile from './components/UploadFile'
+
 function App() {
 
+  return (
+    <Router>
+      <div className="App container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/upload" element={<UploadFile />} />
+        </Routes>
+      </div>
+    </Router>
+    
+  )
+  /*
   const [data, setData] = useState([{}])
 
   useEffect(() => {
@@ -17,9 +33,17 @@ function App() {
 
   return (
     <div>
-      
+      HALLO
+      {(typeof data.members === 'undefined') ? (
+        <p>Loading...</p>
+      ) : (
+        data.members.map((member, i) => (
+          <p key={i}>{member}</p>
+        ))
+      )}
     </div>
   )
+  */
 }
 
 export default App
