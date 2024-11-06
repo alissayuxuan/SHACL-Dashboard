@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
+import '../style/UploadFile.css';
 
 
 const UploadFile = () => {
@@ -53,17 +54,38 @@ const UploadFile = () => {
     const goToHome = () => {
         navigate('/');
     };
-
+    
     return (
-        <div>
+        <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100">
+          <div className="text-center">
+            <h2 className="display-4 mb-4" id="upload-header">Upload Your SHACL Validation Report</h2>
+            <p className="lead text-muted" id="upload-subtext">Easily upload your SHACL file for analysis.</p>
+          </div>
+          <div className="upload-form-container">
             <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleFileChange} />
-                <button type="submit">Upload</button>
+              <div className="form-group">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="form-control-file"
+                  id="fileInput"
+                  required
+                />
+              </div>
+              <button type="submit" className="upload-btn shadow-lg">
+                Upload File
+              </button>
             </form>
-
-            <button onClick={goToHome}>HOME</button>
+            <div className="back-to-home">
+              <button onClick={goToHome} className="back-btn">Back to Home</button>
+            </div>
+          </div>
+          <footer className="footer">
+            <p>&copy; 2024 SHACL Dashboard | Developed by Alissa Wang and Lukas Manz</p>
+          </footer>
         </div>
-    );
+      );
+   
 }
 
 export default UploadFile;

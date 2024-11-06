@@ -1,0 +1,40 @@
+/* Custom styles for Home Page */
+#main-container {
+    padding-top: 25%;
+}
+
+#main-header {
+    font-size: 80px;
+    font-family: 'Copperplate', fantasy;
+    color: #5b4db3;
+    text-shadow: 5px 5px 10px #8880b984;
+}
+
+
+
+body {
+    background-color: #f9fafb;
+    font-family: 'Arial', sans-serif;
+}
+
+footer {
+    color: #fff;
+    font-size: 0.875rem;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+.custom-btn {
+    background-color: #bcb3f7; /* Set your custom background color (e.g., blue) */
+    color: white; /* Set text color to white */
+    border-radius: 23px; /* Optional: to give it rounded corners */
+    border: none; /* Remove default button border */
+    transition: background-color 0.3s ease; /* Optional: smooth background color transition */
+}
+
+button:hover {
+    background-color: #867ac8;
+    transform: translateY(-1px);
+}

@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+}
+
+/* Container and Header Styles */
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+}
+
+#upload-header {
+    text-align: center;
+    color: #4e429e;
+    margin-bottom: 30px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.upload-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+#upload-subtext {
+    font-size: 18px;
+}
+
+/* Form Container */
+.upload-form-container {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /*0 4px 12px rgba(0, 0, 0, 0.1);*/
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+/* File Input Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control-file {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-control-file:hover {
+    border-color: #867ac8;
+}
+
+/* Upload Button */
+.upload-btn {
+    background-color: #bcb3f7;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.upload-btn:hover {
+    background-color: #867ac8;
+    transform: translateY(-2px);
+}
+
+/* Back to Home Button */
+.back-to-home {
+    margin-top: 20px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #5f51bd;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.back-btn:hover {
+    background: none;
+    color: #3d3477;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    color: #888;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}

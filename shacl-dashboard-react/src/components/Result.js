@@ -33,6 +33,12 @@ const Result = () => {
             {result ? (
                 <div>
                     <p>Triple Count: {result.analysis.triple_count}</p>
+                    {/*<p>focusNode_Distribution: {result.analysis_result.focusNode_Distribution}</p>
+                    <p>resultPath_Distribution: {result.analysis_result.resultPath_Distribution}</p>
+                    <p>sourceConstraintComponent_Distribution: {result.analysis_result.sourceConstraintComponent_Distribution}</p>
+                    <p>resultSeverity_Distribution: {result.analysis_result.resultSeverity_Distribution}</p>
+                    <p>sourceShape_Distribution: {result.analysis_result.sourceShape_Distribution}</p>
+
                     {/* Display more analysis results as needed */}
                 </div>
             ) : (

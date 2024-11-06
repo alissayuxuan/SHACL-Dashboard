@@ -2,6 +2,14 @@
 
 from rdflib import Graph
 import os
+from flask import jsonify
+
+
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+RESET = "\033[0m"
+
 
 """
 Lass uns jede Zeile erklären:
@@ -48,9 +56,9 @@ Holt den Wert von sh:resultMessage
 Speichert ihn in der Variable ?message
 In Ihrem Fall die Fehlermeldung über zu viele Werte
 """
-g = Graph()
-g.parse("backend/shaclBeispiel.ttl", format="turtle")
 
+#g = Graph()
+#g.parse("backend/shaclBeispiel.ttl", format="turtle")
 
 queryGesamtzahlViolations = """
 SELECT (COUNT(?result) as ?c)
@@ -101,36 +109,46 @@ GROUP BY ?sourceShape
 """
 
 
+# Convert SPARQLResult to a list of dictionaries
+def sparqlToDict(sparql_result):
+    result_list = []
+    for row in sparql_result:
+        # Use sparql_result.vars to get the variable names
+        row_dict = {str(var): str(row[var]) for var in sparql_result.vars if row[var] is not None}
+        result_list.append(row_dict)
+    
+    return result_list  # Return as a JSON-compatible list of dictionaries
 
 
 def analyze_graph(graph):
     # Example analysis: Count the number of triples in the graph
     triple_count = len(graph)
-    focusNode_Distribution = g.query(queryFocusNodeDistribution)
-    resultPath_Distribution = g.query(queryResultPathDistribution)
-    sourceConstraintComponent_Distribution = g.query(querySourceConstraintComponentDistribution)
-    resultSeverity_Distribution = g.query(queryResultSeverityDistribution)
-    querySourceShape_Distribution = g.query(querySourceShape_Distribution)
-    
-    #print(triple_count)
-    
-    # Additional analysis logic can go here
+    focusNode_Distribution = graph.query(queryFocusNodeDistribution)
+    resultPath_Distribution = graph.query(queryResultPathDistribution)
+    sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
+    resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
+    querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
+        
+    # DEBUG
+    print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
+    print(f"{GREEN}JSON(FOCUSNODE_DISTRIBUTION): {sparqlToDict(focusNode_Distribution)}{RESET}")
+
     analysis_result = {
         "triple_count": triple_count,
         # Add more analysis results as needed
-        "focusNode_Distribution": focusNode_Distribution,
-        "resultPath_Distribution": resultPath_Distribution,
-        "sourceConstraintComponent_Distribution": sourceConstraintComponent_Distribution,
-        "resultSeverity_Distribution": resultSeverity_Distribution,
-        "sourceShape_Distribution" : querySourceShape_Distribution
+        
+        #TODO: can't be send to frontend -> need to extract information from SPARQL-result / dictionary
+        "focusNode_Distribution": sparqlToDict(focusNode_Distribution)
+        #"resultPath_Distribution": resultPath_Distribution,
+        #"sourceConstraintComponent_Distribution": sourceConstraintComponent_Distribution,
+        #"resultSeverity_Distribution": resultSeverity_Distribution,
+        #"sourceShape_Distribution" : querySourceShape_Distribution
     }
     
     return analysis_result
 
-results = g.query(querySourceShapeDistribution)
+#results = g.query(querySourceShapeDistribution)
 
 
-
-
-for a in list(results):
-    print(f"{a[0]} {a[1]}")
+#for a in list(results):
+#    print(f"{a[0]} {a[1]}")

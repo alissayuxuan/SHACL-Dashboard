@@ -19,7 +19,7 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
-    file = request.files['file']
+    #file = request.files['file']
 
     if file:
         graph = Graph()
@@ -39,7 +39,7 @@ def upload_file():
         print(f"{RED}HERE!{RESET}")
 
         analysis_result = analyze_graph(graph)
-        print("ANALYSIS: ", analysis_result)
+        print(f"{GREEN}ANALYSIS:  {analysis_result}{RESET}")
 
         # Store result in temporary storage
         analysis_results['last_analysis'] = analysis_result
