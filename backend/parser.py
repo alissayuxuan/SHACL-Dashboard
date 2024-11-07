@@ -1,6 +1,6 @@
 # TODO: implement parser function
 
-from rdflib import Graph
+from rdflib import Graph, URIRef
 import os
 from flask import jsonify
 
@@ -58,7 +58,7 @@ In Ihrem Fall die Fehlermeldung über zu viele Werte
 """
 
 #g = Graph()
-#g.parse("backend/shaclBeispiel.ttl", format="turtle")
+#g.parse("backend/validation_report1.ttl", format="turtle")
 
 queryGesamtzahlViolations = """
 SELECT (COUNT(?result) as ?c)
@@ -109,6 +109,8 @@ GROUP BY ?sourceShape
 """
 
 
+
+
 # Convert SPARQLResult to a list of dictionaries
 def sparqlToDict(sparql_result):
     result_list = []
@@ -118,6 +120,7 @@ def sparqlToDict(sparql_result):
         result_list.append(row_dict)
     
     return result_list  # Return as a JSON-compatible list of dictionaries
+
 
 
 def analyze_graph(graph):
@@ -130,8 +133,11 @@ def analyze_graph(graph):
     querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
         
     # DEBUG
-    print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
-    print(f"{GREEN}JSON(FOCUSNODE_DISTRIBUTION): {sparqlToDict(focusNode_Distribution)}{RESET}")
+ #   print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
+   # print(f"{GREEN}JSON(FOCUSNODE_DISTRIBUTION): {sparqlToDict(focusNode_Distribution)}{RESET}")
+
+    print(f"{GREEN}JSON(RESULTSEVERITY_DISTRIBUTION): {sparqlToDict(resultSeverity_Distribution)}{RESET}")
+
 
     analysis_result = {
         "triple_count": triple_count,
@@ -147,8 +153,105 @@ def analyze_graph(graph):
     
     return analysis_result
 
+
+def filterNode(graph, node):
+    queryFilterNode = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:focusNode <{node}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterNode)
+
+
+def filterResultPath(graph, path):
+    queryFilterResultPath = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:resultPath <{path}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterResultPath)
+
+def filterSeverity(graph, severity):
+    queryFilterSeverity = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:resultSeverity <{severity}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSeverity)
+
+
+def filterSourceConstraintComponent(graph, component):
+    queryFilterSourceConstraintComponent = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{component}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSourceConstraintComponent)
+
+def filterSourceShape(graph, sourceShape):
+    queryFilterSourceShape = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{sourceShape}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSourceShape)
+    
+def filterResultMessage(graph, message):
+    queryFilterResultMessage = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{message}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterResultMessage)
+
 #results = g.query(querySourceShapeDistribution)
 
-
-#for a in list(results):
-#    print(f"{a[0]} {a[1]}")
+#result = filterNode(g, URIRef("http://www.Department5.University0.edu/FullProfessor7"))
