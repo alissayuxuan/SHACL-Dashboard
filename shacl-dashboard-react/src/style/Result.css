@@ -1,0 +1,11 @@
+.test{
+    display: flex;
+    flex-direction: row;
+}
+
+.anzeige{
+    background-color: green;
+    border-radius: 10px;
+    font-family: Arial;
+
+}
