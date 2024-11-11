@@ -43,7 +43,7 @@ const UploadFile = () => {
 
             const result = await response.json();
             console.log(result);
-            navigate("/result")
+            navigate("/analysis")
         } catch (error) {
             console.error("Error: ", error);
         }       

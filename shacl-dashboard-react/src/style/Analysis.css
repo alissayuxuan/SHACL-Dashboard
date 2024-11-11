@@ -1,0 +1,142 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color:#f5f5f5;
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+    background-color: #3f51b5;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .menu-button {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .search-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    z-index: 900;
+    overflow-y: auto;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .menu-link {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;
+    /*padding: 0.5rem 0;*/
+    padding: 1rem;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    display: block;
+  }
+  
+  .menu-link:hover {
+    color: #3f51b5;
+  }
+  
+  .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 1rem;
+  }
+  
+  .submenu-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .submenu-link {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: block;
+  }
+  
+  .submenu-link:hover {
+    color: #3f51b5;
+  }
+
+  /*before*/
+  .main-content {
+    flex-grow: 1;
+    margin-left: 0;
+    padding: 2rem;
+    transition: margin-left 0.3s;
+  }
+  
+  .main-content.menu-open {
+    margin-left: 250px;
+  }
+  
+
+  .card-row, .chart-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Adds space between cards */
+    margin-bottom: 1rem;
+  }
+  .card {
+    flex: 1; /* Allows cards to grow evenly within their row */
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+ 
+  
+  .card h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+  }
+  
+  .card p {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  

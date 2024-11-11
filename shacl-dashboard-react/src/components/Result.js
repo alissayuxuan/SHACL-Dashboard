@@ -55,7 +55,7 @@ const Result = () => {
                     </div>
 
                     <div class="PieChart">
-                        <Plot
+                        <Plot className='pieChart'
                             data={[{
                                 labels: ['node1','node2', 'node3', 'node4'],
                                 values: [3, 7, 8 ,9],
