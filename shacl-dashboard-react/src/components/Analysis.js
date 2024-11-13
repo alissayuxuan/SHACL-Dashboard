@@ -69,11 +69,15 @@ const Analysis = () => {
         navigate('/');
     };
 
+    const goToUploadFile = () => {
+        navigate('/upload');
+    };
+
     return (
         <div className="dashboard-container">
             {/* Top Navigator */}
             <nav className="navbar">
-                <button onClick={toggleMenu} className="menu-button">☰</button>
+                <button onClick={toggleMenu} className="menu-button-open">☰</button>
                 <h1>Dashboard</h1>
             </nav>
 
@@ -81,8 +85,11 @@ const Analysis = () => {
             {isMenuOpen && (
             <div className="sidebar">
                 <ul className="sidebar-menu">
+                    <li >
+                    <button onClick={toggleMenu} className="menu-button-close">✕</button>
+                    </li>
                     
-                    <li className="menu-item">
+                    <li >
                     <input
                         type="text"
                         className="search-input"
@@ -108,7 +115,11 @@ const Analysis = () => {
                     </li>
 
                     <li className="menu-item">
-                    <button className="menu-link">Home</button>
+                    <button className="menu-link" onClick={goToUploadFile}>Upload File</button>
+                    </li>
+
+                    <li className="menu-item">
+                    <button className="menu-link" onClick={goToHome}>Home</button>
                     </li>
                 </ul>
                 </div>

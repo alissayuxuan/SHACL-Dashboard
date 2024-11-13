@@ -1,18 +1,24 @@
-/* General Styles */
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f9fafb;
     margin: 0;
+    padding: 0;
 }
 
 /* Container and Header Styles */
 .upload-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /*justify-content: center;
+    align-items: center;*/
     height: 100vh;
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
 }
 
 #upload-header {
