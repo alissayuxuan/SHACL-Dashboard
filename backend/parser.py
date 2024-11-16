@@ -1,6 +1,9 @@
 # TODO: implement parser function
 
 from rdflib import Graph, URIRef
+from rdflib.plugins.sparql.processor import prepareQuery
+
+
 import os
 from flask import jsonify
 
@@ -57,8 +60,10 @@ Speichert ihn in der Variable ?message
 In Ihrem Fall die Fehlermeldung über zu viele Werte
 """
 
-#g = Graph()
-#g.parse("backend/validation_report1.ttl", format="turtle")
+g = Graph()
+g.parse("backend/validation_report1.ttl", format="turtle")
+#g.parse("backend/shaclReportBeispiel.ttl", format="turtle")
+
 
 queryGesamtzahlViolations = """
 SELECT (COUNT(?result) as ?c)
@@ -66,14 +71,39 @@ WHERE {
     ?report sh:result ?result .
 }
 """
-queryFocusNodeDistribution = """
-SELECT ?focusNode (COUNT(*) as ?count)
+
+queryAnzahlViolatingNodes = """
+SELECT (COUNT(DISTINCT ?focusNode) as ?c)
 WHERE {
     ?report sh:result ?result .
-    ?result sh:focusNode ?focusNode .
 }
-GROUP BY ?focusNode
+
 """
+
+
+def queryFocusNodeDistributionFunction(graph):
+    queryFocusNodeDistribution = """
+    SELECT ?focusNode (COUNT(*) as ?count)
+    WHERE {
+        ?report sh:result ?result .
+        ?result sh:focusNode ?focusNode .
+    }
+    GROUP BY ?focusNode
+    """
+    results = graph.query(queryFocusNodeDistribution)
+
+    return [
+    {
+        "key": row[0],
+        "value": row[1].value
+    }
+
+    for row in results
+    ]
+
+
+
+
 queryResultPathDistribution = """
 SELECT ?resultPath (COUNT(*) as ?count)
 WHERE {
@@ -91,14 +121,33 @@ WHERE {
 }
 GROUP BY ?sourceConstraintComponent
 """
-queryResultSeverityDistribution = """
-SELECT ?resultSeverity (COUNT(*) as ?count)
-WHERE {
-    ?report sh:result ?result .
-    ?result sh:resultSeverity ?resultSeverity .
-}
-GROUP BY ?resultSeverity
-"""
+def resultSeverityDistribution(graph):
+    queryResultSeverityDistribution = """
+    SELECT ?resultSeverity (COUNT(*) as ?count)
+    WHERE {
+        ?report sh:result ?result .
+        ?result sh:resultSeverity ?resultSeverity .
+    }
+    GROUP BY ?resultSeverity
+    """
+    results = graph.query(queryResultSeverityDistribution)
+
+
+
+    return [
+    {
+        "key": row[0],
+        "value": row[1].value
+    }
+
+    for row in results
+    ]
+
+
+   
+
+    
+
 querySourceShapeDistribution = """
 SELECT ?sourceShape (COUNT(*) as ?count)
 WHERE {
@@ -125,31 +174,36 @@ def sparqlToDict(sparql_result):
 
 def analyze_graph(graph):
     # Example analysis: Count the number of triples in the graph
+    total_violations = graph.query(queryGesamtzahlViolations)
     triple_count = len(graph)
-    focusNode_Distribution = graph.query(queryFocusNodeDistribution)
+    #focusNode_Distribution = graph.query(queryFocusNodeDistribution)
     resultPath_Distribution = graph.query(queryResultPathDistribution)
     sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
-    resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
+    #resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
     querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
         
     # DEBUG
  #   print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
    # print(f"{GREEN}JSON(FOCUSNODE_DISTRIBUTION): {sparqlToDict(focusNode_Distribution)}{RESET}")
 
-    print(f"{GREEN}JSON(RESULTSEVERITY_DISTRIBUTION): {sparqlToDict(resultSeverity_Distribution)}{RESET}")
+   # print(f"{GREEN}JSON(RESULTSEVERITY_DISTRIBUTION): {sparqlToDict(resultSeverity_Distribution)}{RESET}")
 
 
     analysis_result = {
-        "triple_count": triple_count,
-        # Add more analysis results as needed
-        
+        "total_violations": total_violations,
+        "total_violating_nodes": 10,
+        "violationTypes_occurance" : resultSeverityDistribution(graph),
+        "focusNode_violations" : queryFocusNodeDistributionFunction(graph)
+    }
+        #violationTypes_occurance: resultSeverity_Distribution.list, 
+        # Add more analysis results as needed     
         #TODO: can't be send to frontend -> need to extract information from SPARQL-result / dictionary
-        "focusNode_Distribution": sparqlToDict(focusNode_Distribution)
+        #"focusNode_Distribution": sparqlToDict(focusNode_Distribution)
         #"resultPath_Distribution": resultPath_Distribution,
         #"sourceConstraintComponent_Distribution": sourceConstraintComponent_Distribution,
         #"resultSeverity_Distribution": resultSeverity_Distribution,
         #"sourceShape_Distribution" : querySourceShape_Distribution
-    }
+    
     
     return analysis_result
 
