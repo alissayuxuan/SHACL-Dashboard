@@ -76,7 +76,28 @@ queryAnzahlViolatingNodes = """
 SELECT (COUNT(DISTINCT ?focusNode) as ?c)
 WHERE {
     ?report sh:result ?result .
+    ?result sh:focusNode ?focusNode .
+
 }
+"""
+
+queryMostFrequentViolationType = """
+SELECT ?sourceConstraintComponent 
+WHERE {
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
+}
+"""
+
+queryMostViolatingNode = """
+SELECT ?focusNode (COUNT(*) AS ?count)
+WHERE {
+  ?report sh:result ?result .
+  ?result sh:focusNode ?focusNode .
+}
+GROUP BY ?focusNode
+ORDER BY DESC(?count)
+LIMIT 1 
 
 """
 
@@ -175,12 +196,16 @@ def sparqlToDict(sparql_result):
 def analyze_graph(graph):
     # Example analysis: Count the number of triples in the graph
     total_violations = graph.query(queryGesamtzahlViolations)
+    total_violating_nodes = graph.query(queryAnzahlViolatingNodes)
     triple_count = len(graph)
+    most_frequent_violation_type = graph.query(queryMostFrequentViolationType)
+    most_violating_node = graph.query(queryMostViolatingNode)
     #focusNode_Distribution = graph.query(queryFocusNodeDistribution)
     resultPath_Distribution = graph.query(queryResultPathDistribution)
     sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
     #resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
     querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
+
         
     # DEBUG
  #   print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
@@ -191,7 +216,9 @@ def analyze_graph(graph):
 
     analysis_result = {
         "total_violations": total_violations,
-        "total_violating_nodes": 10,
+        "total_violating_nodes": total_violating_nodes,
+        "most_frequent_violation_type": most_frequent_violation_type,
+        "most_violating_node": most_violating_node,
         "violationTypes_occurance" : resultSeverityDistribution(graph),
         "focusNode_violations" : queryFocusNodeDistributionFunction(graph)
     }
