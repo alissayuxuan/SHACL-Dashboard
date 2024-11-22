@@ -54,8 +54,8 @@ def get_result():
     print(f"{YELLOW}HERE!!!!!!!{RESET}")
     print(f"{YELLOW}{analysis_results}{RESET}")
     if 'last_analysis' in analysis_results:
-        print(f"{YELLOW}if{RESET}")
+        print(f"{YELLOW}last_analysis{RESET}")
         return jsonify({'analysis': analysis_results['last_analysis']})
     else:
-        print(f"{YELLOW}else!{RESET}")
+        print(f"{YELLOW}no last_analysis{RESET}")
         return jsonify({'error': 'No analysis result available'}), 404

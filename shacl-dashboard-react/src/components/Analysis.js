@@ -32,7 +32,7 @@ const Analysis = () => {
 
     
     // fetches data from backend
-    /*useEffect(() => {
+    useEffect(() => {
         const fetchResult = async () => {
             try {
                 const response = await fetch("http://localhost:5000/result");
@@ -40,21 +40,25 @@ const Analysis = () => {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                setResult(data);
+                //setResult(data);
+                //console.log('data:\n', data)
+                //setResult(JSON.parse(data));
+                setResult(data.analysis);
+                console.log('result\n', result)
             } catch (error) {
                 console.error("Error fetching result:", error);
             }
         };
 
         fetchResult();
-    }, []);*/
+    }, []);
     
         
     // testData as JSON
     const testData = {
         total_violations: 123,
         total_violating_nodes: 45,
-        most_frequent_violationType: "dataType",
+        most_frequent_violation_type: "dataType",
         most_violating_node: "node1",
         violationTypes_occurance: [
             {key: "datatype", value: 9},
@@ -72,9 +76,9 @@ const Analysis = () => {
     const jsonString = JSON.stringify(testData); 
     console.log("JSON: \n",jsonString);
 
-    useEffect(() => {
+    /*useEffect(() => {
         setResult(JSON.parse(jsonString));
-    }, []);
+    }, []);*/
         
     useEffect(() => {
         if(result) {
@@ -180,7 +184,7 @@ const Analysis = () => {
                     {['Total Violations', 'Total violating Focus Node', 'Most Frequent Violation', 'Focus Node with Most Violations'].map((title, index) => (
                         <div className="card" key={index}>
                         <h3>{title}</h3>
-                        <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : index === 2 ? result.most_frequent_violationType : result.most_violating_node}</p>
+                        <p>{index === 0 ? result.total_violations[0] : index === 1 ? result.total_violating_nodes[0] : index === 2 ? result.most_frequent_violation_type[0] : result.most_violating_node[0]}</p>
                         </div>
                     ))}
                     </div>

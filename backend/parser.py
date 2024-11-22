@@ -60,8 +60,8 @@ Speichert ihn in der Variable ?message
 In Ihrem Fall die Fehlermeldung über zu viele Werte
 """
 
-g = Graph()
-g.parse("backend/validation_report1.ttl", format="turtle")
+#g = Graph()
+#g.parse("backend/validation_report1.ttl", format="turtle")
 #g.parse("backend/shaclReportBeispiel.ttl", format="turtle")
 
 
@@ -113,10 +113,11 @@ def queryFocusNodeDistributionFunction(graph):
     """
     results = graph.query(queryFocusNodeDistribution)
 
+    # Alissa: added str() to JSON serialize result
     return [
     {
-        "key": row[0],
-        "value": row[1].value
+        "key": str(row[0]),
+        "value": str(row[1].value)
     }
 
     for row in results
@@ -154,11 +155,11 @@ def resultSeverityDistribution(graph):
     results = graph.query(queryResultSeverityDistribution)
 
 
-
+    # Alissa: added string to JSON serialize result
     return [
     {
-        "key": row[0],
-        "value": row[1].value
+        "key": str(row[0]),
+        "value": str(row[1].value)
     }
 
     for row in results
@@ -192,14 +193,19 @@ def sparqlToDict(sparql_result):
     return result_list  # Return as a JSON-compatible list of dictionaries
 
 
+# Alissa: extract the sparql result, bc Object of type SPARQLResult is not JSON serializable
+def extract_sparql_result(sparql_result):
+    # Falls SPARQLResult ein iterierbares Objekt ist
+    return [str(row[0]) for row in sparql_result] if sparql_result else None
 
+# Alissa: added extract_sparql_result
 def analyze_graph(graph):
     # Example analysis: Count the number of triples in the graph
-    total_violations = graph.query(queryGesamtzahlViolations)
-    total_violating_nodes = graph.query(queryAnzahlViolatingNodes)
+    total_violations = extract_sparql_result(graph.query(queryGesamtzahlViolations))
+    total_violating_nodes = extract_sparql_result(graph.query(queryAnzahlViolatingNodes))
     triple_count = len(graph)
-    most_frequent_violation_type = graph.query(queryMostFrequentViolationType)
-    most_violating_node = graph.query(queryMostViolatingNode)
+    most_frequent_violation_type = extract_sparql_result(graph.query(queryMostFrequentViolationType))
+    most_violating_node = extract_sparql_result(graph.query(queryMostViolatingNode))
     #focusNode_Distribution = graph.query(queryFocusNodeDistribution)
     resultPath_Distribution = graph.query(queryResultPathDistribution)
     sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
