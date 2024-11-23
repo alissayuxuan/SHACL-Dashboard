@@ -184,7 +184,7 @@ const Analysis = () => {
                     {['Total Violations', 'Total violating Focus Node', 'Most Frequent Violation', 'Focus Node with Most Violations'].map((title, index) => (
                         <div className="card" key={index}>
                         <h3>{title}</h3>
-                        <p>{index === 0 ? result.total_violations[0] : index === 1 ? result.total_violating_nodes[0] : index === 2 ? result.most_frequent_violation_type[0] : result.most_violating_node[0]}</p>
+                        <p>{index === 0 ? result.total_violations[0] : index === 1 ? result.total_violating_nodes[0] : index === 2 ? result.most_frequent_violation_type : result.most_violating_node}</p>
                         </div>
                     ))}
                     </div>

@@ -60,9 +60,6 @@ Speichert ihn in der Variable ?message
 In Ihrem Fall die Fehlermeldung über zu viele Werte
 """
 
-#g = Graph()
-#g.parse("backend/validation_report1.ttl", format="turtle")
-#g.parse("backend/shaclReportBeispiel.ttl", format="turtle")
 
 
 queryGesamtzahlViolations = """
@@ -87,6 +84,10 @@ WHERE {
     ?report sh:result ?result .
     ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
 }
+GROUP BY ?focusNode
+ORDER BY DESC(?count)
+LIMIT 1 
+
 """
 
 queryMostViolatingNode = """
@@ -153,6 +154,22 @@ def resultSeverityDistribution(graph):
     GROUP BY ?resultSeverity
     """
     results = graph.query(queryResultSeverityDistribution)
+
+
+def resultSourceConstraintComponentDistribution(graph):
+    queryResultSourceConstraintComponentDistribution = """
+    SELECT ?sourceConstraintComponent (COUNT(*) as ?count)
+    WHERE {
+        ?report sh:result ?result .
+        ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
+    }
+    GROUP BY ?sourceConstraintComponent
+    """
+    results = graph.query(queryResultSourceConstraintComponentDistribution)
+
+
+
+
 
 
     # Alissa: added string to JSON serialize result
@@ -223,10 +240,10 @@ def analyze_graph(graph):
     analysis_result = {
         "total_violations": total_violations,
         "total_violating_nodes": total_violating_nodes,
-        "most_frequent_violation_type": most_frequent_violation_type,
-        "most_violating_node": most_violating_node,
-        "violationTypes_occurance" : resultSeverityDistribution(graph),
-        "focusNode_violations" : queryFocusNodeDistributionFunction(graph)
+        "most_frequent_violation_type": prefixEntfernenEinzeln(str(most_frequent_violation_type), graph),
+        "most_violating_node": str(prefixEntfernenEinzeln(most_violating_node, graph)),
+        "violationTypes_occurance" : prefixEntfernenMehrere(resultSourceConstraintComponentDistribution(graph), graph),
+        "focusNode_violations" : prefixEntfernenMehrere(queryFocusNodeDistributionFunction(graph), graph)
     }
         #violationTypes_occurance: resultSeverity_Distribution.list, 
         # Add more analysis results as needed     
@@ -338,6 +355,20 @@ def filterResultMessage(graph, message):
     }}
     """
     return graph.query(queryFilterResultMessage)
+
+
+def prefixEntfernenEinzeln(eingabe, g): 
+    eingabe = str(eingabe)
+    namespaces = {str(ns): prefix for prefix, ns in g.namespaces()}
+    for a,b in namespaces.items():
+        if eingabe.startswith("['" + a) or eingabe.startswith(a):
+            return eingabe.replace(a, "")
+    return eingabe
+
+def prefixEntfernenMehrere(eingabe, g):
+    for a in eingabe:
+        a['key'] = prefixEntfernenEinzeln(a['key'], g)
+    return eingabe
 
 #results = g.query(querySourceShapeDistribution)
 
