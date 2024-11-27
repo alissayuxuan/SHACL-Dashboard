@@ -188,7 +188,14 @@ const Dashboard = () => {
             {/* Main Content */}
             <div className={`main-content ${isMenuOpen ? 'menu-open' : ''}`}>
             {result ? (
-                <Overview result={result}/>
+                <Overview 
+                    result={result} 
+                    violationTypes={violationTypes}
+                    violationTypes_values={violationTypes_values}
+                    violatingNodes={violatingNodes}
+                    violatingNodes_values={violatingNodes_values}
+                /> 
+                
             ) : (
                 <p>Loading...</p>
             )}

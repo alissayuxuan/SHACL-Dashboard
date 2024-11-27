@@ -8,7 +8,7 @@ import '../style/Analysis.css';
 
 const Overview = (props) => {
 
-    const { result } = props;
+    const { result, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values } = props;
 
 
     return (
@@ -24,38 +24,6 @@ const Overview = (props) => {
             ))}
             </div>
 
-
-            <div className="card-row">
-                <div className="card">
-                <h3>Total Violations</h3>
-                <p>{result.total_violations[0]}</p>
-                </div>
-
-                <div className="card">
-                <h3>Total Violating Focus Nodes</h3>
-                <p>{result.total_violating_nodes[0]}</p>
-                </div>
-
-                <div className="card">
-                <h3>Most Frequent Violation</h3>
-                <p>{result.most_frequent_violation_type[frequentViolationIndex]}</p>
-                <div>
-                    <button onClick={prevFrequentViolation}>-</button>
-                    <label>{frequentViolationIndex+1}/{result.most_frequent_violation_type.length}</label>
-                    <button onClick={nextFrequentViolation}>+</button>
-                </div>
-                </div>
-
-                <div className="card">
-                <h3>Focus Node with Most Violations</h3>
-                <p>{result.most_violating_node[frequentNodeIndex]}</p>
-                <div>
-                    <button onClick={prevFrequentNode}>-</button>
-                    <label>{frequentNodeIndex+1}/{result.most_violating_node.length}</label>
-                    <button onClick={nextFrequentNode}>+</button>
-                </div>
-                </div>
-            </div>
 
             <div className="chart-row">
             <div className="card">

@@ -7,6 +7,7 @@ import Result from './components/Result';
 import Analysis from './components/Analysis';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChooseFilter from './components/ChooseFilter';
+import Dashboard from './components/Dashboard';
 
 function App() {
 
