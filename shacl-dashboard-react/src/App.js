@@ -6,6 +6,7 @@ import UploadFile from './components/UploadFile';
 import Result from './components/Result';
 import Analysis from './components/Analysis';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ChooseFilter from './components/ChooseFilter';
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
           <Route path="/upload" element={<UploadFile />} />
           <Route path="/result" element={<Result />} />
           <Route path="/analysis" element={<Analysis/>} />
+          <Route path="/choosefilter" element={<ChooseFilter/>} />
+
         </Routes>
       </div>
     </Router>
