@@ -150,6 +150,10 @@ const Analysis = () => {
         navigate('/upload');
     };
 
+    const goToChooseFilter = () => {
+        navigate('/choosefilter');
+    };
+
     return (
         <div className="dashboard-container">
             {/* Top Navigator */}
@@ -215,6 +219,12 @@ const Analysis = () => {
                     <li className="menu-item">
                     <button className="menu-link" onClick={goToHome}>Home</button>
                     </li>
+
+                    <li className="menu-item">
+                    <button className="menu-link" onClick={goToChooseFilter}>Filter</button>
+                    </li>
+
+
                 </ul>
                 </div>
             )}
