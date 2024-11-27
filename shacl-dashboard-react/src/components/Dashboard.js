@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Overview from "./Overview";
+import Filter from "./Filter";
 import '../style/Analysis.css';
 
 
@@ -20,8 +21,7 @@ const Dashboard = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isViolationTypeOpen, setIsViolationTypeOpen] = useState(false);
     const [isViolatingFocusNodeOpen, setIsViolatingFocusNodeOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-
+    const [isOverview, setIsOverview] = useState(true);
 
     // Functions
     const toggleMenu = () => {
@@ -38,6 +38,13 @@ const Dashboard = () => {
         setIsViolatingFocusNodeOpen(!isViolatingFocusNodeOpen);
     };
 
+    const goToFilterView = () => {
+        setIsOverview(false);
+    }
+
+    const goToOverview = () => {
+        setIsOverview(true);
+    }
 
 
     // fetches data from backend
@@ -132,14 +139,14 @@ const Dashboard = () => {
                     <button onClick={toggleMenu} className="menu-button-close">✕</button>
                     </li>
                     
-                    <li >
+                    {/*<li >
                     <input
                         type="text"
                         className="search-input"
                         placeholder="Search..."
                         value={searchTerm}
                     />
-                    </li>
+                    </li>*/}
 
 
                     <li className="menu-item">
@@ -173,6 +180,13 @@ const Dashboard = () => {
                         </ul>
                     )}  
                      
+                    <li className="menu-item">
+                    <button className="menu-link" onClick={goToFilterView}>Filter</button>
+                    </li>
+
+                    <li className="menu-item">
+                    <button className="menu-link" onClick={goToOverview}>Overview</button>
+                    </li>
 
                     <li className="menu-item">
                     <button className="menu-link" onClick={goToUploadFile}>Upload File</button>
@@ -187,20 +201,29 @@ const Dashboard = () => {
 
             {/* Main Content */}
             <div className={`main-content ${isMenuOpen ? 'menu-open' : ''}`}>
-            {result ? (
-                <Overview 
-                    result={result} 
-                    violationTypes={violationTypes}
-                    violationTypes_values={violationTypes_values}
-                    violatingNodes={violatingNodes}
-                    violatingNodes_values={violatingNodes_values}
-                    violatingPaths={violatingNodes}
-                    violationPaths_value={violatingNodes_values}
-                /> 
-                
-            ) : (
-                <p>Loading...</p>
-            )}
+            {isOverview ? (
+                <div>
+                {result ? (
+                    <Overview 
+                        result={result} 
+                        violationTypes={violationTypes}
+                        violationTypes_values={violationTypes_values}
+                        violatingNodes={violatingNodes}
+                        violatingNodes_values={violatingNodes_values}
+                        violatingPaths={violatingNodes}
+                        violationPaths_value={violatingNodes_values}
+                    /> 
+                    
+                ) : (
+                    <p>Loading...</p>
+                )}
+                </div>
+            ):
+            <Filter
+                violationTypes={violationTypes}
+                violatingNodes={violatingNodes}
+                violatingPaths={violatingNodes}
+            />}
             </div>
         </div>
     );

@@ -1,0 +1,10 @@
+.search-result-list {
+    
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px; /* Limit the height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: border for visual separation */
+    border-radius: 5px;
+}
