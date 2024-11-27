@@ -118,6 +118,10 @@
   .submenu-item {
     padding-bottom: 0.5rem;
   }
+
+  .submenu-item:hover {
+    background-color: #f0eded;
+  }
   
   .submenu-link {
     background: none;
@@ -158,6 +162,11 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
  
+  .generalInfo-card {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+  }
   
   .card h3 {
     margin-top: 0;
