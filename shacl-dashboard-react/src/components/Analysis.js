@@ -133,6 +133,8 @@ const Analysis = () => {
             const violatingNodes_list_values = result.focusNode_violations.map(item => item.value);
             setViolatingNodes(violatingNodes_list);
             setViolatingNodes_values(violatingNodes_list_values);
+
+            console.log("RESULT\n", result);
         }
 
     }, [result]);

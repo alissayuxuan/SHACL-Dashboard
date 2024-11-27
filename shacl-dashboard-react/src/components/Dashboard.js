@@ -194,6 +194,8 @@ const Dashboard = () => {
                     violationTypes_values={violationTypes_values}
                     violatingNodes={violatingNodes}
                     violatingNodes_values={violatingNodes_values}
+                    violatingPaths={violatingNodes}
+                    violationPaths_value={violatingNodes_values}
                 /> 
                 
             ) : (

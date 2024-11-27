@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/upload" element={<UploadFile />} />
           <Route path="/result" element={<Result />} />
-          <Route path="/analysis" element={<Analysis/>} />
+          <Route path="/analysis" element={<Dashboard/>} />
           <Route path="/choosefilter" element={<ChooseFilter/>} />
 
         </Routes>
