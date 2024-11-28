@@ -6,11 +6,17 @@ import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
 import '../style/ChooseFilter.css';
 import '../style/Filter.css';
+import FilterView from './FilterView';
+
+
 
 
 const Filter = (props) => {
 
     const { violationTypes, violatingNodes, violatingPaths } = props;
+
+    const categories = ["Violation Types", "Violated FocusNodes", "Violated ResultPaths", "All"];
+
     const allCategories = [...violationTypes, ...violatingNodes, ...violatingPaths];
 
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -18,8 +24,10 @@ const Filter = (props) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredResults, setFilteredResults] = useState([]);
 
-    const categories = ["Violation Types", "Violated FocusNodes", "Violated ResultPaths", "All"];
+    // for the filtered results (dashboards)
+    const [filterViews, setFilterViews] = useState([]);
   
+    // functions
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
 
@@ -58,6 +66,12 @@ const Filter = (props) => {
 
     const handleFilterAction = () => {
 
+        setSearchQuery("");
+        setFilteredResults([]);
+        
+        const newId = filterViews.length + 1; // Dashboard ID basierend auf der Länge
+        setFilterViews([...filterViews, { id: newId }]); // Füge ein neues Dashboard hinzu
+          
     }
 
 
@@ -65,10 +79,9 @@ const Filter = (props) => {
     return (
         <div className="filter-container">
 
-            <p>Choose which Information you want to look at in detail</p>
-
             <div className="choseFilter">
                 <h1>Filter Function</h1>
+                <p>Choose which Information you want to look at in detail</p>
                 <div className="tiles">
                     {categories.map((category, index) => (
                     <div
@@ -82,51 +95,52 @@ const Filter = (props) => {
                 </div>
 
                 {/*search*/} 
-                <input
-                    type="text"
-                    placeholder={`Search in ${selectedCategory || "All Categories"}`}
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className="search-input"
-                    style={{
-                        width: "100%",
-                        padding: "10px",
-                        fontSize: "16px",
-                        marginBottom: "10px",
-                      }}
-                />
-                <ul className="search-result-list" style={{ listStyle: "none", padding: 0 }}>
-                    {searchQuery && filteredResults.length > 0 ? (
-                    filteredResults.map((result, index) => (
-                        <li onClick={() => handleResultClick(result)}>
-                        {result}
-                        </li>
-                    ))
-                    ) : searchQuery ? (
-                    <li style={{ color: "red" }}>no results found</li>
-                    ) : null}
-                </ul>
+                <div className="search-container">
+                    <div className="search-input-container">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder={`Search in ${selectedCategory || "All Categories"}`}
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                        <button className="search-button" onClick={handleFilterAction}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button>
+                                        
+                    </div>
+            
+                    <ul className="search-result-list" style={{ listStyle: "none", padding: 0 }}>
+                        {searchQuery && filteredResults.length > 0 ? (
+                        filteredResults.map((result, index) => (
+                            <li 
+                                key={index}
+                                className='result-item'
+                                onClick={() => handleResultClick(result)}>
+                            {result}
+                            </li>
+                        ))
+                        ) : searchQuery ? (
+                        <li style={{ color: "red" }}>no results found</li>
+                        ) : null}
+                    </ul>
+
+                </div>
+                
 
 
 
-                <button type="button" className="styled-button" onClick={handleFilterAction}>
-                Filter
-              </button>
+                
             </div>
 
             {/*filtered results */}
-            {/*
-            <div className="filterResult">
-                <div className="card-row">
-                {['Total Violations', 'Total violating Focus Node', 'Total violating Result Paths'].map((title, index) => (
-                    <div className="card" key={index}>
-                    <h3>{title}</h3>
-                    <p>{index === 0 ? total_violations[0] : index === 1 ? result.total_violating_nodes[0] : result.total_violating_nodes[0]}</p>
-                    </div>
+            <div style={{ marginTop: "20px" }}>
+                {filterViews.map((filterView) => (
+                <FilterView name={filterView.Id}/>
                 ))}
-                </div>
             </div>
-            */}
 
         </div>
     );

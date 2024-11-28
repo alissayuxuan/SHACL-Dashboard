@@ -148,7 +148,7 @@ const Dashboard = () => {
                     />
                     </li>*/}
 
-
+                    {/*
                     <li className="menu-item">
                     <button className="menu-link" onClick={toggleViolationType}>
                         Violation Type {isViolationTypeOpen ? '▲' : '▼'}
@@ -178,7 +178,8 @@ const Dashboard = () => {
                             </li>
                         ))}
                         </ul>
-                    )}  
+                    )} 
+                    */} 
                      
                     <li className="menu-item">
                     <button className="menu-link" onClick={goToFilterView}>Filter</button>
