@@ -46,7 +46,7 @@ const UploadFile = () => {
             navigate("/analysis")
         } catch (error) {
             console.error("Error: ", error);
-        }       
+        }       git 
         
     };
 
