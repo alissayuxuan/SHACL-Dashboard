@@ -10,6 +10,14 @@ const Overview = (props) => {
 
     const { result, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values } = props;
 
+    const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
+    const most_violating_node = result.most_violating_node.substring(2, result.most_violating_node.length - 2);
+    const most_violating_path = result.most_violating_node.substring(2, result.most_violating_node.length - 2); // TODO CHANGE
+
+    console.log("most_frequent_violation_type:\n", typeof result.most_frequent_violation_type);
+    console.log("most_violating_node\n", typeof result.most_violating_node);
+    console.log("violatingNodes_values\n", violatingNodes_values);
+
 
     return (
         <div className="overview-container">
@@ -20,7 +28,7 @@ const Overview = (props) => {
             {['Total Violations', 'Total violating Focus Node', 'Total violating Result Paths'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
-                <p>{index === 0 ? result.total_violations[0] : index === 1 ? result.total_violating_nodes[0] : result.total_violating_nodes[0]}</p>
+                <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : result.total_violating_nodes}</p> {/*TODO CHANGE*/}
                 </div>
             ))}
             </div>
@@ -29,21 +37,10 @@ const Overview = (props) => {
             {['Most Frequent Violation', 'Focus Node with Most Violations', 'Result Path with Most Violations'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
-                <p>{index === 0 ? result.most_frequent_violation_type[0] : index === 1 ? result.most_violating_node[0] : result.most_violating_node[0]}</p>
+                <p>{index === 0 ? most_frequent_violation_type : index === 1 ? most_violating_node : most_violating_path}</p> 
                 </div>
             ))}
             </div>
-            
-            {/*
-            <div className="card-row">
-            {['Total Violations', 'Total violating Focus Node', 'Most Frequent Violation', 'Focus Node with Most Violations'].map((title, index) => (
-                <div className="card" key={index}>
-                <h3>{title}</h3>
-                <p>{index === 0 ? result.total_violations[0] : index === 1 ? result.total_violating_nodes[0] : index === 2 ? result.most_frequent_violation_type : result.most_violating_node}</p>
-                </div>
-            ))}
-            </div>
-            */}
 
             <div className="chart-row">
             <div className="card">
