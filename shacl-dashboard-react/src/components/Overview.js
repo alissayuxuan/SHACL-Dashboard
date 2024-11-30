@@ -46,6 +46,7 @@ const Overview = (props) => {
             ))}
             </div>
 
+            {/*Violation Types*/}
             <div className="chart-row">
             <div className="card">
                 <h3>Violation Types</h3>
@@ -78,6 +79,7 @@ const Overview = (props) => {
             </div>
             </div>
 
+            {/*Violating FocusNode*/}
             <div className="chart-row">
             <div className="card">
                 <h3>Violating FocusNodes</h3>
@@ -112,6 +114,32 @@ const Overview = (props) => {
             </div>  
             </div>
 
+            <div className="chart-row">
+            <div className="card">
+                <h3>Violation FocusNodes</h3>
+                <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FocusNode</th>
+                            <th>Number of Violations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.focusNode_violations.map((entry, index) => (
+                            <tr key={index}>
+                                <td>{entry.key}</td>
+                                <td>{entry.value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+
+            
+            {/*Violating ResultPaths*/}
             <div className="chart-row">
             <div className="card">
                 <h3>Violating ResultPaths</h3>
@@ -152,11 +180,12 @@ const Overview = (props) => {
             {/*table*/}
             <div className="chart-row">
             <div className="card">
+                <h3>Violating ResultPaths</h3>
                 <div className="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>FocusNode</th>
+                            <th>ResultPaths</th>
                             <th>Number of Violations</th>
                         </tr>
                     </thead>
