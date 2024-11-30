@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
+import '../style/Overview.css';
 
 
 const Overview = (props) => {
@@ -12,11 +13,14 @@ const Overview = (props) => {
 
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
     const most_violating_node = result.most_violating_node.substring(2, result.most_violating_node.length - 2);
-    const most_violating_path = result.most_violating_node.substring(2, result.most_violating_node.length - 2); // TODO CHANGE
+    const most_violating_path = result.most_violating_node.substring(2, result.most_violating_node.length - 2); // TODO CHANGE TO PATH
 
-    console.log("most_frequent_violation_type:\n", typeof result.most_frequent_violation_type);
-    console.log("most_violating_node\n", typeof result.most_violating_node);
-    console.log("violatingNodes_values\n", violatingNodes_values);
+
+    const top10_violatingNodes = result.focusNode_violations.map(item => item.key).slice(0, 10); 
+    const top10_violatingNodes_values = result.focusNode_violations.map(item => item.value).slice(0, 10);
+
+    const top10_violatingPaths = result.focusNode_violations.map(item => item.key).slice(0, 10);  // TODO CHANGE TO PATH
+    const top10_violatingPaths_values = result.focusNode_violations.map(item => item.value).slice(0, 10); // TODO CHANGE TO PATH
 
 
     return (
@@ -80,8 +84,8 @@ const Overview = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violatingNodes,
-                    values: violatingNodes_values,
+                    labels: top10_violatingNodes,
+                    values: top10_violatingNodes_values,
                     marker: { colors: ['#FFD700', '#32CD32', '#1E90FF'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -93,12 +97,12 @@ const Overview = (props) => {
 
             <div className="chart-row">
             <div className="card">
-                <h3>Violation Entities</h3>
+                <h3>Violation FocusNodes</h3>
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: violatingNodes,
-                    y: violatingNodes_values,
+                    x: top10_violatingNodes,
+                    y: top10_violatingNodes_values,
                     marker: { color: '#8A2BE2' },
                 }]}
                 layout={{ autosize: true, margin: { t: 0, b: 30 } }}
@@ -114,8 +118,8 @@ const Overview = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violatingPaths,
-                    values: violatingPaths_values,
+                    labels: top10_violatingPaths,
+                    values: top10_violatingPaths_values,
                     marker: { colors: ['#FFD700', '#32CD32', '#1E90FF'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -123,6 +127,8 @@ const Overview = (props) => {
                 style={{ width: '100%', height: '250px' }}
                 />
             </div>
+
+            
             </div>
 
             <div className="chart-row">
@@ -131,15 +137,40 @@ const Overview = (props) => {
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: violatingPaths,
-                    y: violatingPaths_values,
+                    x: top10_violatingPaths,
+                    y: top10_violatingPaths_values,
                     marker: { color: '#8A2BE2' },
                 }]}
                 layout={{ autosize: true, margin: { t: 0, b: 30 } }}
                 useResizeHandler={true}
                 style={{ width: '100%', height: '250px' }}
                 />
-            </div>  
+            </div>
+            </div>
+
+
+            {/*table*/}
+            <div className="chart-row">
+            <div className="card">
+                <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FocusNode</th>
+                            <th>Number of Violations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.focusNode_violations.map((entry, index) => (
+                            <tr key={index}>
+                                <td>{entry.key}</td>
+                                <td>{entry.value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                </div>
+            </div>
             </div>
 
         </div>
