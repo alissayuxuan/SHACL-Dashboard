@@ -116,7 +116,7 @@
   .filter-title {
     display: flex;
     align-items: center; /* Zentriert die Elemente vertikal */
-    justify-content: space-between; /* Verteilt die Elemente: h2 links, Button rechts */
+    justify-content: space-between; /* Verteilt die Elemente: h3 links, Button rechts */
     padding: 10px;
     margin: 10px 0;
   }
