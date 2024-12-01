@@ -1,6 +1,6 @@
 // main overview of the dashboard
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
@@ -27,6 +27,8 @@ const Filter = (props) => {
 
     // for the filtered results (dashboards)
     const [filterViews, setFilterViews] = useState([]);
+    const refsFilterViews = useRef({}); // to jump to the filter component when added
+    const [newlyAddedFilter, setNewlyAddedFilter] = useState(null); // saves the newly added filter -> for scrolling purposes
   
     // functions
     const handleCategoryClick = (category) => {
@@ -67,7 +69,7 @@ const Filter = (props) => {
     // addes the corresponding filter of the searched query to filterViews 
     const addFilter = () => {
         const newId = Date.now(); // unique id
-        //setFilterViews([...filterViews, { id: newId }]); // Füge ein neues Dashboard hinzu
+
         if(selectedCategory === "") {
             if(searchQuery in violationTypes) {
                 setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter/>}])
@@ -83,11 +85,22 @@ const Filter = (props) => {
 
         setSearchQuery("");
         setFilteredResults([]);
+        refsFilterViews.current[newId] = React.createRef();
+        setNewlyAddedFilter(newId);
     }
 
     const removeFilter = (id) => {
         setFilterViews(filterViews.filter((filterView) => filterView.id !== id));
-      };
+        delete refsFilterViews.current[id];
+    };
+
+    // when a filter is added, the useEffect is called to scroll to that filter in the list
+    useEffect(() => {
+        if (newlyAddedFilter && refsFilterViews.current[newlyAddedFilter]?.current) {
+            refsFilterViews.current[newlyAddedFilter].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+      }, [newlyAddedFilter]);
+
 
 
 
@@ -148,7 +161,7 @@ const Filter = (props) => {
             {/*filtered results */}
             <div style={{ marginTop: "20px" }}>
                 {filterViews.map((filterView) => (
-                    <div key={filterView.id}>
+                    <div key={filterView.id} ref={refsFilterViews.current[filterView.id]}>
                         <div>
                             <h2>{filterView.name}</h2>
                             <button onClick={() => removeFilter(filterView.id)}>✕</button>
