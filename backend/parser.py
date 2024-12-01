@@ -102,6 +102,18 @@ LIMIT 1
 
 """
 
+queryMostFrequenResultPath = """
+SELECT ?focusNode (COUNT(*) AS ?count)
+WHERE {
+  ?report sh:result ?result .
+  ?result sh:resultPath ?resultPath .
+}
+GROUP BY ?resultPath
+ORDER BY DESC(?count)
+LIMIT 1 
+
+"""
+
 
 def queryFocusNodeDistributionFunction(graph):
     queryFocusNodeDistribution = """
@@ -111,6 +123,7 @@ def queryFocusNodeDistributionFunction(graph):
         ?result sh:focusNode ?focusNode .
     }
     GROUP BY ?focusNode
+    ORDER BY DESC(?count)
     """
     results = graph.query(queryFocusNodeDistribution)
 
@@ -123,6 +136,31 @@ def queryFocusNodeDistributionFunction(graph):
 
     for row in results
     ]
+
+def queryResultPathDistributionFunction(graph):
+    queryFocusNodeDistribution = """
+    SELECT ?focusNode (COUNT(*) as ?count)
+    WHERE {
+        ?report sh:result ?result .
+        ?result sh:resultPath ?resultPath .
+    }
+    GROUP BY ?resultPath
+    ORDER BY DESC(?count)
+    """
+    results = graph.query(queryFocusNodeDistribution)
+
+    # Alissa: added str() to JSON serialize result
+    return [
+    {
+        "key": str(row[0]),
+        "value": str(row[1].value)
+    }
+
+    for row in results
+    ]
+
+
+
 
 
 
@@ -217,17 +255,20 @@ def extract_sparql_result(sparql_result):
 
 # Alissa: added extract_sparql_result
 def analyze_graph(graph):
+    print("hallo")
     # Example analysis: Count the number of triples in the graph
     total_violations = extract_sparql_result(graph.query(queryGesamtzahlViolations))
     total_violating_nodes = extract_sparql_result(graph.query(queryAnzahlViolatingNodes))
     triple_count = len(graph)
     most_frequent_violation_type = extract_sparql_result(graph.query(queryMostFrequentViolationType))
     most_violating_node = extract_sparql_result(graph.query(queryMostViolatingNode))
+    most_frequent_result_path = extract_sparql_result(graph.query(queryMostFrequenResultPath))
     #focusNode_Distribution = graph.query(queryFocusNodeDistribution)
     resultPath_Distribution = graph.query(queryResultPathDistribution)
     sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
     #resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
     querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
+    
 
         
     # DEBUG
@@ -243,7 +284,9 @@ def analyze_graph(graph):
         "most_frequent_violation_type": prefixEntfernenEinzeln(str(most_frequent_violation_type), graph),
         "most_violating_node": str(prefixEntfernenEinzeln(most_violating_node, graph)),
         "violationTypes_occurance" : prefixEntfernenMehrere(resultSourceConstraintComponentDistribution(graph), graph),
-        "focusNode_violations" : prefixEntfernenMehrere(queryFocusNodeDistributionFunction(graph), graph)
+        "focusNode_violations" : prefixEntfernenMehrere(queryFocusNodeDistributionFunction(graph), graph),
+        "most_frequent_resultPath" : str(prefixEntfernenEinzeln(most_frequent_result_path, graph)),
+        "result_path_occurance": prefixEntfernenMehrere(queryResultPathDistributionFunction(graph), graph)
     }
         #violationTypes_occurance: resultSeverity_Distribution.list, 
         # Add more analysis results as needed     
@@ -259,20 +302,28 @@ def analyze_graph(graph):
 
 
 def filterNode(graph, node):
+    print("nodeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + str(node))
     queryFilterNode = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:focusNode <{node}> ;
-        sh:focusNode ?focusNode ;
+    CONSTRUCT {{
+    ?result a sh:ValidationResult ;
+        sh:focusNode <{node}> ;
         sh:resultPath ?resultPath ;
         sh:resultSeverity ?resultSeverity ;
         sh:sourceConstraintComponent ?sourceConstraintComponent ;
         sh:sourceShape ?sourceShape ;
         sh:resultMessage ?resultMessage .
-    }}
+}}
+WHERE {{
+    ?report sh:result ?result .
+    ?result sh:focusNode <{node}> ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+}}
     """
-    return graph.query(queryFilterNode)
+    return graph.query(queryFilterNode).graph
 
 
 def filterResultPath(graph, path):
@@ -357,7 +408,7 @@ def filterResultMessage(graph, message):
     return graph.query(queryFilterResultMessage)
 
 
-def prefixEntfernenEinzeln(eingabe, g): 
+def prefixEntfernenEinzeln(eingabe, g):
     eingabe = str(eingabe)
     namespaces = {str(ns): prefix for prefix, ns in g.namespaces()}
     for a,b in namespaces.items():
@@ -369,6 +420,20 @@ def prefixEntfernenMehrere(eingabe, g):
     for a in eingabe:
         a['key'] = prefixEntfernenEinzeln(a['key'], g)
     return eingabe
+
+
+
+
+
+g = Graph()
+g.parse("backend/validation_report1.ttl", format="turtle")
+
+print(analyze_graph(g))
+
+
+
+
+
 
 #results = g.query(querySourceShapeDistribution)
 
