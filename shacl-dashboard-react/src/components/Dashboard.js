@@ -17,19 +17,24 @@ const Dashboard = () => {
     const [violatingNodes, setViolatingNodes] = useState([]);
     const [violatingNodes_values, setViolatingNodes_values] = useState([]);
 
+    // retrieves data from backend -> violating nodes (list of keys and values)
+    const [violatingPaths, setViolatingPaths] = useState([]);
+    const [violatingPaths_values, setViolatingPaths_values] = useState([]);
+
     // side menu
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isViolationTypeOpen, setIsViolationTypeOpen] = useState(false);
-    const [isViolatingFocusNodeOpen, setIsViolatingFocusNodeOpen] = useState(false);
+    //const [isViolationTypeOpen, setIsViolationTypeOpen] = useState(false);
+    //const [isViolatingFocusNodeOpen, setIsViolatingFocusNodeOpen] = useState(false);
     const [isOverview, setIsOverview] = useState(true);
 
     // Functions
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-        setIsViolationTypeOpen(false);
-        setIsViolatingFocusNodeOpen(false);
+        //setIsViolationTypeOpen(false);
+        //setIsViolatingFocusNodeOpen(false);
     };
 
+    /*
     const toggleViolationType = () => {
         setIsViolationTypeOpen(!isViolationTypeOpen);
     };
@@ -37,6 +42,7 @@ const Dashboard = () => {
     const toggleViolatingFocusNode = () => {
         setIsViolatingFocusNodeOpen(!isViolatingFocusNodeOpen);
     };
+    */
 
     const goToFilterView = () => {
         setIsOverview(false);
@@ -67,6 +73,7 @@ const Dashboard = () => {
     
         
     // testData as JSON
+    /*
     const testData = {
         total_violations: 123,
         total_violating_nodes: 45,
@@ -84,6 +91,7 @@ const Dashboard = () => {
             {key: "node4", value: 1}
         ]
     }
+    */
 
     //const jsonString = JSON.stringify(testData); 
     //console.log("JSON: \n",jsonString);
@@ -106,9 +114,15 @@ const Dashboard = () => {
             const violatingNodes_list_values = result.focusNode_violations.map(item => item.value);
             setViolatingNodes(violatingNodes_list);
             setViolatingNodes_values(violatingNodes_list_values);
+
+            const violatingPaths_list = result.result_path_occurance.map(item => item.key); 
+            const violatingPaths_list_values = result.result_path_occurance.map(item => item.value);
+            setViolatingPaths(violatingPaths_list);
+            setViolatingPaths_values(violatingPaths_list_values);
         }
 
     }, [result]);
+    
 
 
     // nagivate home
@@ -180,13 +194,13 @@ const Dashboard = () => {
                         </ul>
                     )} 
                     */} 
-                     
-                    <li className="menu-item">
-                    <button className="menu-link" onClick={goToFilterView}>Filter</button>
-                    </li>
 
                     <li className="menu-item">
                     <button className="menu-link" onClick={goToOverview}>Overview</button>
+                    </li>
+
+                    <li className="menu-item">
+                    <button className="menu-link" onClick={goToFilterView}>Filter</button>
                     </li>
 
                     <li className="menu-item">
@@ -207,12 +221,6 @@ const Dashboard = () => {
                 {result ? (
                     <Overview 
                         result={result} 
-                        violationTypes={violationTypes}
-                        violationTypes_values={violationTypes_values}
-                        violatingNodes={violatingNodes}
-                        violatingNodes_values={violatingNodes_values}
-                        violatingPaths={violatingNodes}
-                        violationPaths_value={violatingNodes_values}
                     /> 
                     
                 ) : (
@@ -222,8 +230,11 @@ const Dashboard = () => {
             ):
             <Filter
                 violationTypes={violationTypes}
+                violationTypes_values={violationTypes_values}
                 violatingNodes={violatingNodes}
-                violatingPaths={violatingNodes}
+                violatingNodes_values={violatingNodes_values}
+                violatingPaths={violatingPaths}
+                violatingPaths_values={violatingPaths_values}
             />}
             </div>
         </div>

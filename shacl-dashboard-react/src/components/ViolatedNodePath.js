@@ -8,11 +8,7 @@ import '../style/Analysis.css';
 
 const ViolatedNodePath = (props) => {
 
-    const { violatedFocusNodes, violatedFocusNodes_values } = props;
-
-    const violationTypes = ["MinCountConstraintComponent", "DatatypeConstraintComponent", "MaxCountConstraintComponent"];
-    const violationTypes_values = [5, 3, 1];
-
+    const { violationTypes, violationTypes_values } = props;
 
     return (
         <div className="overview-container">
@@ -34,8 +30,8 @@ const ViolatedNodePath = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violatedFocusNodes,
-                    values: violatedFocusNodes_values,
+                    labels: violationTypes,
+                    values: violationTypes_values,
                     marker: { colors: ['#FFA07A', '#20B2AA', '#778899'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -49,8 +45,8 @@ const ViolatedNodePath = (props) => {
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: violatedFocusNodes,
-                    y: violatedFocusNodes_values,
+                    x: violationTypes,
+                    y: violationTypes_values,
                     marker: { color: '#4169E1' },
                 }]}
                 layout={{ autosize:true, margin: { t: 0, b: 30 } }}

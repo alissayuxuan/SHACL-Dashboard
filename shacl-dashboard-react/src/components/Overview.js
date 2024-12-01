@@ -9,12 +9,14 @@ import '../style/Overview.css';
 
 const Overview = (props) => {
 
-    const { result, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values } = props;
+    const { result /*, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values*/ } = props;
 
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
     const most_violating_node = result.most_violating_node.substring(2, result.most_violating_node.length - 2);
     const most_violating_path = result.most_frequent_resultPath.substring(2, result.most_frequent_resultPath.length - 2); // TODO CHANGE TO PATH
 
+    const violationTypes = result.violationTypes_occurance.map(item => item.key);
+    const violationTypes_values = result.violationTypes_occurance.map(item => item.value);
 
     const top10_violatingNodes = result.focusNode_violations.map(item => item.key).slice(0, 10); 
     const top10_violatingNodes_values = result.focusNode_violations.map(item => item.value).slice(0, 10);

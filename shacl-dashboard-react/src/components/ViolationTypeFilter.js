@@ -10,16 +10,15 @@ const ViolationTypeFilter = (props) => {
 
     const { name, violatedFocusNodes, violatedFocusNodes_values } = props;
 
-    const violationTypes = ["MinCountConstraintComponent", "DatatypeConstraintComponent", "MaxCountConstraintComponent"];
-    const violationTypes_values = [5, 3, 1];
-
+    const top10_violatedFocusNodes = violatedFocusNodes.slice(0, 10);
+    const top10_violatedFocusNodes_values = violatedFocusNodes_values.slice(0, 10);
+    console.log(top10_violatedFocusNodes);
+    console.log(top10_violatedFocusNodes_values);
 
     return (
         <div className="overview-container">
 
             {/* Main Content */}
-            <h1>{name}</h1>
-            
             <div className="card-row">
             {['Total Violations', 'Number of violated FocusNodes', 'Number of violated ResultPaths'].map((title, index) => (
                 <div className="card" key={index}>
@@ -45,8 +44,8 @@ const ViolationTypeFilter = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violatedFocusNodes,
-                    values: violatedFocusNodes_values,
+                    labels: top10_violatedFocusNodes,
+                    values: top10_violatedFocusNodes_values,
                     marker: { colors: ['#FFA07A', '#20B2AA', '#778899'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -54,7 +53,9 @@ const ViolationTypeFilter = (props) => {
                 style={{ width: '100%', height: '250px' }}
                 />
             </div>
+            </div>
 
+            <div className="chart-row">
             <div className="card">
                 <h3>FocusNodes violating the {name}</h3>
                 <Plot
@@ -78,8 +79,8 @@ const ViolationTypeFilter = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violatedFocusNodes,
-                    values: violatedFocusNodes_values,
+                    labels: top10_violatedFocusNodes,
+                    values: top10_violatedFocusNodes_values,
                     marker: { colors: ['#FFA07A', '#20B2AA', '#778899'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -87,7 +88,9 @@ const ViolationTypeFilter = (props) => {
                 style={{ width: '100%', height: '250px' }}
                 />
             </div>
+            </div>
 
+            <div className="chart-row">
             <div className="card">
                 <h3>ResultPaths violating the {name}</h3>
                 <Plot

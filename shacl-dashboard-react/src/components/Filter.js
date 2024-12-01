@@ -14,7 +14,7 @@ import ViolatedNodePath from './ViolatedNodePath';
 
 const Filter = (props) => {
 
-    const { violationTypes, violatingNodes, violatingPaths } = props;
+    const { violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values } = props;
 
     const categories = ["Violation Types", "Violated FocusNodes", "Violated ResultPaths", "All"];
 
@@ -72,15 +72,15 @@ const Filter = (props) => {
 
         if(selectedCategory === "") {
             if(searchQuery in violationTypes) {
-                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter/>}])
+                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter name={searchQuery} violatedFocusNodes={violatingNodes} violatedFocusNodes_values={violatingNodes_values}/>}])
             } else {
-                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath/>}])
+                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath violationTypes={violationTypes} violationTypes_values={violationTypes_values}/>}])
             }
         }
         if(selectedCategory === "Violation Types") {
-            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter/>}])
+            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter name={searchQuery} violatedFocusNodes={violatingNodes} violatedFocusNodes_values={violatingNodes_values}/>}])
         } else {
-            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath/>}])
+            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath violationTypes={violationTypes} violationTypes_values={violationTypes_values}/>}])
         }
 
         setSearchQuery("");
