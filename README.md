@@ -46,3 +46,4 @@ frontend:
 bootstrap
 router-dom?
 npm install react-plotly.js plotly.js
+npm install @mui/material @emotion/react @emotion/styled

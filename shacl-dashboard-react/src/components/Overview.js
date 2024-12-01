@@ -13,14 +13,14 @@ const Overview = (props) => {
 
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
     const most_violating_node = result.most_violating_node.substring(2, result.most_violating_node.length - 2);
-    const most_violating_path = result.most_violating_node.substring(2, result.most_violating_node.length - 2); // TODO CHANGE TO PATH
+    const most_violating_path = result.most_frequent_resultPath.substring(2, result.most_frequent_resultPath.length - 2); // TODO CHANGE TO PATH
 
 
     const top10_violatingNodes = result.focusNode_violations.map(item => item.key).slice(0, 10); 
     const top10_violatingNodes_values = result.focusNode_violations.map(item => item.value).slice(0, 10);
 
-    const top10_violatingPaths = result.focusNode_violations.map(item => item.key).slice(0, 10);  // TODO CHANGE TO PATH
-    const top10_violatingPaths_values = result.focusNode_violations.map(item => item.value).slice(0, 10); // TODO CHANGE TO PATH
+    const top10_violatingPaths = result.result_path_occurance.map(item => item.key).slice(0, 10);  // TODO CHANGE TO PATH
+    const top10_violatingPaths_values = result.result_path_occurance.map(item => item.value).slice(0, 10); // TODO CHANGE TO PATH
 
 
     return (
@@ -190,7 +190,7 @@ const Overview = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {result.focusNode_violations.map((entry, index) => (
+                        {result.result_path_occurance.map((entry, index) => (
                             <tr key={index}>
                                 <td>{entry.key}</td>
                                 <td>{entry.value}</td>

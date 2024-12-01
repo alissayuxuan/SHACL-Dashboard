@@ -2,11 +2,17 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import '../style/UploadFile.css';
 
+// Material UI
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+
 
 const UploadFile = () => {
 
     // shacl validation report upload
     const [file, setFile] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     // sets the useState file to the file selected
     const handleFileChange = (event) => {
@@ -21,6 +27,7 @@ const UploadFile = () => {
     // when the submit button is pressed, the uploaded file is send to the backend
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
         const formData = new FormData();
         formData.append('file', file);
 
@@ -37,16 +44,19 @@ const UploadFile = () => {
             });
 
             if (!response.ok) {
-                alert("image couldnt be send to backend", response.status);
+                alert("file couldnt be send to backend", response.status);
                 console.error("Request failed:", response.status);
             }
 
+            //navigate("/analysis");
             const result = await response.json();
             console.log(result);
-            navigate("/analysis")
+            navigate("/analysis");
         } catch (error) {
             console.error("Error: ", error);
-        }       
+        } finally {
+          setIsLoading(false);
+        }    
         
     };
 
@@ -80,6 +90,16 @@ const UploadFile = () => {
               <button onClick={goToHome} className="back-btn">Back to Home</button>
             </div>
           </div>
+
+          {/* Loading */}
+          <Backdrop
+          sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+          open={isLoading}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          
+
           <footer className="footer">
             <p>&copy; 2024 SHACL Dashboard | Developed by Alissa Wang and Lukas Manz</p>
           </footer>
