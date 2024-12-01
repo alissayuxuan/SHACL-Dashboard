@@ -105,8 +105,8 @@ const Overview = (props) => {
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: top10_violatingNodes,
-                    y: top10_violatingNodes_values,
+                    x: result.focusNode_violations.map(item => item.key),
+                    y: result.focusNode_violations.map(item => item.value),
                     marker: { color: '#8A2BE2' },
                 }]}
                 layout={{ autosize: true, margin: { t: 0, b: 30 } }}
@@ -167,8 +167,8 @@ const Overview = (props) => {
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: top10_violatingPaths,
-                    y: top10_violatingPaths_values,
+                    x: result.result_path_occurance.map(item => item.key),
+                    y: result.result_path_occurance.map(item => item.value),
                     marker: { color: '#8A2BE2' },
                 }]}
                 layout={{ autosize: true, margin: { t: 0, b: 30 } }}
