@@ -4,7 +4,7 @@
     margin: 20px;
   }
 
-  /*categories*/
+  /* categories */
   .tiles {
     display: flex;
     justify-content: center;
@@ -31,7 +31,7 @@
   }
 
 
-  /*search bar*/
+  /* search bar */
   .search-container {
     display: flex;
     flex-direction: column;
@@ -89,28 +89,7 @@
     color: #aaa;
   }
 
-/*
-  .styled-button {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s;
-    background-color: #f9f9f9;
-  }
-  
-  .styled-button:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  .styled-button:active {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }*/
-
+  /* search result list */
 .search-result-list {
     list-style-type: none;
     padding: 0;
@@ -130,4 +109,28 @@
 
   .result-item:hover {
     background-color: #e6e6e6;
+  }
+
+  
+  /* filter */
+  .filter-title {
+    display: flex;
+    align-items: center; /* Zentriert die Elemente vertikal */
+    justify-content: space-between; /* Verteilt die Elemente: h2 links, Button rechts */
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+
+  .closeFilter-btn {
+    float: right;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: #e6e6e6;
+  }
+
+  .closeFilter-btn:hover {
+    background-color: #cbcaca;
   }

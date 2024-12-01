@@ -161,10 +161,10 @@ const Filter = (props) => {
             {/*filtered results */}
             <div style={{ marginTop: "20px" }}>
                 {filterViews.map((filterView) => (
-                    <div key={filterView.id} ref={refsFilterViews.current[filterView.id]}>
-                        <div>
-                            <h2>{filterView.name}</h2>
-                            <button onClick={() => removeFilter(filterView.id)}>✕</button>
+                    <div key={filterView.id} ref={refsFilterViews.current[filterView.id]} style={{ marginTop: "30px" }}>
+                        <div className="filter-title">
+                            <h3>{filterView.name}</h3>
+                            <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
                         </div>
                         <div style={{ marginRight: '10px' }}>{filterView.filter}</div>
                     </div>
