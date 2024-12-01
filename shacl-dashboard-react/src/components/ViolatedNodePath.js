@@ -8,7 +8,10 @@ import '../style/Analysis.css';
 
 const ViolatedNodePath = (props) => {
 
-    const { violationTypes, violationTypes_values } = props;
+    const { result, violationTypes, violationTypes_values } = props;
+
+    const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
+
 
     return (
         <div className="overview-container">
@@ -18,7 +21,7 @@ const ViolatedNodePath = (props) => {
             {['Total Violations', 'Most frequent ViolationType'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
-                <p>{index === 0 ? 7 : "mincount"} </p>
+                <p>{index === 0 ? result.total_violations : most_frequent_violation_type} </p>
                 </div>
             ))}
             </div>
@@ -53,6 +56,30 @@ const ViolatedNodePath = (props) => {
                 useResizeHandler={true}
                 style={{ width: '100%', height: '250px' }}
                 />
+            </div>
+            </div>
+
+            <div className="chart-row">
+            <div className="card">
+                <h3>Violation Types</h3>
+                <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Violation Types</th>
+                            <th>Number of Violations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.violationTypes_occurance.map((entry, index) => (
+                            <tr key={index}>
+                                <td>{entry.key}</td>
+                                <td>{entry.value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                </div>
             </div>
             </div>
 

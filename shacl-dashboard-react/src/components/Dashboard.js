@@ -229,6 +229,7 @@ const Dashboard = () => {
                 </div>
             ):
             <Filter
+                result={result}
                 violationTypes={violationTypes}
                 violationTypes_values={violationTypes_values}
                 violatingNodes={violatingNodes}

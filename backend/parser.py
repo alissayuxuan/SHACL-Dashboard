@@ -306,3 +306,112 @@ def analyze_graph(graph):
     
     
     return analysis_result
+"""
+fn_queryGesamtzahlViolations = 
+    SELECT (COUNT(?result) as ?c)
+    WHERE {
+        ?report sh:result ?result .
+        ?result sh:focusNode <{node}> .
+
+}"""
+
+def filterNode(graph, node):
+    return
+
+  #  fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
+
+
+def filterResultPath(graph, path):
+    queryFilterResultPath = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:resultPath <{path}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterResultPath)
+
+def filterSeverity(graph, severity):
+    queryFilterSeverity = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:resultSeverity <{severity}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSeverity)
+
+
+def filterSourceConstraintComponent(graph, component):
+    queryFilterSourceConstraintComponent = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{component}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSourceConstraintComponent)
+
+def filterSourceShape(graph, sourceShape):
+    queryFilterSourceShape = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{sourceShape}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterSourceShape)
+    
+def filterResultMessage(graph, message):
+    queryFilterResultMessage = f"""
+    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
+    WHERE {{
+    ?report sh:result ?result .
+    ?result sh:sourceConstraintComponent <{message}> ;
+        sh:focusNode ?focusNode ;
+        sh:resultPath ?resultPath ;
+        sh:resultSeverity ?resultSeverity ;
+        sh:sourceConstraintComponent ?sourceConstraintComponent ;
+        sh:sourceShape ?sourceShape ;
+        sh:resultMessage ?resultMessage .
+    }}
+    """
+    return graph.query(queryFilterResultMessage)
+
+
+def prefixEntfernenEinzeln(eingabe, g):
+    eingabe = str(eingabe)
+    namespaces = {str(ns): prefix for prefix, ns in g.namespaces()}
+    for a,b in namespaces.items():
+        if eingabe.startswith("['" + a) or eingabe.startswith(a):
+            return eingabe.replace(a, "")
+    return eingabe
+
+def prefixEntfernenMehrere(eingabe, g):
+    for a in eingabe:
+        a['key'] = prefixEntfernenEinzeln(a['key'], g)
+    return eingabe

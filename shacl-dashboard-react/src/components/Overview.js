@@ -34,7 +34,7 @@ const Overview = (props) => {
             {['Total Violations', 'Total violating Focus Node', 'Total violating Result Paths'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
-                <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : result.total_violating_nodes}</p> {/*TODO CHANGE*/}
+                <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : result.total_violating_resultPaths}</p> {/*TODO CHANGE*/}
                 </div>
             ))}
             </div>
