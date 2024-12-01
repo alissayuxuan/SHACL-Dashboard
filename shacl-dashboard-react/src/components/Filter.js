@@ -6,7 +6,8 @@ import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
 import '../style/ChooseFilter.css';
 import '../style/Filter.css';
-import FilterView from './FilterView';
+import ViolationTypeFilter from './ViolationTypeFilter';
+import ViolatedNodePath from './ViolatedNodePath';
 
 
 
@@ -33,8 +34,7 @@ const Filter = (props) => {
 
         if (category === "Violation Types") {
             setSelectedCategoryList(violationTypes);
-        } 
-        else if (category === "Violated FocusNodes") {
+        } else if (category === "Violated FocusNodes") {
             setSelectedCategoryList(violatingNodes);
         } else if (category === "Violated ResultPaths") {
             setSelectedCategoryList(violatingPaths);
@@ -64,15 +64,30 @@ const Filter = (props) => {
         setFilteredResults([result]);
     }
 
-    const handleFilterAction = () => {
+    // addes the corresponding filter of the searched query to filterViews 
+    const addFilter = () => {
+        const newId = Date.now(); // unique id
+        //setFilterViews([...filterViews, { id: newId }]); // Füge ein neues Dashboard hinzu
+        if(selectedCategory === "") {
+            if(searchQuery in violationTypes) {
+                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter/>}])
+            } else {
+                setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath/>}])
+            }
+        }
+        if(selectedCategory === "Violation Types") {
+            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolationTypeFilter/>}])
+        } else {
+            setFilterViews([...filterViews, { name: searchQuery, id: newId, filter: <ViolatedNodePath/>}])
+        }
 
         setSearchQuery("");
         setFilteredResults([]);
-        
-        const newId = filterViews.length + 1; // Dashboard ID basierend auf der Länge
-        setFilterViews([...filterViews, { id: newId }]); // Füge ein neues Dashboard hinzu
-          
     }
+
+    const removeFilter = (id) => {
+        setFilterViews(filterViews.filter((filterView) => filterView.id !== id));
+      };
 
 
 
@@ -104,7 +119,7 @@ const Filter = (props) => {
                             value={searchQuery}
                             onChange={handleSearchChange}
                         />
-                        <button className="search-button" onClick={handleFilterAction}>
+                        <button className="search-button" onClick={addFilter}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
@@ -128,17 +143,18 @@ const Filter = (props) => {
                     </ul>
 
                 </div>
-                
-
-
-
-                
             </div>
 
             {/*filtered results */}
             <div style={{ marginTop: "20px" }}>
                 {filterViews.map((filterView) => (
-                <FilterView name={filterView.Id}/>
+                    <div key={filterView.id}>
+                        <div>
+                            <h2>{filterView.name}</h2>
+                            <button onClick={() => removeFilter(filterView.id)}>✕</button>
+                        </div>
+                        <div style={{ marginRight: '10px' }}>{filterView.filter}</div>
+                    </div>
                 ))}
             </div>
 

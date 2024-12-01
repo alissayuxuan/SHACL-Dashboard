@@ -6,9 +6,9 @@ import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
 
 
-const FilterView = (props) => {
+const ViolatedNodePath = (props) => {
 
-    const { name } = props;
+    const { violatedFocusNodes, violatedFocusNodes_values } = props;
 
     const violationTypes = ["MinCountConstraintComponent", "DatatypeConstraintComponent", "MaxCountConstraintComponent"];
     const violationTypes_values = [5, 3, 1];
@@ -17,14 +17,12 @@ const FilterView = (props) => {
     return (
         <div className="overview-container">
 
-            {/* Main Content */}
-            <h1>NEW FILTER</h1>
-            
+            {/* Main Content */}            
             <div className="card-row">
-            {['Total Violations', 'Most Frequent Violation', 'Second Most Frequent Violation'].map((title, index) => (
+            {['Total Violations', 'Most frequent ViolationType'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
-                <p>{index === 0 ? 7 : index === 1 ? "MinCountConstraintComponent" : "DatatypeConstraintComponent"}</p>
+                <p>{index === 0 ? 7 : "mincount"} </p>
                 </div>
             ))}
             </div>
@@ -36,8 +34,8 @@ const FilterView = (props) => {
                 <Plot
                 data={[{
                     type: 'pie',
-                    labels: violationTypes,
-                    values: violationTypes_values,
+                    labels: violatedFocusNodes,
+                    values: violatedFocusNodes_values,
                     marker: { colors: ['#FFA07A', '#20B2AA', '#778899'] },
                 }]}
                 layout={{ autosize: true, showlegend: true, margin: { t: 0, b: 0 } }}
@@ -47,12 +45,12 @@ const FilterView = (props) => {
             </div>
 
             <div className="card">
-                <h3>Violation Type</h3>
+                <h3>Violation Types</h3>
                 <Plot
                 data={[{
                     type: 'bar',
-                    x: violationTypes,
-                    y: violationTypes_values,
+                    x: violatedFocusNodes,
+                    y: violatedFocusNodes_values,
                     marker: { color: '#4169E1' },
                 }]}
                 layout={{ autosize:true, margin: { t: 0, b: 30 } }}
@@ -67,4 +65,4 @@ const FilterView = (props) => {
     );
 };
 
-export default FilterView;
+export default ViolatedNodePath;
