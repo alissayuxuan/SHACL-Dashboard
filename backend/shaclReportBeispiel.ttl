@@ -1,0 +1,88 @@
+@prefix ex: <http://example.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# SHACL Report
+ex:Report a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [
+        sh:focusNode ex:node1 ;
+        sh:resultPath ex:propertyA ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+        sh:sourceShape ex:Shape1 ;
+        sh:resultMessage "Property 'ex:propertyA' is missing at least 1 value." ;
+    ],
+    [
+        sh:focusNode ex:node2 ;
+        sh:resultPath ex:propertyB ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:MaxCountConstraintComponent ;
+        sh:sourceShape ex:Shape2 ;
+        sh:resultMessage "Property 'ex:propertyB' has more than the allowed number of values." ;
+    ],
+    [
+        sh:focusNode ex:node3 ;
+        sh:resultPath ex:propertyC ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:DatatypeConstraintComponent ;
+        sh:sourceShape ex:Shape3 ;
+        sh:resultMessage "Property 'ex:propertyC' has the wrong datatype." ;
+    ],
+    [
+        sh:focusNode ex:node4 ;
+        sh:resultPath ex:propertyD ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:PatternConstraintComponent ;
+        sh:sourceShape ex:Shape4 ;
+        sh:resultMessage "Property 'ex:propertyD' does not match the required pattern." ;
+    ],
+    [
+        sh:focusNode ex:node4;
+        sh:resultPath ex:propertyE ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:NodeKindConstraintComponent ;
+        sh:sourceShape ex:Shape5 ;
+        sh:resultMessage "Property 'ex:propertyE' has the wrong node kind." ;
+    ],
+    [
+        sh:focusNode ex:node4 ;
+        sh:resultPath ex:propertyF ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:ClassConstraintComponent ;
+        sh:sourceShape ex:Shape6 ;
+        sh:resultMessage "Property 'ex:propertyF' is not of the required class." ;
+    ],
+    [
+        sh:focusNode ex:node7 ;
+        sh:resultPath ex:propertyG ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:MinLengthConstraintComponent ;
+        sh:sourceShape ex:Shape7 ;
+        sh:resultMessage "Property 'ex:propertyG' has a value that is too short." ;
+    ],
+    [
+        sh:focusNode ex:node8 ;
+        sh:resultPath ex:propertyH ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:MaxLengthConstraintComponent ;
+        sh:sourceShape ex:Shape8 ;
+        sh:resultMessage "Property 'ex:propertyH' has a value that is too long." ;
+    ],
+    [
+        sh:focusNode ex:node9 ;
+        sh:resultPath ex:propertyI ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:LanguageInConstraintComponent ;
+        sh:sourceShape ex:Shape9 ;
+        sh:resultMessage "Property 'ex:propertyI' does not match the required language." ;
+    ],
+    [
+        sh:focusNode ex:node10 ;
+        sh:resultPath ex:propertyJ ;
+        sh:resultSeverity sh:Violation ;
+        sh:sourceConstraintComponent sh:UniqueLangConstraintComponent ;
+        sh:sourceShape ex:Shape10 ;
+        sh:resultMessage "Property 'ex:propertyJ' has duplicate language tags." ;
+    ] .

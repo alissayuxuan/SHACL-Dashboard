@@ -114,7 +114,7 @@ const Analysis = () => {
         ]
     }
 
-    //const jsonString = JSON.stringify(testData); 
+    const jsonString = JSON.stringify(testData); 
     //console.log("JSON: \n",jsonString);
 
     /*useEffect(() => {

@@ -9,10 +9,13 @@ const ChooseFilter = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
   
-    const categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6"];
+    const categories = ["focusNode", "resultMessage", "resultPath",  "resultSeverity", "sourceConstraintComponent", "sourceShape"];
   
     const handleCategoryClick = (category) => {
+        console.log("Category clicked:", category); // Debugging
       setSelectedCategory(category);
+      console.log("Category clicked:", category); // Debugging
+
     };
   
     const handleSearchChange = (e) => {
@@ -45,9 +48,46 @@ const ChooseFilter = () => {
     const [result, setResult] = useState(null);
 
 
+
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+
+    const handleFilter = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+       // formData.append('file', file);
+
+    //    console.log("Uploading file:", file);
+        formData.append("category", selectedCategory);
+        formData.append("input", searchQuery)
+
+        console.log("gespeichert:" + selectedCategory)
+
+        let url = 'http://localhost:5000/filter';
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            console.log("jaaaaaaa")
+
+            if (!response.ok) {
+                alert("image couldnt be send to backend", response.status);
+                console.error("Request failed:", response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+           // navigate("/analysis")
+        } catch (error) {
+            console.error("Error: ", error);
+        }       
+        
+    };
   
 
 
@@ -83,7 +123,7 @@ const ChooseFilter = () => {
                     </button>
                     {isFilterOpen && (
                         <ul className="submenu">
-                        {result.violationTypes_occurance.map((item, index) => (
+                        {result?.violationTypes_occurance.map((item, index) => (
                             <li className="submenu-item">
                                 <button className="submenu-link">{item.key}</button>
                             </li>
@@ -98,7 +138,7 @@ const ChooseFilter = () => {
                     </button>
                     {isFilterOpen && (
                         <ul className="submenu">
-                        {result.focusNode_violations.map((item, index) => (
+                        {result?.focusNode_violations?.map((item, index) => (
                             <li className="submenu-item">
                                 <button className="submenu-link">{item.key}</button>
                             </li>
@@ -126,7 +166,7 @@ const ChooseFilter = () => {
             <div className="filter-container">
                 <h1>Filter Function</h1>
                 <div className="tiles">
-                    {categories.map((category, index) => (
+                   {categories.map((category, index) => (
                     <div
                         key={index}
                         className={`tile ${selectedCategory === category ? "active" : ""}`}
@@ -144,7 +184,7 @@ const ChooseFilter = () => {
                     className="search-input"
                     disabled={!selectedCategory}
                 />
-                <button type="button" className="syled-button">
+                <button type="button" className="syled-button" onClick={handleFilter}>
                 Filter
               </button>
                 </div>

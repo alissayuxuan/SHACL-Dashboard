@@ -97,7 +97,6 @@ WHERE {
 GROUP BY ?focusNode
 ORDER BY DESC(?count)
 LIMIT 1 
-
 """
 
 queryMostViolatingNode = """
@@ -306,19 +305,37 @@ def analyze_graph(graph):
     
     
     return analysis_result
-"""
-fn_queryGesamtzahlViolations = 
+
+fn_queryGesamtzahlViolations = f"""
     SELECT (COUNT(?result) as ?c)
-    WHERE {
+    WHERE {{
         ?report sh:result ?result .
         ?result sh:focusNode <{node}> .
 
-}"""
+}}"""
+
+fn_queryMostFrequentViolationType = f"""
+SELECT ?sourceConstraintComponent 
+WHERE {{
+    ?report sh:result ?result .
+    ?result sh:focusNode <{node}> .
+    ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
+}}
+GROUP BY ?focusNode
+ORDER BY DESC(?count)
+LIMIT 1 
+"""
 
 def filterNode(graph, node):
-    return
+    fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
+    fn_most_frequent_violationtype = extract_sparql_result(graph.query(fn_most_frequent_violationtype))
 
-  #  fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
+    return {
+        "fn_total_violations": fn_total_violations, 
+        "fn_most_frequent_violationtype": prefixEntfernenEinzeln(str(fn_most_frequent_violationtype), graph)
+    }
+
+
 
 
 def filterResultPath(graph, path):
@@ -415,3 +432,26 @@ def prefixEntfernenMehrere(eingabe, g):
     for a in eingabe:
         a['key'] = prefixEntfernenEinzeln(a['key'], g)
     return eingabe
+
+
+
+
+
+g = Graph()
+g.parse("backend/validation_report1.ttl", format="turtle")
+
+
+a = analyze_graph(g)
+
+print(a['total_violating_resultPaths'])
+print(a["result_path_occurance"])
+print(a["most_frequent_resultPath"])
+
+
+
+
+
+
+#results = g.query(querySourceShapeDistribution)
+
+#result = filterNode(g, URIRef("http://www.Department5.University0.edu/FullProfessor7"))
