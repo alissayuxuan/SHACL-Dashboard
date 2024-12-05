@@ -66,6 +66,41 @@ const Filter = (props) => {
         setFilteredResults([result]);
     }
 
+    const handleFilter = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+       // formData.append('file', file);
+
+    //    console.log("Uploading file:", file);
+        formData.append("category", selectedCategory);
+        formData.append("input", searchQuery)
+
+        console.log("gespeichert:" + selectedCategory)
+
+        let url = 'http://localhost:5000/filter';
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            console.log("jaaaaaaa")
+
+            if (!response.ok) {
+                alert("image couldnt be send to backend", response.status);
+                console.error("Request failed:", response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+           // navigate("/analysis")
+        } catch (error) {
+            console.error("Error: ", error);
+        }       
+        
+    };
+
     // addes the corresponding filter of the searched query to filterViews 
     const addFilter = () => {
         const newId = Date.now(); // unique id
@@ -166,7 +201,7 @@ const Filter = (props) => {
                             value={searchQuery}
                             onChange={handleSearchChange}
                         />
-                        <button className="search-button" onClick={addFilter}>
+                        <button className="search-button" onClick={handleFilter}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
