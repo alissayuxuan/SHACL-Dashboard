@@ -78,6 +78,16 @@ WHERE {
 }
 """
 
+queryAnzahlViolatingResultPaths = """
+SELECT (COUNT(DISTINCT ?resultPath) as ?c)
+WHERE {
+    ?report sh:result ?result .
+    ?result sh:resultPath ?resultPath .
+    }
+"""
+
+
+
 queryMostFrequentViolationType = """
 SELECT ?sourceConstraintComponent 
 WHERE {
@@ -87,7 +97,6 @@ WHERE {
 GROUP BY ?focusNode
 ORDER BY DESC(?count)
 LIMIT 1 
-
 """
 
 queryMostViolatingNode = """
@@ -103,7 +112,7 @@ LIMIT 1
 """
 
 queryMostFrequenResultPath = """
-SELECT ?focusNode (COUNT(*) AS ?count)
+SELECT ?resultPath (COUNT(*) AS ?count)
 WHERE {
   ?report sh:result ?result .
   ?result sh:resultPath ?resultPath .
@@ -139,7 +148,7 @@ def queryFocusNodeDistributionFunction(graph):
 
 def queryResultPathDistributionFunction(graph):
     queryFocusNodeDistribution = """
-    SELECT ?focusNode (COUNT(*) as ?count)
+    SELECT ?resultPath (COUNT(*) as ?count)
     WHERE {
         ?report sh:result ?result .
         ?result sh:resultPath ?resultPath .
@@ -205,11 +214,6 @@ def resultSourceConstraintComponentDistribution(graph):
     """
     results = graph.query(queryResultSourceConstraintComponentDistribution)
 
-
-
-
-
-
     # Alissa: added string to JSON serialize result
     return [
     {
@@ -259,6 +263,7 @@ def analyze_graph(graph):
     # Example analysis: Count the number of triples in the graph
     total_violations = extract_sparql_result(graph.query(queryGesamtzahlViolations))
     total_violating_nodes = extract_sparql_result(graph.query(queryAnzahlViolatingNodes))
+    total_violating_resultPaths = extract_sparql_result(graph.query(queryAnzahlViolatingResultPaths))
     triple_count = len(graph)
     most_frequent_violation_type = extract_sparql_result(graph.query(queryMostFrequentViolationType))
     most_violating_node = extract_sparql_result(graph.query(queryMostViolatingNode))
@@ -281,6 +286,7 @@ def analyze_graph(graph):
     analysis_result = {
         "total_violations": total_violations,
         "total_violating_nodes": total_violating_nodes,
+        "total_violating_resultPaths": total_violating_resultPaths, 
         "most_frequent_violation_type": prefixEntfernenEinzeln(str(most_frequent_violation_type), graph),
         "most_violating_node": str(prefixEntfernenEinzeln(most_violating_node, graph)),
         "violationTypes_occurance" : prefixEntfernenMehrere(resultSourceConstraintComponentDistribution(graph), graph),
@@ -300,30 +306,36 @@ def analyze_graph(graph):
     
     return analysis_result
 
+fn_queryGesamtzahlViolations = f"""
+    SELECT (COUNT(?result) as ?c)
+    WHERE {{
+        ?report sh:result ?result .
+        ?result sh:focusNode <{node}> .
 
-def filterNode(graph, node):
-    print("nodeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + str(node))
-    queryFilterNode = f"""
-    CONSTRUCT {{
-    ?result a sh:ValidationResult ;
-        sh:focusNode <{node}> ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-}}
+}}"""
+
+fn_queryMostFrequentViolationType = f"""
+SELECT ?sourceConstraintComponent 
 WHERE {{
     ?report sh:result ?result .
-    ?result sh:focusNode <{node}> ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
+    ?result sh:focusNode <{node}> .
+    ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
 }}
-    """
-    return graph.query(queryFilterNode).graph
+GROUP BY ?focusNode
+ORDER BY DESC(?count)
+LIMIT 1 
+"""
+
+def filterNode(graph, node):
+    fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
+    fn_most_frequent_violationtype = extract_sparql_result(graph.query(fn_most_frequent_violationtype))
+
+    return {
+        "fn_total_violations": fn_total_violations, 
+        "fn_most_frequent_violationtype": prefixEntfernenEinzeln(str(fn_most_frequent_violationtype), graph)
+    }
+
+
 
 
 def filterResultPath(graph, path):
@@ -428,7 +440,12 @@ def prefixEntfernenMehrere(eingabe, g):
 g = Graph()
 g.parse("backend/validation_report1.ttl", format="turtle")
 
-print(analyze_graph(g))
+
+a = analyze_graph(g)
+
+print(a['total_violating_resultPaths'])
+print(a["result_path_occurance"])
+print(a["most_frequent_resultPath"])
 
 
 

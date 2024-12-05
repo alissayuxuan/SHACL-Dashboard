@@ -74,7 +74,7 @@ const Analysis = () => {
     }
 
     const jsonString = JSON.stringify(testData); 
-    console.log("JSON: \n",jsonString);
+    //console.log("JSON: \n",jsonString);
 
     /*useEffect(() => {
         setResult(JSON.parse(jsonString));

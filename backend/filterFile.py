@@ -1,7 +1,8 @@
 #from uploadFile import file 
 from flask import Flask, request, jsonify, session
 from rdflib import Graph
-from graph_parser import analyze_graph, filterResultPath, filterSeverity, filterSourceConstraintComponent
+from graph_parser import analyze_graph, filterResultPath, filterSeverity, filterSourceConstraintComponent, filterNode
+
 import os
 
 filter_result = {}
@@ -47,12 +48,14 @@ def filter(graph, category, input):
     if category == 'focusNode':
         print("typeeeeeeee" + str(type(graph)))
 
-        newGraph = filterNode(graph, input)
+        filterRes = filterNode(graph, input)
+
+        print(filterRes)
         
 
-        print("typeeeeeeee" + str(type(newGraph)))
-        filter_result['lastAnalysis'] = analyze_graph(newGraph)
-        print(filter_result.get('lastAnalysis'))
+       # print("typeeeeeeee" + str(type(newGraph)))
+        #filter_result['lastAnalysis'] = analyze_graph(newGraph)
+        #print(filter_result.get('lastAnalysis'))
     if category == 'resultPath' :
         newGraph = filterResultPath(graph, input)
         filter_result['lastAnalysis'] = analyze_graph(newGraph)
@@ -70,35 +73,5 @@ def filter(graph, category, input):
     
 
 
-def filterNode(graph, node):
-    print(type(graph))
-    print(type(node))
-    
-    queryFilterNode = f"""
-    CONSTRUCT {{
-    ?result a sh:ValidationResult ;
-        sh:focusNode <{node}> ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-}}
-WHERE {{
-    ?report sh:result ?result .
-    ?result sh:focusNode <{node}> ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-}}
-    """
-    newGraph = graph.query(queryFilterNode).graph
-
-    for s,p,o in newGraph:
-        print(s, p, o)
-    
-    return newGraph
 
 

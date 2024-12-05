@@ -38,6 +38,7 @@ def handle_result():
 
 @app.route('/filter', methods=['POST'])
 def handle_filter():
+
     category = request.form.get('category')
     input = request.form.get('input')
     return filter(graph, category, input)

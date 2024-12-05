@@ -82,7 +82,7 @@ const ChooseFilter = () => {
 
             const result = await response.json();
             console.log(result);
-            navigate("/analysis")
+           // navigate("/analysis")
         } catch (error) {
             console.error("Error: ", error);
         }       
