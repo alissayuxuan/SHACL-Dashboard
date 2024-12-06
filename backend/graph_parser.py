@@ -13,55 +13,6 @@ GREEN = "\033[32m"
 YELLOW = "\033[33m"
 RESET = "\033[0m"
 
-
-"""
-Lass uns jede Zeile erklären:
-
-?report sh:result ?result .
-PREFIX ex: <http://example.org/>
-PREFIX sh: <http://www.w3.org/ns/shacl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT ?resultPath ?message
-WHERE {
-    ?report sh:result ?result .        # 1
-    ?result sh:focusNode ex:node2 ;    # 2
-            sh:resultPath ?resultPath ; # 3
-            sh:resultMessage ?message . # 4
-}
-
-Sucht nach einem Tripel, wo irgendein Subjekt (?report)
-über das Prädikat sh:result
-mit einem Objekt (?result) verbunden ist
-In Ihrer Datei ist dies der ex:Report Knoten
-
-
-?result sh:focusNode ex:node2 ;
-
-Nutzt das gefundene ?result von oben
-Sucht darin nach dem sh:focusNode mit dem Wert ex:node2
-Das Semikolon (;) bedeutet: weiteres Prädikat folgt für das gleiche Subjekt
-
-
-sh:resultPath ?resultPath ;
-
-Für das gleiche ?result
-Holt den Wert von sh:resultPath
-Speichert ihn in der Variable ?resultPath
-In Ihrem Fall wird dies ex:propertyB sein
-
-
-sh:resultMessage ?message .
-
-Für das gleiche ?result
-Holt den Wert von sh:resultMessage
-Speichert ihn in der Variable ?message
-In Ihrem Fall die Fehlermeldung über zu viele Werte
-"""
-
-
-
 queryGesamtzahlViolations = """
 SELECT (COUNT(?result) as ?c)
 WHERE {
@@ -85,8 +36,6 @@ WHERE {
     ?result sh:resultPath ?resultPath .
     }
 """
-
-
 
 queryMostFrequentViolationType = """
 SELECT ?sourceConstraintComponent 
@@ -121,9 +70,7 @@ WHERE {
 GROUP BY ?resultPath
 ORDER BY DESC(?count)
 LIMIT 1 
-
 """
-
 
 def queryFocusNodeDistributionFunction(graph):
     queryFocusNodeDistribution = """
@@ -147,8 +94,9 @@ def queryFocusNodeDistributionFunction(graph):
     for row in results
     ]
 
+
 def queryResultPathDistributionFunction(graph):
-    queryFocusNodeDistribution = """
+    queryResultPathDistribution = """
     SELECT ?resultPath (COUNT(*) as ?count)
     WHERE {
         ?report sh:result ?result .
@@ -157,7 +105,7 @@ def queryResultPathDistributionFunction(graph):
     GROUP BY ?resultPath
     ORDER BY DESC(?count)
     """
-    results = graph.query(queryFocusNodeDistribution)
+    results = graph.query(queryResultPathDistribution)
 
     # Alissa: added str() to JSON serialize result
     return [
@@ -170,28 +118,6 @@ def queryResultPathDistributionFunction(graph):
     ]
 
 
-
-
-
-
-
-queryResultPathDistribution = """
-SELECT ?resultPath (COUNT(*) as ?count)
-WHERE {
-    ?report sh:result ?result .
-    ?result sh:resultPath ?resultPath .
-}
-GROUP BY ?resultPath
-
-"""
-querySourceConstraintComponentDistribution = """
-SELECT ?sourceConstraintComponent (COUNT(*) as ?count)
-WHERE {
-    ?report sh:result ?result .
-    ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
-}
-GROUP BY ?sourceConstraintComponent
-"""
 def resultSeverityDistribution(graph):
     queryResultSeverityDistribution = """
     SELECT ?resultSeverity (COUNT(*) as ?count)
@@ -226,33 +152,6 @@ def resultSourceConstraintComponentDistribution(graph):
     ]
 
 
-   
-
-    
-
-querySourceShapeDistribution = """
-SELECT ?sourceShape (COUNT(*) as ?count)
-WHERE {
-    ?report sh:result ?result .
-    ?result sh:sourceShape ?sourceShape .
-}
-GROUP BY ?sourceShape
-"""
-
-
-
-
-# Convert SPARQLResult to a list of dictionaries
-def sparqlToDict(sparql_result):
-    result_list = []
-    for row in sparql_result:
-        # Use sparql_result.vars to get the variable names
-        row_dict = {str(var): str(row[var]) for var in sparql_result.vars if row[var] is not None}
-        result_list.append(row_dict)
-    
-    return result_list  # Return as a JSON-compatible list of dictionaries
-
-
 # Alissa: extract the sparql result, bc Object of type SPARQLResult is not JSON serializable
 def extract_sparql_result(sparql_result):
     # Falls SPARQLResult ein iterierbares Objekt ist
@@ -265,23 +164,9 @@ def analyze_graph(graph):
     total_violations = extract_sparql_result(graph.query(queryGesamtzahlViolations))
     total_violating_nodes = extract_sparql_result(graph.query(queryAnzahlViolatingNodes))
     total_violating_resultPaths = extract_sparql_result(graph.query(queryAnzahlViolatingResultPaths))
-    triple_count = len(graph)
     most_frequent_violation_type = extract_sparql_result(graph.query(queryMostFrequentViolationType))
     most_violating_node = extract_sparql_result(graph.query(queryMostViolatingNode))
     most_frequent_result_path = extract_sparql_result(graph.query(queryMostFrequenResultPath))
-    #focusNode_Distribution = graph.query(queryFocusNodeDistribution)
-    resultPath_Distribution = graph.query(queryResultPathDistribution)
-    sourceConstraintComponent_Distribution = graph.query(querySourceConstraintComponentDistribution)
-    #resultSeverity_Distribution = graph.query(queryResultSeverityDistribution)
-    querySourceShape_Distribution = graph.query(querySourceShapeDistribution)
-    
-
-        
-    # DEBUG
- #   print(f"{RED}FOCUSNODE_DISTRIBUTION: {focusNode_Distribution}{RESET}")
-   # print(f"{GREEN}JSON(FOCUSNODE_DISTRIBUTION): {sparqlToDict(focusNode_Distribution)}{RESET}")
-
-   # print(f"{GREEN}JSON(RESULTSEVERITY_DISTRIBUTION): {sparqlToDict(resultSeverity_Distribution)}{RESET}")
 
 
     analysis_result = {
@@ -295,112 +180,9 @@ def analyze_graph(graph):
         "most_frequent_resultPath" : str(prefixEntfernenEinzeln(most_frequent_result_path, graph)),
         "result_path_occurance": prefixEntfernenMehrere(queryResultPathDistributionFunction(graph), graph)
     }
-        #violationTypes_occurance: resultSeverity_Distribution.list, 
-        # Add more analysis results as needed     
-        #TODO: can't be send to frontend -> need to extract information from SPARQL-result / dictionary
-        #"focusNode_Distribution": sparqlToDict(focusNode_Distribution)
-        #"resultPath_Distribution": resultPath_Distribution,
-        #"sourceConstraintComponent_Distribution": sourceConstraintComponent_Distribution,
-        #"resultSeverity_Distribution": resultSeverity_Distribution,
-        #"sourceShape_Distribution" : querySourceShape_Distribution
-    
-    
+        # Add more analysis results as needed         
     return analysis_result
-"""
-fn_queryGesamtzahlViolations = 
-    SELECT (COUNT(?result) as ?c)
-    WHERE {
-        ?report sh:result ?result .
-        ?result sh:focusNode <{node}> .
 
-}"""
-
-def filterNode(graph, node):
-    return
-
-  #  fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
-
-
-def filterResultPath(graph, path):
-    queryFilterResultPath = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:resultPath <{path}> ;
-        sh:focusNode ?focusNode ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-    }}
-    """
-    return graph.query(queryFilterResultPath)
-
-def filterSeverity(graph, severity):
-    queryFilterSeverity = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:resultSeverity <{severity}> ;
-        sh:focusNode ?focusNode ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-    }}
-    """
-    return graph.query(queryFilterSeverity)
-
-
-def filterSourceConstraintComponent(graph, component):
-    queryFilterSourceConstraintComponent = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:sourceConstraintComponent <{component}> ;
-        sh:focusNode ?focusNode ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-    }}
-    """
-    return graph.query(queryFilterSourceConstraintComponent)
-
-def filterSourceShape(graph, sourceShape):
-    queryFilterSourceShape = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:sourceConstraintComponent <{sourceShape}> ;
-        sh:focusNode ?focusNode ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-    }}
-    """
-    return graph.query(queryFilterSourceShape)
-    
-def filterResultMessage(graph, message):
-    queryFilterResultMessage = f"""
-    SELECT ?focusNode ?resultPath ?resultSeverity ?sourceConstraintComponent ?sourceShape ?resultMessage
-    WHERE {{
-    ?report sh:result ?result .
-    ?result sh:sourceConstraintComponent <{message}> ;
-        sh:focusNode ?focusNode ;
-        sh:resultPath ?resultPath ;
-        sh:resultSeverity ?resultSeverity ;
-        sh:sourceConstraintComponent ?sourceConstraintComponent ;
-        sh:sourceShape ?sourceShape ;
-        sh:resultMessage ?resultMessage .
-    }}
-    """
-    return graph.query(queryFilterResultMessage)
 
 
 def prefixEntfernenEinzeln(eingabe, g):

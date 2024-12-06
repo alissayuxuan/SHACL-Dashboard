@@ -1,7 +1,8 @@
 #from uploadFile import file 
 from flask import Flask, request, jsonify, session
 from rdflib import Graph
-from graph_parser import analyze_graph, filterResultPath, filterSeverity, filterSourceConstraintComponent, filterNode
+from graph_parser import analyze_graph
+from filter_parser import filterResultPath, filterSeverity, filterSourceConstraintComponent, filterNode
 
 import os
 
