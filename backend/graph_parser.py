@@ -38,15 +38,14 @@ WHERE {
 """
 
 queryMostFrequentViolationType = """
-SELECT ?sourceConstraintComponent 
+SELECT ?sourceConstraintComponent (COUNT(*) AS ?count)
 WHERE {
     ?report sh:result ?result .
     ?result sh:sourceConstraintComponent ?sourceConstraintComponent .
 }
-GROUP BY ?focusNode
+GROUP BY ?sourceConstraintComponent
 ORDER BY DESC(?count)
 LIMIT 1 
-
 """
 
 queryMostViolatingNode = """
