@@ -68,6 +68,21 @@ const Filter = (props) => {
 
     const handleFilter = async (event) => {
         event.preventDefault();
+        try {
+            let url = 'http://localhost:5000/filter'
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({selectedCategory, searchQuery}),
+            });
+            const data = await response.json();
+            console.log('Response: ', data);
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    }
+    /*const handleFilter = async (event) => {
+        event.preventDefault();
         const formData = new FormData();
        // formData.append('file', file);
 
@@ -100,6 +115,7 @@ const Filter = (props) => {
         }       
         
     };
+    */
 
     // addes the corresponding filter of the searched query to filterViews 
     const addFilter = () => {

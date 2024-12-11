@@ -29,4 +29,9 @@ def filter(graph, category, input):
         newGraph = filterNode(graph, input)
         filter_result['lastAnalysis'] = analyze_graph(newGraph)
 
-    return jsonify({'status': 'successfull'})
+    # ALISSA 11.12.24
+    result = {
+        'success': True,
+        'data': filter_result['lastAnalysis']
+    }
+    return jsonify(result)#jsonify({'status': 'successfull'})
