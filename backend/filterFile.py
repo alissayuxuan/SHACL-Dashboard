@@ -7,6 +7,8 @@ from filter_parser import filterResultPath, filterSeverity, filterSourceConstrai
 import os
 
 filter_result = {}
+filter_result['lastAnalysis'] = 0
+
 
 def filter(graph, category, input):
     print(len((graph)))
@@ -14,21 +16,24 @@ def filter(graph, category, input):
     print("input: " + str(input))
 
     if category == 'Violated FocusNodes':
-        filterRes = filterNode(graph, input)
-
-        print(filterRes)
+        filter_result['lastAnalysis'] = filterNode(graph, input)
+   #     filter_result['lastAnalysis'] = filterRes
+        print(filter_result['lastAnalysis'])
     if category == 'Violated ResultPaths' :
-        newGraph = filterResultPath(graph, input)
-        filter_result['lastAnalysis'] = analyze_graph(newGraph)
+        filter_result['lastAnalysis'] = filterResultPath(graph, input)
     if category == 'resultSeverity':
-        newGraph = filterSeverity(graph, input)
-        filter_result['lastAnalysis'] = analyze_graph(newGraph)
+        filter_result['lastAnalysis'] = filterSeverity(graph, input)
     if category == 'Violation Types':
-        newGraph = filterSourceConstraintComponent(graph, input)
-        filter_result['lastAnalysis'] = analyze_graph(newGraph)
-    if category == 'sourceShape':
-        newGraph = filterNode(graph, input)
-        filter_result['lastAnalysis'] = analyze_graph(newGraph)
+        filter_result['lastAnalysis'] = filterSourceConstraintComponent(graph, input)
 
-    return jsonify({'filter Ergebnis': filter_result})
-    
+
+    # ALISSA 11.12.24
+    print("vor dem abschicken", filter_result['lastAnalysis'])
+
+    result = {
+        'success': True,
+        'data': filter_result['lastAnalysis']
+    }
+
+
+    return jsonify(result)#jsonify({'status': 'successfull'})

@@ -62,6 +62,8 @@ const Dashboard = () => {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
+                console.log('Response overview: ', data);
+
                 setResult(data.analysis);
             } catch (error) {
                 console.error("Error fetching result:", error);

@@ -11,11 +11,11 @@ const Overview = (props) => {
 
     const { result /*, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values*/ } = props;
 
-    console.log("RESULT!!!!!\n", result);
-    console.log("result.most_frequent_violation_type\n", result.most_frequent_violation_type)
-    console.log("typeof most frequent\n", typeof  result.most_frequent_violation_type)
-    console.log("result.violationTypes_occurance\n", result.violationTypes_occurance)
-    console.log("typeof violationtypes\n", typeof  result.violationTypes_occurance)
+    //console.log("RESULT!!!!!\n", result);
+    //console.log("result.most_frequent_violation_type\n", result.most_frequent_violation_type)
+    //console.log("typeof most frequent\n", typeof  result.most_frequent_violation_type)
+    //console.log("result.violationTypes_occurance\n", result.violationTypes_occurance)
+    //console.log("typeof violationtypes\n", typeof  result.violationTypes_occurance)
 
 
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
