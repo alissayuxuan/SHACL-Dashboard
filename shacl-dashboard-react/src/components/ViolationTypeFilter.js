@@ -1,23 +1,27 @@
-// main overview of the dashboard
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import Plot from 'react-plotly.js'
-import '../style/Analysis.css';
+import '../style/Overview.css';
 
 
 const ViolationTypeFilter = (props) => {
 
-    const { name, result, violatedFocusNodes, violatedFocusNodes_values, violatedResultPaths, violatedResultPaths_values } = props;
+    const { name, result } = props;
 
-    const top10_violatedFocusNodes = violatedFocusNodes.slice(0, 10);
-    const top10_violatedFocusNodes_values = violatedFocusNodes_values.slice(0, 10);
-    const top10_violatedResultPaths = violatedResultPaths.slice(0, 10);
-    const top10_violatedResultPaths_values = violatedResultPaths_values.slice(0, 10);
-
+    // retrieve information from result
     const most_violating_node = result.most_violating_node.substring(2, result.most_violating_node.length - 2);
     const most_violating_path = result.most_frequent_resultPath.substring(2, result.most_frequent_resultPath.length - 2); 
 
+    const violatedFocusNodes = result.focusNode_violations.map(item => item.key);
+    const violatedFocusNodes_values = result.focusNode_violations.map(item => item.value);
+    const top10_violatedFocusNodes =violatedFocusNodes.slice(0, 10); 
+    const top10_violatedFocusNodes_values = violatedFocusNodes_values.slice(0, 10);
+
+    const violatedResultPaths = result.result_path_occurance.map(item => item.key);
+    const violatedResultPaths_values = result.result_path_occurance.map(item => item.value);
+    const top10_violatedResultPaths = violatedResultPaths.slice(0, 10);  
+    const top10_violatedResultPaths_values = violatedResultPaths_values.slice(0, 10); 
+    
+    //TODO pie chart: "sonstiges"
 
     return (
         <div className="overview-container">
@@ -27,6 +31,7 @@ const ViolationTypeFilter = (props) => {
             {['Total Violations', 'Number of violated FocusNodes', 'Number of violated ResultPaths'].map((title, index) => (
                 <div className="card" key={index}>
                 <h3>{title}</h3>
+                {/*TODO: kann es sein, dass da im result was fehlt?? checken!!*/}
                 <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : result.total_violating_resultPaths}</p>
                 </div>
             ))}

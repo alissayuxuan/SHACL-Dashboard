@@ -2,7 +2,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 body {
@@ -16,9 +16,14 @@ body {
 .upload-container {
     display: flex;
     flex-direction: column;
-    /*justify-content: center;
-    align-items: center;*/
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    
+    /*to remove white border:*/
+    width: 100%;
+    position:fixed;
+    right:0;
 }
 
 #upload-header {
@@ -111,7 +116,7 @@ body {
 .footer {
     text-align: center;
     padding: 20px;
-    background-color: #fff;
+    background-color:  #fff;
     color: #888;
     position: absolute;
     bottom: 0;
@@ -122,3 +127,4 @@ body {
     margin: 0;
     font-size: 14px;
 }
+

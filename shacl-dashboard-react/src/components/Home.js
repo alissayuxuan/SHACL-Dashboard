@@ -10,7 +10,7 @@ function Home() {
   };
 
   return (
-    <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100" id="main-container">
+    <div className="main-container">
       <div className="text-center">
         <h1 className="display-4 mb-4" id="main-header">SHACL Dashboard</h1>
         <p className="lead text-muted mb-5">A professional tool for analyzing your SHACL validation reports.</p>

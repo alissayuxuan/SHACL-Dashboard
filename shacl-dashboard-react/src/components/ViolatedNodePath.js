@@ -1,17 +1,15 @@
-// main overview of the dashboard
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import Plot from 'react-plotly.js'
-import '../style/Analysis.css';
+import '../style/Overview.css';
 
 
 const ViolatedNodePath = (props) => {
 
-    const { result, violationTypes, violationTypes_values } = props;
+    const { result } = props;
 
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
-
+    const violationTypes = result.violationTypes_occurance.map(item => item.key);
+    const violationTypes_values = result.violationTypes_occurance.map(item => item.value);
 
     return (
         <div className="overview-container">

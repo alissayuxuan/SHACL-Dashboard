@@ -1,8 +1,6 @@
 // main overview of the dashboard
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Plot from 'react-plotly.js'
 import '../style/Analysis.css';
 import '../style/ChooseFilter.css';
 import '../style/Filter.css';
@@ -14,7 +12,7 @@ import ViolatedNodePath from './ViolatedNodePath';
 
 const Filter = (props) => {
 
-    const { result, violationTypes, violationTypes_values, violatingNodes, violatingNodes_values, violatingPaths, violatingPaths_values } = props;
+    const { violationTypes, violatingNodes, violatingPaths } = props;
 
     const categories = ["Violation Types", "Violated FocusNodes", "Violated ResultPaths", "All"];
 
@@ -26,11 +24,12 @@ const Filter = (props) => {
     const [filteredResults, setFilteredResults] = useState([]);
 
     // for the filtered results (dashboards)
-    const [filterViews, setFilterViews] = useState([]);
+    const [filterViews, setFilterViews] = useState([]); //list of all filters
     const refsFilterViews = useRef({}); // to jump to the filter component when added
     const [newlyAddedFilter, setNewlyAddedFilter] = useState(null); // saves the newly added filter -> for scrolling purposes
   
-    // functions
+    /* Functions */
+
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
 
@@ -85,13 +84,24 @@ const Filter = (props) => {
     const handleFilter = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-       // formData.append('file', file);
 
-    //    console.log("Uploading file:", file);
-        formData.append("category", selectedCategory);
+        // special case: selected category is "All"
+        if(selectedCategory === "All") {
+            if(searchQuery in violationTypes) {
+                formData.append("category", "Violation Types");
+            } 
+            else if (searchQuery in violatingNodes) {
+                formData.append("category", "Violated FocusNodes");
+            } else {
+                formData.append("category", "Violated ResultPaths");
+            }
+        } 
+        // selected category is not "All"
+        else {
+            formData.append("category", selectedCategory);
+        }
+
         formData.append("input", searchQuery)
-
-        console.log("gespeichert:" + selectedCategory)
 
         let url = 'http://localhost:5000/filter';
 
@@ -101,8 +111,6 @@ const Filter = (props) => {
                 body: formData,
             });
 
-            console.log("jaaaaaaa")
-
             if (!response.ok) {
                 alert("image couldnt be send to backend", response.status);
                 console.error("Request failed:", response.status);
@@ -110,39 +118,65 @@ const Filter = (props) => {
 
             const result = await response.json();
             console.log(result);
-           // navigate("/analysis")
+
+            //TODO Daten vom Backend!!!!
+            const testData = {
+                total_violations: 123,
+                total_violating_nodes: 45,
+                total_violating_resultPaths: 56,
+                most_violating_node: '"[node1]"', //could be a list of strings
+                most_frequent_resultPath: '"[propertyA]"',
+                most_frequent_violation_type: '"[MinCountConstraint]"',
+                violationTypes_occurance : [
+                    {key: "datatype", value: 9},
+                    {key: "nodeShape", value: 8},
+                    {key: "propertyShape", value: 7}
+                ],
+                result_path_occurance: [
+                    {key: "propertyA", value: 9},
+                    {key: "propertyB", value: 8},
+                    {key: "propertyC", value: 7}
+                ],
+                focusNode_violations: [
+                    {key: "node1", value: 5}, 
+                    {key: "node2", value: 3}, 
+                    {key: "node3", value: 2}, 
+                    {key: "node4", value: 1}
+                ]
+            }
+
+            addFilter(testData);
+
+
+
         } catch (error) {
             console.error("Error: ", error);
         }       
         
     };
-    
 
-    // addes the corresponding filter of the searched query to filterViews 
-    const addFilter = () => {
+    // adds filter
+    const addFilter = (filterResult) => {
         const newId = Date.now(); // unique id
 
-        if(selectedCategoryList === allCategories) {
-            if(searchQuery in violationTypes) {
+        console.log("selected Category: ", selectedCategory);
+        if(selectedCategory === "All") {
+            if(searchQuery in violationTypes) { //TODO: wie schaut man, ob was in ner Liste vorhanden ist????
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
                     id: newId, 
-                    filter: <ViolationTypeFilter 
-                                name={searchQuery} 
-                                result={result} 
-                                violatedFocusNodes={violatingNodes} 
-                                violatedFocusNodes_values={violatingNodes_values} 
-                                violatedResultPaths={violatingPaths} 
-                                violatedResultPaths_values={violatingPaths_values}/>
+                    filter: <ViolationTypeFilter
+                                name={searchQuery}
+                                result={filterResult}/>
                 }])
             } else {
+                console.log("All - not in violationTypes");
+
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
                     id: newId, 
-                    filter: <ViolatedNodePath 
-                                result={result}
-                                violationTypes={violationTypes} 
-                                violationTypes_values={violationTypes_values}/>
+                    filter: <ViolatedNodePath
+                                result={filterResult}/>
                 }])
             }
         }
@@ -151,21 +185,15 @@ const Filter = (props) => {
                 name: searchQuery, 
                 id: newId, 
                 filter: <ViolationTypeFilter 
-                            name={searchQuery} 
-                            result={result} 
-                            violatedFocusNodes={violatingNodes} 
-                            violatedFocusNodes_values={violatingNodes_values} 
-                            violatedResultPaths={violatingPaths} 
-                            violatedResultPaths_values={violatingPaths_values}/>
+                            name={searchQuery}
+                            result={filterResult}/>
             }])
         } else {
             setFilterViews([...filterViews, { 
                 name: searchQuery, 
                 id: newId, 
                 filter: <ViolatedNodePath 
-                            result={result}
-                            violationTypes={violationTypes} 
-                            violationTypes_values={violationTypes_values}/>
+                            result={filterResult}/>
             }])
         }
 
@@ -175,18 +203,17 @@ const Filter = (props) => {
         setNewlyAddedFilter(newId);
     }
 
-    const removeFilter = (id) => {
-        setFilterViews(filterViews.filter((filterView) => filterView.id !== id));
-        delete refsFilterViews.current[id];
-    };
-
     // when a filter is added, the useEffect is called to scroll to that filter in the list
     useEffect(() => {
         if (newlyAddedFilter && refsFilterViews.current[newlyAddedFilter]?.current) {
             refsFilterViews.current[newlyAddedFilter].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
       }, [newlyAddedFilter]);
-
+    
+    const removeFilter = (id) => {
+        setFilterViews(filterViews.filter((filterView) => filterView.id !== id));
+        delete refsFilterViews.current[id];
+    };
 
 
 

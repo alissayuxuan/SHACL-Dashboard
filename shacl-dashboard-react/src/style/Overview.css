@@ -1,3 +1,30 @@
+/* Cards, Charts */
+.card-row, .chart-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Adds space between cards */
+    margin-bottom: 1rem;
+}
+
+.card {
+    flex: 1; /* Allows cards to grow evenly within their row */
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+}
+  
+.card p {
+    font-size: 1.25rem;
+    color: #333;
+}
+
+/* Table */
 .table-container {
     max-height: 300px;
     overflow-y: auto;

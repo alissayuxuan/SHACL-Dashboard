@@ -66,7 +66,7 @@ const UploadFile = () => {
     };
     
     return (
-        <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100">
+        <div className="upload-container">
           <div className="text-center">
             <h2 className="display-4 mb-4" id="upload-header">Upload Your SHACL Validation Report</h2>
             <p className="lead text-muted" id="upload-subtext">Easily upload your SHACL file for analysis.</p>
