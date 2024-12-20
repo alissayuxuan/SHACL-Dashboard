@@ -54,7 +54,7 @@ const Filter = (props) => {
       setSearchQuery(input);
 
       //filter based on input
-      const results = selectedCategoryList.filter((type) =>
+      const results = selectedCategoryList.filter((type) => 
         type.toLowerCase().includes(input)
       );
       setFilteredResults(results);
@@ -119,7 +119,32 @@ const Filter = (props) => {
             const result = await response.json();
             console.log(result);
 
+
+     /*       return{
+        "AnzahlViolations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
+        "most_violating_node": str(prefixEntfernenEinzeln(fscc_queryMostViolatingNode, graph)),
+        "most_frequent_resultPath" : str(prefixEntfernenEinzeln(fscc_queryMostViolatingResultPath, graph)),
+        "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, input), graph),
+        "result_path_occurance": prefixEntfernenMehrere(fscc_resultPathDistributionFunction(graph, input), graph)
+    }*/
+
+
             //TODO Daten vom Backend!!!!
+            const data = {
+                total_violations: result.data.anzahlViolations,
+                total_violating_nodes: 45,
+                total_violating_resultPaths: 56,
+                most_violating_node: result.data.most_violating_node, //could be a list of strings
+                most_frequent_resultPath: result.data.most_frequent_resultPath,
+                most_frequent_violation_type: result.data.most_frequent_violation_type,
+                violationTypes_occurance : result.data.violationTypes_occurance, 
+                result_path_occurance: result.data.result_path_occurance,
+                focusNode_violations: result.data.focusNode_violations
+
+            }
+
+
+
             const testData = {
                 total_violations: 123,
                 total_violating_nodes: 45,
@@ -145,7 +170,7 @@ const Filter = (props) => {
                 ]
             }
 
-            addFilter(testData);
+            addFilter(data);
 
 
 
