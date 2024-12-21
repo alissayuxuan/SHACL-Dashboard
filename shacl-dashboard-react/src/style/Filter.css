@@ -120,16 +120,4 @@
     padding: 10px;
     margin: 10px 0;
   }
-
-  .closeFilter-btn {
-    float: right;
-    border-radius: 100%;
-    width: 35px;
-    height: 35px;
-    border: none;
-    background-color: #e6e6e6;
-  }
-
-  .closeFilter-btn:hover {
-    background-color: #cbcaca;
-  }
+  

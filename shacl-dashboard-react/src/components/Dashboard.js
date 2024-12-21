@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Overview from "./Overview";
 import Filter from "./Filter";
+import SearchEntry from './SearchEntry';
 import '../style/Dashboard.css';
 
 
@@ -17,21 +18,29 @@ const Dashboard = () => {
     // side menu
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOverview, setIsOverview] = useState(true);
+    const [isFilterView, setIsFilterView] = useState(false);
 
     // Functions
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const goToFilterView = () => {
-        setIsOverview(false);
-    }
-
     const goToOverview = () => {
         setIsOverview(true);
+        setIsFilterView(false);
     }
 
+    const goToFilterView = () => {
+        setIsOverview(false);
+        setIsFilterView(true);
+    }
 
+    const goToSearchView = () => {
+        setIsOverview(false);
+        setIsFilterView(false);
+    }
+
+    
     // fetches data from backend
     useEffect(() => {
         const fetchResult = async () => {
@@ -106,6 +115,10 @@ const Dashboard = () => {
                     </li>
 
                     <li className="menu-item">
+                    <button className="menu-link" onClick={goToSearchView}>Search</button>
+                    </li>
+
+                    <li className="menu-item">
                     <button className="menu-link" onClick={goToUploadFile}>Upload File</button>
                     </li>
 
@@ -130,11 +143,20 @@ const Dashboard = () => {
                 )}
                 </div>
             ):
-            <Filter
+            isFilterView ? (
+                <Filter
+                    violationTypes={violationTypes}
+                    violatingNodes={violatingNodes}
+                    violatingPaths={violatingPaths}
+                />
+            ): 
+            <SearchEntry
                 violationTypes={violationTypes}
                 violatingNodes={violatingNodes}
                 violatingPaths={violatingPaths}
-            />}
+            />
+            }
+            
             </div>
         </div>
     );

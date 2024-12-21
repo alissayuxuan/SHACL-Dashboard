@@ -87,10 +87,10 @@ const Filter = (props) => {
 
         // special case: selected category is "All"
         if(selectedCategory === "All") {
-            if(searchQuery in violationTypes) {
+            if(violationTypes.includes(searchQuery)) {
                 formData.append("category", "Violation Types");
             } 
-            else if (searchQuery in violatingNodes) {
+            else if (violatingNodes.includes(searchQuery)) {
                 formData.append("category", "Violated FocusNodes");
             } else {
                 formData.append("category", "Violated ResultPaths");
@@ -145,7 +145,7 @@ const Filter = (props) => {
                 ]
             }
 
-            addFilter(testData);
+            addFilter(result.data);
 
 
 
@@ -161,7 +161,8 @@ const Filter = (props) => {
 
         console.log("selected Category: ", selectedCategory);
         if(selectedCategory === "All") {
-            if(searchQuery in violationTypes) { //TODO: wie schaut man, ob was in ner Liste vorhanden ist????
+            //if(searchQuery in violationTypes) { //TODO: wie schaut man, ob was in ner Liste vorhanden ist????
+            if(violationTypes.includes(searchQuery)) {
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
                     id: newId, 
