@@ -8,10 +8,22 @@ import os
 from flask import jsonify
 
 
+listePrefixe = []
+
 RED = "\033[31m"
 GREEN = "\033[32m"
 YELLOW = "\033[33m"
 RESET = "\033[0m"
+
+
+def getNamespaces(graph):
+    liste = []
+    for prefix, namespace in graph.namespaces():
+        liste.append(namespace)
+    
+    return liste
+
+
 
 queryGesamtzahlViolations = """
 SELECT (COUNT(?result) as ?c)
@@ -19,6 +31,7 @@ WHERE {
     ?report sh:result ?result .
 }
 """
+
 
 queryAnzahlViolatingNodes = """
 SELECT (COUNT(DISTINCT ?focusNode) as ?c)
@@ -189,6 +202,8 @@ def prefixEntfernenEinzeln(eingabe, g):
     namespaces = {str(ns): prefix for prefix, ns in g.namespaces()}
     for a,b in namespaces.items():
         if eingabe.startswith("['" + a) or eingabe.startswith(a):
+            listePrefixe.append(a)
+            print("neuer Prefix: ", a)
             return eingabe.replace(a, "")
     return eingabe
 

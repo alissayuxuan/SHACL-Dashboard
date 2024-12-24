@@ -1,4 +1,4 @@
-from graph_parser import extract_sparql_result, prefixEntfernenEinzeln, prefixEntfernenMehrere
+from graph_parser import extract_sparql_result, prefixEntfernenEinzeln, prefixEntfernenMehrere, getNamespaces
 
 
 #Hilfsfunktionen für Filter Node: 
@@ -143,7 +143,34 @@ def filterNode(graph, input):
 
 
 def filterResultPath(graph, input):
-    inputNeu = 'http://swat.cse.lehigh.edu/onto/univ-bench.owl#' + input
+    namespaces = getNamespaces(graph)
+
+   # for a in namespaces:
+    #    print(a)
+
+#    inputNeu = 'http://swat.cse.lehigh.edu/onto/univ-bench.owl#' + input
+
+    for n in namespaces: 
+        inputNeu = n + input
+
+        
+        frp_queryGesamtzahlViolations = f"""
+        SELECT (COUNT(?result) as ?c)
+        WHERE {{
+            ?report sh:result ?result .
+            ?result sh:resultPath <{inputNeu}> .
+            }}
+        """
+
+        print(inputNeu)
+        a = extract_sparql_result(graph.query(frp_queryGesamtzahlViolations))
+        print(a)
+        if a == ['0']:
+            print()
+        else:
+            break
+
+
 
     frp_queryGesamtzahlViolations = f"""
     SELECT (COUNT(?result) as ?c)
@@ -152,7 +179,6 @@ def filterResultPath(graph, input):
         ?result sh:resultPath <{inputNeu}> .
         }}
     """
-
 
     frp_queryMostFrequentViolationtype = f"""
     SELECT ?sourceConstraintComponent (COUNT(*) AS ?count)
@@ -174,7 +200,33 @@ def filterResultPath(graph, input):
 
 
 def filterSourceConstraintComponent(graph, input):
-    inputNeu = 'http://www.w3.org/ns/shacl#' + input
+   # inputNeu = 'http://www.w3.org/ns/shacl#' + input
+    namespaces = getNamespaces(graph)
+
+
+
+    for n in namespaces: 
+        inputNeu = n + input
+
+        
+     
+        fscc_queryGesamtzahlViolations = f"""
+        SELECT (COUNT(?result) as ?c)
+        WHERE {{
+            ?report sh:result ?result .
+            ?result sh:sourceConstraintComponent <{inputNeu}> .
+            }}
+        """
+
+        print(inputNeu)
+        a = extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations))
+        print(a)
+        if a == ['0']:
+            print()
+        else:
+            break
+
+
 
     fscc_queryGesamtzahlViolations = f"""
     SELECT (COUNT(?result) as ?c)
@@ -183,6 +235,8 @@ def filterSourceConstraintComponent(graph, input):
         ?result sh:sourceConstraintComponent <{inputNeu}> .
         }}
     """
+
+
 
     fscc_queryNumberViolatedNodes = f"""
 SELECT (COUNT(DISTINCT ?focusNode) as ?c)
