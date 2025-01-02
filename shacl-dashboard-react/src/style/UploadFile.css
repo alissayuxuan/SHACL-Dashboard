@@ -41,7 +41,7 @@ body {
 }
 
 #upload-subtext {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 /* Form Container */
@@ -57,7 +57,7 @@ body {
 
 /* File Input Styling */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 3px;
 }
 
 .form-control-file {
@@ -74,11 +74,19 @@ body {
     border-color: #867ac8;
 }
 
+#filetype {
+    display: flex;
+    padding-left: 2px;
+    font-size: 15px;
+    color: red;
+    display: none;
+}
 /* Upload Button */
 .upload-btn {
     background-color: #bcb3f7;
     color: white;
     padding: 12px 25px;
+    margin-top: 20px;
     border-radius: 50px;
     border: none;
     cursor: pointer;

@@ -29,10 +29,10 @@ const Overview = (props) => {
 
 
     return (
+        
         <div className="overview-container">
 
             {/* Main Content */}
-            
             <div className="card-row">
             {['Total Violations', 'Total violated Focus Node', 'Total violated Result Paths'].map((title, index) => (
                 <div className="card" key={index}>
@@ -205,6 +205,10 @@ const Overview = (props) => {
                 </table>
                 </div>
             </div>
+            </div>
+
+            <div className='download-container'>
+                <button className='download-btn'>Download</button>
             </div>
 
         </div>

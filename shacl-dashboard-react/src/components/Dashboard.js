@@ -130,6 +130,9 @@ const Dashboard = () => {
             )}
 
             {/* Main Content */}
+            <div className='download-container'>
+                
+            </div>
             <div className={`main-content ${isMenuOpen ? 'menu-open' : ''}`}>
             {isOverview ? (
                 <div>

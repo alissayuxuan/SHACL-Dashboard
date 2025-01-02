@@ -5,14 +5,20 @@
     margin: 40px;
   }
 
-  .searchContainer {
+  .searchInput-div {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-bottom: 40px;
     margin-top: 20px;
+    background-color: violet;
+    padding: 0 70px;
   }
   
+  .search-card {
+    /*width: 100%;*/
+  }
+
   .search-input-container {
     display: flex;
     align-items: center;
@@ -80,9 +86,35 @@
     background-color: #cbcaca;
   }
 
+  /* Invalid Input */
+  .invalidInput-container {
+    background-color: yellowgreen;
+    display: flex;
+    margin: 0 20%;
+  }
+
+  /* Download */
+  .download-container {
+    display: flex;
+  }
+
+  .download-btn {
+    padding: 5px 8px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #e6e6e6;
+    color: #555;
+    cursor: pointer;
+  }
+
+  .download-btn:hover {
+    background-color: #cbcaca;
+  }
+
   /* Result Panel */
   .resultPanel {
-    height: 50vh;
+    padding: 20px;
+    margin-top: 8px;
     width: 100%;
     background-color: white;
     border: 1px solid #ccc;

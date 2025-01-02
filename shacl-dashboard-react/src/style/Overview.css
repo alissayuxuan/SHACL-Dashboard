@@ -47,3 +47,20 @@ th {
     position: sticky;
     top: 0;
 }
+
+/* Download */
+.download-container {
+    display: flex;
+}
+.download-btn {
+    padding: 5px 8px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #e6e6e6;
+    color: #555;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background-color: #cbcaca;
+}

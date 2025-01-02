@@ -26,39 +26,54 @@ const UploadFile = () => {
 
     // when the submit button is pressed, the uploaded file is send to the backend
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setIsLoading(true);
-        const formData = new FormData();
-        formData.append('file', file);
+        const filetype = document.getElementById('filetype');
+        if (!isValidFile(file)) {
+          filetype.style.display = 'block';
+        } else {
+          event.preventDefault();
+          setIsLoading(true);
+          const formData = new FormData();
+          formData.append('file', file);
 
-        console.log("Uploading file:", file);
-        console.log("File name:", file.name);
-        console.log("File type:", file.type);
+          console.log("Uploading file:", file);
+          console.log("File name:", file.name);
+          console.log(" File type:", file.type);
 
-        let url = 'http://localhost:5000/upload';
+          let url = 'http://localhost:5000/upload';
 
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-            });
+          try {
+              const response = await fetch(url, {
+                  method: 'POST',
+                  body: formData,
+              });
 
-            if (!response.ok) {
-                alert("file couldnt be send to backend", response.status);
-                console.error("Request failed:", response.status);
-            }
+              if (!response.ok) {
+                  alert("file couldnt be send to backend", response.status);
+                  console.error("Request failed:", response.status);
+              }
 
-            //navigate("/analysis");
-            const result = await response.json();
-            console.log(result);
-            navigate("/analysis");
-        } catch (error) {
-            console.error("Error: ", error);
-        } finally {
-          setIsLoading(false);
-        }    
-        
+              //navigate("/analysis");
+              const result = await response.json();
+              console.log(result);
+              navigate("/analysis");
+          } catch (error) {
+              console.error("Error: ", error);
+          } finally {
+            setIsLoading(false);
+          } 
+        } 
     };
+
+    const isValidFile = (type) => {
+      const validExtensions = ['.ttl', '.rdf', '.xml'];
+      const filename = file.name.toLowerCase();
+      for (let i = 0; i < validExtensions.length; i++) {
+        if (filename.endsWith(validExtensions[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     const navigate = useNavigate();
     const goToHome = () => {
@@ -82,6 +97,7 @@ const UploadFile = () => {
                   required
                 />
               </div>
+              <p id="filetype">Invalid file type. Accepted file types: .ttl, .rdf, .xml</p>
               <button type="submit" className="upload-btn shadow-lg">
                 Upload File
               </button>

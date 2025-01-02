@@ -22,6 +22,7 @@ const Filter = (props) => {
     const [selectedCategoryList, setSelectedCategoryList] = useState(allCategories);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredResults, setFilteredResults] = useState([]);
+    const [searchQuerySelected, setSearchQuerySelected] = useState(false);
 
     // for the filtered results (dashboards)
     const [filterViews, setFilterViews] = useState([]); //list of all filters
@@ -58,11 +59,13 @@ const Filter = (props) => {
         type.toLowerCase().includes(input)
       );
       setFilteredResults(results);
+      setSearchQuerySelected(false);
     };
 
     const handleResultClick = (result) => {
         setSearchQuery(result);
-        setFilteredResults([result]);
+        setFilteredResults([]);
+        setSearchQuerySelected(true);
     }
 
     /*const handleFilter = async (event) => {
@@ -82,103 +85,119 @@ const Filter = (props) => {
     }*/
    
     const handleFilter = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
+        const invalidFilter = document.getElementById('invalidFilter');
+        if(!isValidFilter()) {
+            invalidFilter.style.display = 'flex';
+            return;
+        } else {
+            invalidFilter.style.display = 'none';
 
-        // special case: selected category is "All"
-        if(selectedCategory === "All") {
-            if(violationTypes.includes(searchQuery)) {
-                formData.append("category", "Violation Types");
+            event.preventDefault();
+            const formData = new FormData();
+
+            // special case: selected category is "All"
+            if(selectedCategory === "All") {
+                if(violationTypes.includes(searchQuery)) {
+                    formData.append("category", "Violation Types");
+                } 
+                else if (violatingNodes.includes(searchQuery)) {
+                    formData.append("category", "Violated FocusNodes");
+                } else {
+                    formData.append("category", "Violated ResultPaths");
+                }
             } 
-            else if (violatingNodes.includes(searchQuery)) {
-                formData.append("category", "Violated FocusNodes");
-            } else {
-                formData.append("category", "Violated ResultPaths");
+            // selected category is not "All"
+            else {
+                formData.append("category", selectedCategory);
             }
-        } 
-        // selected category is not "All"
-        else {
-            formData.append("category", selectedCategory);
+
+            formData.append("input", searchQuery)
+
+            let url = 'http://localhost:5000/filter';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    alert("image couldnt be send to backend", response.status);
+                    console.error("Request failed:", response.status);
+                }
+
+                const result = await response.json();
+                console.log(result);
+
+
+        /*       return{
+            "AnzahlViolations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
+            "most_violating_node": str(prefixEntfernenEinzeln(fscc_queryMostViolatingNode, graph)),
+            "most_frequent_resultPath" : str(prefixEntfernenEinzeln(fscc_queryMostViolatingResultPath, graph)),
+            "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, input), graph),
+            "result_path_occurance": prefixEntfernenMehrere(fscc_resultPathDistributionFunction(graph, input), graph)
+        }*/
+
+
+                //TODO Daten vom Backend!!!!
+                const data = {
+                    total_violations: result.data.anzahlViolations,
+                    total_violating_nodes: 45,
+                    total_violating_resultPaths: 56,
+                    most_violating_node: result.data.most_violating_node, //could be a list of strings
+                    most_frequent_resultPath: result.data.most_frequent_resultPath,
+                    most_frequent_violation_type: result.data.most_frequent_violation_type,
+                    violationTypes_occurance : result.data.violationTypes_occurance, 
+                    result_path_occurance: result.data.result_path_occurance,
+                    focusNode_violations: result.data.focusNode_violations
+
+                }
+
+
+
+                const testData = {
+                    total_violations: 123,
+                    total_violating_nodes: 45,
+                    total_violating_resultPaths: 56,
+                    most_violating_node: '"[node1]"', //could be a list of strings
+                    most_frequent_resultPath: '"[propertyA]"',
+                    most_frequent_violation_type: '"[MinCountConstraint]"',
+                    violationTypes_occurance : [
+                        {key: "datatype", value: 9},
+                        {key: "nodeShape", value: 8},
+                        {key: "propertyShape", value: 7}
+                    ],
+                    result_path_occurance: [
+                        {key: "propertyA", value: 9},
+                        {key: "propertyB", value: 8},
+                        {key: "propertyC", value: 7}
+                    ],
+                    focusNode_violations: [
+                        {key: "node1", value: 5}, 
+                        {key: "node2", value: 3}, 
+                        {key: "node3", value: 2}, 
+                        {key: "node4", value: 1}
+                    ]
+                }
+
+                addFilter(data);
+
+
+
+            } catch (error) {
+                console.error("Error: ", error);
+            }       
         }
-
-        formData.append("input", searchQuery)
-
-        let url = 'http://localhost:5000/filter';
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                alert("image couldnt be send to backend", response.status);
-                console.error("Request failed:", response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-     /*       return{
-        "AnzahlViolations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
-        "most_violating_node": str(prefixEntfernenEinzeln(fscc_queryMostViolatingNode, graph)),
-        "most_frequent_resultPath" : str(prefixEntfernenEinzeln(fscc_queryMostViolatingResultPath, graph)),
-        "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, input), graph),
-        "result_path_occurance": prefixEntfernenMehrere(fscc_resultPathDistributionFunction(graph, input), graph)
-    }*/
-
-
-            //TODO Daten vom Backend!!!!
-            const data = {
-                total_violations: result.data.anzahlViolations,
-                total_violating_nodes: 45,
-                total_violating_resultPaths: 56,
-                most_violating_node: result.data.most_violating_node, //could be a list of strings
-                most_frequent_resultPath: result.data.most_frequent_resultPath,
-                most_frequent_violation_type: result.data.most_frequent_violation_type,
-                violationTypes_occurance : result.data.violationTypes_occurance, 
-                result_path_occurance: result.data.result_path_occurance,
-                focusNode_violations: result.data.focusNode_violations
-
-            }
-
-
-
-            const testData = {
-                total_violations: 123,
-                total_violating_nodes: 45,
-                total_violating_resultPaths: 56,
-                most_violating_node: '"[node1]"', //could be a list of strings
-                most_frequent_resultPath: '"[propertyA]"',
-                most_frequent_violation_type: '"[MinCountConstraint]"',
-                violationTypes_occurance : [
-                    {key: "datatype", value: 9},
-                    {key: "nodeShape", value: 8},
-                    {key: "propertyShape", value: 7}
-                ],
-                result_path_occurance: [
-                    {key: "propertyA", value: 9},
-                    {key: "propertyB", value: 8},
-                    {key: "propertyC", value: 7}
-                ],
-                focusNode_violations: [
-                    {key: "node1", value: 5}, 
-                    {key: "node2", value: 3}, 
-                    {key: "node3", value: 2}, 
-                    {key: "node4", value: 1}
-                ]
-            }
-
-            addFilter(data);
-
-
-
-        } catch (error) {
-            console.error("Error: ", error);
-        }       
-        
     };
+
+    //check filter input
+    const isValidFilter = () => {
+        if(!selectedCategoryList.includes(searchQuery)) {
+            console.log("false");
+            return false;
+        }
+        return true;
+    }
 
     // adds filter
     const addFilter = (filterResult) => {
@@ -225,6 +244,7 @@ const Filter = (props) => {
 
         setSearchQuery("");
         setFilteredResults([]);
+        setSearchQuerySelected(false);
         refsFilterViews.current[newId] = React.createRef();
         setNewlyAddedFilter(newId);
     }
@@ -289,10 +309,13 @@ const Filter = (props) => {
                             {result}
                             </li>
                         ))
-                        ) : searchQuery ? (
+                        ) : searchQuerySelected ? (<></>) 
+                        : searchQuery ? (
                         <li style={{ color: "red" }}>no results found</li>
                         ) : null}
                     </ul>
+
+                    <p id='invalidFilter'>Invalid Filter. Filter is not included in selected category.</p>
 
                 </div>
             </div>
@@ -306,9 +329,13 @@ const Filter = (props) => {
                             <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
                         </div>
                         <div style={{ marginRight: '10px' }}>{filterView.filter}</div>
+                        <div className='download-container'>
+                            <button className='download-btn'>Download</button>
+                        </div>
                     </div>
                 ))}
             </div>
+
 
         </div>
     );

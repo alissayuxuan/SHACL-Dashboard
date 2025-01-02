@@ -27,9 +27,10 @@ body {
 .navbar {
     display: flex;
     align-items: center;
-    background-color: #5b4db3;
+    background-color: #302962;
     color: white;
-    padding-right: 1rem; /*TODO: oder in die mitte?? wie mache ich das??*/
+    padding-right: 3rem; 
+    margin-bottom: 1.5rem;
 }
 
 .menu-button-open {
@@ -109,10 +110,4 @@ body {
 .main-content.menu-open {
     margin-left: 250px;
 }
-
-
-
-
-
-
 
