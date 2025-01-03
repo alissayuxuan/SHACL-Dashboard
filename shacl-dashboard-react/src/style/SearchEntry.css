@@ -9,9 +9,7 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 40px;
     margin-top: 20px;
-    background-color: violet;
     padding: 0 70px;
   }
   
@@ -88,9 +86,19 @@
 
   /* Invalid Input */
   .invalidInput-container {
-    background-color: yellowgreen;
+    margin-top: 10px;
     display: flex;
-    margin: 0 20%;
+    align-items: center;
+    justify-content: center;
+    color: red;
+  }
+
+  #invalidSearch-noInput {
+    display: none;
+  }
+
+  #invalidSearch-input {
+    display: none;
   }
 
   /* Download */
@@ -112,7 +120,7 @@
   }
 
   /* Result Panel */
-  .resultPanel {
+  #resultPanel {
     padding: 20px;
     margin-top: 8px;
     width: 100%;

@@ -7,6 +7,9 @@ import '../style/Filter.css';
 import ViolationTypeFilter from './ViolationTypeFilter';
 import ViolatedNodePath from './ViolatedNodePath';
 
+import html2pdf from 'html2pdf.js';
+
+
 
 
 
@@ -180,7 +183,7 @@ const Filter = (props) => {
                     ]
                 }
 
-                addFilter(data);
+                addFilter(result.data);
 
 
 
@@ -193,7 +196,6 @@ const Filter = (props) => {
     //check filter input
     const isValidFilter = () => {
         if(!selectedCategoryList.includes(searchQuery)) {
-            console.log("false");
             return false;
         }
         return true;
@@ -260,6 +262,31 @@ const Filter = (props) => {
         setFilterViews(filterViews.filter((filterView) => filterView.id !== id));
         delete refsFilterViews.current[id];
     };
+
+    // download filter
+    const downloadFilter = (filterID, filterName) => {
+        const filter = document.getElementById('filter-' + filterID);
+
+        // add header
+        const header = document.createElement('header');
+        header.style.textAlign = 'center';
+        header.style.marginBottom = '30px';
+        header.style.color = 'black';
+        header.innerHTML = '<h2>'+ filterName +'</h2>';
+
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(header);
+        wrapper.appendChild(filter.cloneNode(true));
+
+        const options = {
+            margin: 15,
+            filename: filterName + '.pdf',
+            html2canvas: { scale: 2 }, // better quality
+            jsPDF: { format: 'a4', orientation: 'landscape' },
+          };
+
+        html2pdf().set(options).from(wrapper).save();
+    }
 
 
 
@@ -328,9 +355,9 @@ const Filter = (props) => {
                             <h3>{filterView.name}</h3>
                             <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
                         </div>
-                        <div style={{ marginRight: '10px' }}>{filterView.filter}</div>
+                        <div style={{ marginRight: '10px' }} id={'filter-' + filterView.id}>{filterView.filter}</div>
                         <div className='download-container'>
-                            <button className='download-btn'>Download</button>
+                            <button className='download-btn' onClick={() => downloadFilter(filterView.id, filterView.name)}>Download</button>
                         </div>
                     </div>
                 ))}
