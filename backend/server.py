@@ -24,6 +24,7 @@ def home():
 def handle_upload(): 
     file = request.files['file']
     global graph
+    graph = Graph()
     graph.parse(file, format='turtle')  
     return upload_file(graph)  # Call the function from uploadFile.py
 
