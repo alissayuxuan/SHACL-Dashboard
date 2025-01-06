@@ -1,16 +1,15 @@
 // main overview of the dashboard
 
 import React, { useEffect, useState, useRef } from 'react';
-import '../style/Analysis.css';
-import '../style/ChooseFilter.css';
 import '../style/Filter.css';
 import ViolationTypeFilter from './ViolationTypeFilter';
 import ViolatedNodePath from './ViolatedNodePath';
 
 import html2pdf from 'html2pdf.js';
 
-
-
+// Material UI
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const Filter = (props) => {
@@ -32,6 +31,9 @@ const Filter = (props) => {
     const refsFilterViews = useRef({}); // to jump to the filter component when added
     const [newlyAddedFilter, setNewlyAddedFilter] = useState(null); // saves the newly added filter -> for scrolling purposes
   
+    // loading
+    const [isLoading, setIsLoading] = useState(false);
+
     /* Functions */
 
     const handleCategoryClick = (category) => {
@@ -71,21 +73,6 @@ const Filter = (props) => {
         setSearchQuerySelected(true);
     }
 
-    /*const handleFilter = async (event) => {
-        event.preventDefault();
-        try {
-            let url = 'http://localhost:5000/filter'
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({selectedCategory, searchQuery}),
-            });
-            const data = await response.json();
-            console.log('Response: ', data);
-        } catch (error) {
-            console.error('Error: ', error);
-        }
-    }*/
    
     const handleFilter = async (event) => {
         const invalidFilter = document.getElementById('invalidFilter');
@@ -97,6 +84,8 @@ const Filter = (props) => {
 
             event.preventDefault();
             const formData = new FormData();
+
+            setIsLoading(true);
 
             // special case: selected category is "All"
             if(selectedCategory === "All") {
@@ -130,65 +119,14 @@ const Filter = (props) => {
                 }
 
                 const result = await response.json();
-                console.log(result);
-
-
-        /*       return{
-            "AnzahlViolations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
-            "most_violating_node": str(prefixEntfernenEinzeln(fscc_queryMostViolatingNode, graph)),
-            "most_frequent_resultPath" : str(prefixEntfernenEinzeln(fscc_queryMostViolatingResultPath, graph)),
-            "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, input), graph),
-            "result_path_occurance": prefixEntfernenMehrere(fscc_resultPathDistributionFunction(graph, input), graph)
-        }*/
-
-
-                //TODO Daten vom Backend!!!!
-                const data = {
-                    total_violations: result.data.anzahlViolations,
-                    total_violating_nodes: 45,
-                    total_violating_resultPaths: 56,
-                    most_violating_node: result.data.most_violating_node, //could be a list of strings
-                    most_frequent_resultPath: result.data.most_frequent_resultPath,
-                    most_frequent_violation_type: result.data.most_frequent_violation_type,
-                    violationTypes_occurance : result.data.violationTypes_occurance, 
-                    result_path_occurance: result.data.result_path_occurance,
-                    focusNode_violations: result.data.focusNode_violations
-
-                }
-
-
-
-                const testData = {
-                    total_violations: 123,
-                    total_violating_nodes: 45,
-                    total_violating_resultPaths: 56,
-                    most_violating_node: '"[node1]"', //could be a list of strings
-                    most_frequent_resultPath: '"[propertyA]"',
-                    most_frequent_violation_type: '"[MinCountConstraint]"',
-                    violationTypes_occurance : [
-                        {key: "datatype", value: 9},
-                        {key: "nodeShape", value: 8},
-                        {key: "propertyShape", value: 7}
-                    ],
-                    result_path_occurance: [
-                        {key: "propertyA", value: 9},
-                        {key: "propertyB", value: 8},
-                        {key: "propertyC", value: 7}
-                    ],
-                    focusNode_violations: [
-                        {key: "node1", value: 5}, 
-                        {key: "node2", value: 3}, 
-                        {key: "node3", value: 2}, 
-                        {key: "node4", value: 1}
-                    ]
-                }
+                console.log("RESULT:\n", result);
 
                 addFilter(result.data);
 
-
-
             } catch (error) {
                 console.error("Error: ", error);
+            } finally {
+                setIsLoading(false);
             }       
         }
     };
@@ -363,6 +301,13 @@ const Filter = (props) => {
                 ))}
             </div>
 
+            {/* Loading */}
+            <Backdrop
+            sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+            open={isLoading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
 
         </div>
     );

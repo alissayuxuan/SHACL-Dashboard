@@ -1,9 +1,7 @@
 // main overview of the dashboard
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Plot from 'react-plotly.js'
-import '../style/Analysis.css';
 import '../style/Overview.css';
 
 import html2pdf from 'html2pdf.js';
@@ -28,8 +26,8 @@ const Overview = (props) => {
     const top10_violatingPaths_values = result.result_path_occurance.map(item => item.value).slice(0, 10); 
     
     //TODO pie chart: "sonstiges"
-
-    // download dashboard
+    
+  // download dashboard
     const downloadDashboard = () => {
         const dashboard = document.getElementById('dashboard-pdf');
 
@@ -223,6 +221,7 @@ const Overview = (props) => {
                     </div>
                 </div>
                 </div>
+
             </div>
 
             <div className='download-container'>

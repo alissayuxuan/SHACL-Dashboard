@@ -1,33 +1,19 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Model from 'react-modal';
 import '../style/Home.css';
 
 function Home() {
   const navigate = useNavigate();
 
+  const [overviewFeatureOpen, setOverviewFeatureOpen] = useState(false);
+  const [filterFeatureOpen, setFilterFeatureOpen] = useState(false);
+  const [searchFeatureOpen, setSearchFeatureOpen] = useState(false);
+  const [downloadFeatureOpen, setDownloadFeatureOpen] = useState(false);
+
   const goToUploadFile = () => {
     navigate('/upload');
   };
-  /*
-  return (
-    <div className="main-container">
-      <img></img>
-      <div className="text-center">
-        <h1 className="display-4 mb-4" id="main-header">SHACL Dashboard</h1>
-        <p className="lead text-muted mb-5">A professional tool for analyzing your SHACL validation reports.</p>
-        <button
-          onClick={goToUploadFile}
-          className="custom-btn btn-lg px-5 py-3 shadow-lg"
-        >
-          Upload File
-        </button>
-      </div>
-      <footer className="mt-auto text-center text-muted py-4">
-        <p>&copy; 2024 SHACL Dashboard | Developed by Alissa Wang and Lukas Manz</p>
-      </footer>
-    </div>
-  );
-  */
 
  return (
     <div className="main-container">
@@ -64,66 +50,97 @@ function Home() {
           <div className="feature">
             <img className="feature-img" src="/images/dash1.png" alt="Feature 1" />
             <h3>Visualize Data</h3>
-            <p>Get an interactive dashboard for your validation reports.</p>
-            <button className="feature-btn">Learn more</button>
+            <p>Visualize the data of your validation report in a dashboard.</p>
+            <button className="feature-btn" onClick={() => setOverviewFeatureOpen(true)}>Learn more</button>
           </div>
+
+          <Model isOpen={overviewFeatureOpen} onRequestClose={() => setOverviewFeatureOpen(false)} className="feature-model">
+            <div className="feature-container">
+              <button className="feature-closeButton" onClick={() => setOverviewFeatureOpen(false)}>&times;</button>
+              <h1>Visualize Data</h1>
+              <p>Upload your validation report, and we'll create an overview dashboard with all the information you need at a glance.</p>
+              <div className="feature-content">
+                <img className="featureInstruction-img" src="/images/overviewFeature1.png" alt="Feature 1" />
+                <img className="featureInstruction-img" src="/images/overviewFeature2.png" alt="Feature 2" />
+                <img className="featureInstruction-img" src="/images/overviewFeature3.png" alt="Feature 3" />
+                <img className="featureInstruction-img" src="/images/overviewFeature4.png" alt="Feature 4" />
+              </div>
+            </div>
+          </Model>
+
           <div className="feature">
             <img className="feature-img" src="/images/dash2.png" alt="Feature 2" />
             <h3>Analyze Violations</h3>
             <p>Break down constraint violations and pinpoint problems.</p>
-            <button className="feature-btn">Learn more</button>
+            <button className="feature-btn" onClick={() => setFilterFeatureOpen(true)}>Learn more</button>
           </div>
+
+          <Model isOpen={filterFeatureOpen} onRequestClose={() => setFilterFeatureOpen(false)} className="feature-model">
+            <div className="feature-container">
+              <button className="feature-closeButton" onClick={() => setFilterFeatureOpen(false)}>&times;</button>
+              <h1>Analyze Violations</h1>
+              <p>Filter the data to focus on specific details, and we’ll generate a customized dashboard tailored to your needs.</p>
+              <div className="feature-content">
+                <img className="featureInstruction-img" src="/images/filterFeature1.png" alt="Feature 1" />
+                <br/>
+                <p>When a search is performed, a filter component is generated, displaying all relevant information for that category.
+                The displayed Information is specific to the filtered category.
+                </p>
+                <br/>
+                <img className="featureInstruction-img" src="/images/filterFeature2.png" alt="Feature 2" />
+                <img className="featureInstruction-img" src="/images/filterFeature3.png" alt="Feature 3" />
+                <img className="featureInstruction-img" src="/images/filterFeature4.png" alt="Feature 4" />
+                <br/>
+                <br/>
+                <img className="featureInstruction-img" src="/images/filterFeature5.png" alt="Feature 5" />
+                <br/>
+                <br/>
+                <img className="featureInstruction-img" src="/images/filterFeature6.png" alt="Feature 6" />
+
+              </div>
+            </div>
+          </Model>
+
           <div className="feature">
             <img className="feature-img" src="/images/dash2.png" alt="Feature 3" />
             <h3>Search Violations</h3>
             <p>Filter out certain violations based on your individualized search.</p>
-            <button className="feature-btn">Learn more</button>
+            <button className="feature-btn" onClick={() => setSearchFeatureOpen(true)}>Learn more</button>
           </div>
+
+          <Model isOpen={searchFeatureOpen} onRequestClose={() => setSearchFeatureOpen(false)} className="feature-model">
+            <div className="feature-container">
+              <button className="feature-closeButton" onClick={() => setSearchFeatureOpen(false)}>&times;</button>
+              <h1>Search Violations</h1>
+              <p>Apply your filters, and we'll find all violation entries in the validation report that match your criteria.</p>
+              <div className="feature-content">
+                
+              </div>
+            </div>
+          </Model>
+
           <div className="feature">
             <img className="feature-img" src="/images/dash3.png" alt="Feature 4" />
             <h3>Export Insights</h3>
             <p>Download summarized reports for easy sharing and documentation.</p>
-            <button className="feature-btn">Learn more</button>
+            <button className="feature-btn" onClick={() => setDownloadFeatureOpen(true)}>Learn more</button>
           </div>
         </div>
 
-
-        {/* Instruction Section */}
-        {/* <h1>How to use our tool.</h1>
-        <div className="instructions">
-          <div className="instruction">
-            <img className="instruction-img" src="/images/dashboard_img.png" alt="Feature 1" />
-            <div className="instruction-description">
-              <h2>1. Upload Data</h2>
-              <p>Upload your SHACL Validation Report in .ttl/.xml/.rdf format.</p>
+        <Model isOpen={downloadFeatureOpen} onRequestClose={() => setDownloadFeatureOpen(false)} className="feature-model">
+            <div className="feature-container">
+              <button className="feature-closeButton" onClick={() => setDownloadFeatureOpen(false)}>&times;</button>
+              <h1>Export Insights</h1>
+              <p>You can download all dashboards as PDFs.</p>
+              <div className="feature-content">
+                <img className="overviewFeature-img" src="/images/overviewFeature1.png" alt="Feature 1" />
+                <img className="overviewFeature-img" src="/images/overviewFeature2.png" alt="Feature 2" />
+                <img className="overviewFeature-img" src="/images/overviewFeature3.png" alt="Feature 3" />
+                <img className="overviewFeature-img" src="/images/overviewFeature4.png" alt="Feature 4" />
+              </div>
             </div>
-          </div>
+          </Model>
 
-          <div className="instruction">
-            <div className="instruction-description">
-              <h2>2. Overview Dashboard</h2>
-              <p>The main statistics of your SHACL Validation Report will be displayed in an Overview Dashboard.</p>
-            </div>
-            <img className="instruction-img" src="/images/dash1.png" alt="Feature 2" />
-          </div>
-
-          <div className="instruction">
-            <img className="instruction-img" src="/images/dash2.png" alt="Feature 3" />
-            <div className="instruction-description">            
-              <h2>3. Filter Dashboard</h2>
-              <p>Filter out which ViolationTypes/ FocusNodes/ ResultPaths you want to have a closer look at. The analyzed statistics will be displayed in a Filter Dashboard.</p>
-            </div>
-          </div>
-
-          <div className="instruction">
-            <img className="instruction-img" src="/images/dash2.png" alt="Feature 3" />
-            <div className="instruction-description">            
-              <h2>4. Search Violation</h2>
-              <p>Enter information of ViolationType, FocusNode, ResultPath and display all Violation Entries in your SHACL Validation Report that meet your request. </p>
-            </div>
-          </div>
-
-        </div>*/}
         <h1 className="title" id="InstructionSection">How to use our tool.</h1>
         <div className="instructions">
           <div className="instruction">

@@ -117,7 +117,7 @@ const UploadFile = () => {
           
 
           <footer className="footer">
-            <p>&copy; 2024 SHACL Dashboard | Developed by Alissa Wang and Lukas Manz</p>
+            <p>&copy; 2025 SHACL Dashboard | Developed by Alissa Wang and Lukas Manz</p>
           </footer>
         </div>
       );

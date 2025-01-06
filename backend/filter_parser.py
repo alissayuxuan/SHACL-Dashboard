@@ -127,7 +127,7 @@ def filterNode(graph, input):
     LIMIT 1 
     """
     return {
-        "anzahlViolations": extract_sparql_result(graph.query(fn_queryGesamtzahlViolations)), 
+        "total_violations": extract_sparql_result(graph.query(fn_queryGesamtzahlViolations)), 
         "most_frequent_violation_type": prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(fn_queryMostFrequentViolationtype))), graph),
         "violationTypes_occurance": prefixEntfernenMehrere(fn_sourceConstraintComponentDistribution(graph, input), graph)
     }
@@ -192,7 +192,7 @@ def filterResultPath(graph, input):
     LIMIT 1 
 """
     return {
-        "anzahlViolations": extract_sparql_result(graph.query(frp_queryGesamtzahlViolations)), 
+        "total_violations": extract_sparql_result(graph.query(frp_queryGesamtzahlViolations)), 
         "most_frequent_violation_type": prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(frp_queryMostFrequentViolationtype))), graph),
         "violationTypes_occurance": prefixEntfernenMehrere(frp_sourceConstraintComponentDistribution(graph, inputNeu), graph),
     }
@@ -282,7 +282,7 @@ LIMIT 1
 
     
     return{
-        "anzahlViolations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
+        "total_violations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
         "most_violating_node": str(prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(fscc_queryMostViolatingNode))), graph)),
         "most_frequent_resultPath" : str(prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(fscc_queryMostViolatingResultPath))), graph)),
         "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, inputNeu), graph),
