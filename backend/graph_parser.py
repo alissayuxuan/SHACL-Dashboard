@@ -9,6 +9,7 @@ from flask import jsonify
 
 
 listePrefixe = []
+prefix_dict = {}
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -203,11 +204,17 @@ def prefixEntfernenEinzeln(eingabe, g):
     for a,b in namespaces.items():
         if eingabe.startswith("['" + a) or eingabe.startswith(a):
             listePrefixe.append(a)
+            cut_off_input = eingabe.replace(a, "") #Alissa
+            prefix_dict[cut_off_input] = a #Alissa -> save prefix in dict
             print("neuer Prefix: ", a)
-            return eingabe.replace(a, "")
+            return cut_off_input#eingabe.replace(a, "")
     return eingabe
 
 def prefixEntfernenMehrere(eingabe, g):
     for a in eingabe:
         a['key'] = prefixEntfernenEinzeln(a['key'], g)
     return eingabe
+
+#Alissa -> to access prefix_dict from another file
+def get_prefix_dict():
+    return prefix_dict
