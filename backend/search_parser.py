@@ -1,7 +1,7 @@
 from rdflib import Graph, Namespace
 from flask import jsonify
 
-from graph_parser import get_prefix_dict
+from graph_parser import get_prefix_dict, extract_sparql_result
 
 # Define SHACL namespace
 SH = Namespace("http://www.w3.org/ns/shacl#")
@@ -27,22 +27,29 @@ def search(graph: Graph, violation_type=None, focus_node=None, result_path=None)
         
     """
 
+    count_query = """
+        SELECT (COUNT(?result) as ?c)
+        WHERE {
+            ?report sh:result ?result .
+    """
+
     if violation_type:
         sparql_query += f'?result sh:sourceConstraintComponent <{addPrefix(violation_type)}> .\n'
+        count_query += f'?result sh:sourceConstraintComponent <{addPrefix(violation_type)}> .\n'
+
     if focus_node:
         sparql_query += f'?result sh:focusNode <{addPrefix(focus_node)}> .\n'
+        count_query += f'?result sh:focusNode <{addPrefix(focus_node)}> .\n'
+
     if result_path:
         sparql_query += f'?result sh:resultPath <{addPrefix(result_path)}> .\n'
+        count_query += f'?result sh:resultPath <{addPrefix(result_path)}> .\n'
 
     sparql_query += "}"
+    count_query += "}"
 
-    print(f"\033[32m query: \n{sparql_query}\033[0m")
-
-    # Execute the query
     results = graph.query(sparql_query)
-
-    print(f"\033[33m results: \n{results}\033[0m")
-
+    total_entries = graph.query(count_query)
 
     # If matches are found, convert them to a formatted string
     result_entries = []
@@ -56,14 +63,14 @@ def search(graph: Graph, violation_type=None, focus_node=None, result_path=None)
 
     # Format the output with line breaks
     pretty_output = "\n\n".join(result_entries)
-
-    # Print the formatted output
-    print("\033[34mFormatted Output:\033[0m\n")
     print(pretty_output)
 
-    # Return the result as a JSON response
+    # Return the result as JSON response
     if result_entries:
-        return jsonify({"violationEntries": "\n".join(result_entries)})
+        return jsonify({
+            "violation_entries": "\n".join(result_entries),
+            "total_entries" : extract_sparql_result(total_entries)
+        })
     else:
         return jsonify({"message": "No matching validation result found", "violationEntries": ""})
 

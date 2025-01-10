@@ -12,10 +12,6 @@
     margin-top: 20px;
     padding: 0 70px;
   }
-  
-  .search-card {
-    /*width: 100%;*/
-  }
 
   .search-input-container {
     display: flex;
@@ -121,15 +117,22 @@
 
   /* Result Panel */
   #resultPanel {
-    padding: 20px;
-    margin-top: 8px;
+    padding: 50px;
+    margin-top: 10px;
     width: 100%;
     background-color: white;
     border: 1px solid #ccc;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: left;
     white-space: pre-wrap;
+  }
+
+  .totalEntries {
+    text-align: right;
+    width: 100%;
+    font-size: 15px;
   }

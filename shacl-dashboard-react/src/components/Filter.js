@@ -11,6 +11,10 @@ import html2pdf from 'html2pdf.js';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
+const getInitialFilterViews = () => {
+    const filterViewsData = localStorage.getItem("filter-views");
+    return filterViewsData ? JSON.parse(filterViewsData) : [];
+}
 
 const Filter = (props) => {
 
@@ -27,7 +31,7 @@ const Filter = (props) => {
     const [searchQuerySelected, setSearchQuerySelected] = useState(false);
 
     // for the filtered results (dashboards)
-    const [filterViews, setFilterViews] = useState([]); //list of all filters
+    const [filterViews, setFilterViews] = useState(getInitialFilterViews()); //list of all filters
     const refsFilterViews = useRef({}); // to jump to the filter component when added
     const [newlyAddedFilter, setNewlyAddedFilter] = useState(null); // saves the newly added filter -> for scrolling purposes
   
@@ -145,11 +149,12 @@ const Filter = (props) => {
 
         console.log("selected Category: ", selectedCategory);
         if(selectedCategory === "All") {
-            //if(searchQuery in violationTypes) { //TODO: wie schaut man, ob was in ner Liste vorhanden ist????
             if(violationTypes.includes(searchQuery)) {
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
-                    id: newId, 
+                    id: newId,
+                    filter_type: "ViolationTypeFilter",
+                    result: filterResult, 
                     filter: <ViolationTypeFilter
                                 name={searchQuery}
                                 result={filterResult}/>
@@ -160,6 +165,8 @@ const Filter = (props) => {
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
                     id: newId, 
+                    filter_type: "ViolatedNodePath",
+                    result: filterResult,
                     filter: <ViolatedNodePath
                                 result={filterResult}/>
                 }])
@@ -168,26 +175,58 @@ const Filter = (props) => {
         if(selectedCategoryList === violationTypes) {
             setFilterViews([...filterViews, { 
                 name: searchQuery, 
-                id: newId, 
-                filter: <ViolationTypeFilter 
-                            name={searchQuery}
-                            result={filterResult}/>
+                id: newId,
+                filter_type: "ViolationTypeFilter",
+                result: filterResult,
+                //filter: <ViolationTypeFilter 
+                //            name={searchQuery}
+                //            result={filterResult}/>
             }])
         } else {
             setFilterViews([...filterViews, { 
                 name: searchQuery, 
                 id: newId, 
-                filter: <ViolatedNodePath 
-                            result={filterResult}/>
+                filter_type: "ViolatedNodePath",
+                result: filterResult,
+                //filter: <ViolatedNodePath 
+                //            result={filterResult}/>
             }])
         }
 
+        console.log("filterViews: \n", filterViews);
         setSearchQuery("");
         setFilteredResults([]);
         setSearchQuerySelected(false);
         refsFilterViews.current[newId] = React.createRef();
         setNewlyAddedFilter(newId);
     }
+
+    // stores filterViews in local storage
+    useEffect(() => {
+        localStorage.setItem("filter-views", JSON.stringify(filterViews));
+    }, [filterViews]);
+
+    // retrieves filterViews from local storage
+    useEffect(() => {
+        const filterViewsData = localStorage.getItem("filter-views");
+        //console.log("Retrieved filter views from local storage:", filterViewsData);
+        if (filterViewsData) {
+            const parsedFilters = JSON.parse(filterViewsData);
+
+            /*const restoredFilters = parsedFilters.map(filterView => ({
+                ...filterView,
+                filter: filterView.filter_type === "ViolationTypeFilter"
+                    ? <ViolationTypeFilter name={filterView.name} result={filterView.result} />
+                    : <ViolatedNodePath result={filterView.result} />
+            }));
+
+            console.log("Restored Filters:", restoredFilters);
+            */
+
+            //setFilterViews(restoredFilters);
+            setFilterViews(parsedFilters)
+        }
+    }, []);
 
     // when a filter is added, the useEffect is called to scroll to that filter in the list
     useEffect(() => {
@@ -287,13 +326,29 @@ const Filter = (props) => {
 
             {/*filtered results */}
             <div style={{ marginTop: "20px" }}>
-                {filterViews.map((filterView) => (
+                {/*{filterViews.map((filterView) => (
                     <div key={filterView.id} ref={refsFilterViews.current[filterView.id]} style={{ marginTop: "30px" }}>
                         <div className="filter-title">
                             <h3>{filterView.name}</h3>
                             <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
                         </div>
                         <div style={{ marginRight: '10px' }} id={'filter-' + filterView.id}>{filterView.filter}</div>
+                        <div className='download-container'>
+                            <button className='download-btn' onClick={() => downloadFilter(filterView.id, filterView.name)}>Download</button>
+                        </div>
+                    </div>
+                ))} */}
+                {filterViews.map((filterView) => (
+                    <div key={filterView.id} ref={refsFilterViews.current[filterView.id]} style={{ marginTop: "30px" }}>
+                        <div className="filter-title">
+                            <h3>{filterView.name}</h3>
+                            <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
+                        </div>
+                        <div style={{ marginRight: '10px' }} id={'filter-' + filterView.id}>
+                            {filterView.filter_type === "ViolationTypeFilter" ? 
+                                <ViolationTypeFilter name={filterView.name} result={filterView.result}/> :
+                                <ViolatedNodePath result={filterView.result}/>
+                        }</div>
                         <div className='download-container'>
                             <button className='download-btn' onClick={() => downloadFilter(filterView.id, filterView.name)}>Download</button>
                         </div>

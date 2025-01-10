@@ -1,19 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../style/SearchEntry.css';
 
 import html2pdf from 'html2pdf.js';
+
+// getInitial useStates -> so local storage doesn't get resetted
+const getInitialViolationEntries = () => {
+    const violationEntriesData = localStorage.getItem("violation-entries");
+    return violationEntriesData ? JSON.parse(violationEntriesData) : "";
+}
+
+const getInitialHasSearchResult = () => {
+    const hasSearchResultData = localStorage.getItem("has-searchResult");
+    return hasSearchResultData ? JSON.parse(hasSearchResultData) : "";
+}
+
+const getInitialViolationTypeSearch = () => {
+    const violationTypeSearchData = localStorage.getItem("violationType-search");
+    return violationTypeSearchData ? JSON.parse(violationTypeSearchData) : "";
+}
+
+const getInitialFocusNodeSearch = () => {
+    const focusNodeSearchData = localStorage.getItem("focusNode-search");
+    return focusNodeSearchData ? JSON.parse(focusNodeSearchData) : "";
+}
+
+const getInitialResultPathSearch = () => {
+    const resultPathSearchData = localStorage.getItem("resultPath-search");
+    return resultPathSearchData ? JSON.parse(resultPathSearchData) : "";
+}
+
+const getInitialTotalEntries = () => {
+    const totalEntriesData = localStorage.getItem("total-searcf-entries");
+    return totalEntriesData ? JSON.parse(totalEntriesData) : 0;
+}
 
 function SearchEntry(props) {
 
     const { violationTypes, violatingNodes, violatingPaths } = props;
 
-    const [violationTypeSearch, setViolationTypeSearch] = useState("");
+    const [violationTypeSearch, setViolationTypeSearch] = useState(getInitialViolationTypeSearch());
     const [violationTypeResults, setViolationTypeResult] = useState([]);
     
-    const [focusNodeSearch, setFocusNodeSearch] = useState("");
+    const [focusNodeSearch, setFocusNodeSearch] = useState(getInitialFocusNodeSearch());
     const [focusNodeResults, setFocusNodeResult] = useState([]);
 
-    const [resultPathSearch, setResultPathSearch] = useState("");
+    const [resultPathSearch, setResultPathSearch] = useState(getInitialResultPathSearch());
     const [resultPathResults, setResultPathResult] = useState([]);
 
     const [violationTypeSelected, setViolationTypeSelected] = useState(false);
@@ -21,10 +52,12 @@ function SearchEntry(props) {
     const [resultPathSelected, setResultPathSelected] = useState(false);
 
     //violation entries
-    const [violationEntries, setViolationEntries] = useState("");
-    const [hasResult, setHasResult] = useState(false);
+    const [violationEntries, setViolationEntries] = useState(getInitialViolationEntries());
+    const [hasResult, setHasResult] = useState(getInitialHasSearchResult());
+    const [totalEntries, setTotalEntries] = useState(getInitialTotalEntries());
 
-    // Violation Type Search
+
+    // Violation Type Input Search
     const handleViolationTypeChange = (e) => {
         const input = e.target.value.toLowerCase();
         setViolationTypeSearch(input);
@@ -48,7 +81,7 @@ function SearchEntry(props) {
         setViolationTypeSelected(true);      
     }
 
-    // FocusNode Search
+    // FocusNode Input Search
     const handleFocusNodeChange = (e) => {
         const input = e.target.value.toLowerCase();
         setFocusNodeSearch(input);
@@ -72,7 +105,7 @@ function SearchEntry(props) {
         setFocusNodeSelected(true);
     }
 
-    // ResultPath Search
+    // ResultPath Input Search
     const handleResultPathChange = (e) => {
         const input = e.target.value.toLowerCase();
         setResultPathSearch(input);
@@ -134,8 +167,9 @@ function SearchEntry(props) {
             //setViolationEntries(response);
 
 
-            if (result.violationEntries) {
-                setViolationEntries(result.violationEntries);
+            if (result.violation_entries) {
+                setViolationEntries(result.violation_entries);
+                setTotalEntries(result.total_entries);
             } else {
                 setViolationEntries(result.message);
             }
@@ -147,6 +181,54 @@ function SearchEntry(props) {
             console.error("Error: ", error);
         }
     }
+
+    // stores violationEntries into the local storage
+    useEffect(() => {
+        localStorage.setItem("violation-entries", JSON.stringify(violationEntries));
+        localStorage.setItem("has-searchResult", JSON.stringify(hasResult));
+        localStorage.setItem("total-search-entries", JSON.stringify(totalEntries));
+
+        localStorage.setItem("violationType-search", JSON.stringify(violationTypeSearch));
+        localStorage.setItem("focusNode-search", JSON.stringify(focusNodeSearch));
+        localStorage.setItem("resultPath-search", JSON.stringify(resultPathSearch));
+    }, [violationEntries, hasResult, totalEntries, violationTypeSearch, focusNodeSearch, resultPathSearch]);
+
+    // retrieves violationEntries from local storage
+    useEffect(() => {
+        const violationEntriesData = localStorage.getItem("violation-entries");
+        if (violationEntriesData) {
+          setViolationEntries(JSON.parse(violationEntriesData));
+        }
+
+        const hasSearchResultData = localStorage.getItem("has-searchResult");
+        if (hasSearchResultData) {
+          setHasResult(JSON.parse(hasSearchResultData));
+        }
+
+        const totalEntriesData = localStorage.getItem("total-search-entries");
+        if (totalEntriesData) {
+          setTotalEntries(JSON.parse(totalEntriesData));
+        }
+
+        const violationTypeSearchData = localStorage.getItem("violationType-search");
+        if (violationTypeSearchData) {
+            setViolationTypeSearch(JSON.parse(violationTypeSearchData));
+            setViolationTypeSelected(true);
+        }
+
+        const focusNodeSearchData = localStorage.getItem("focusNode-search");
+        if (focusNodeSearchData) {
+            setFocusNodeSearch(JSON.parse(focusNodeSearchData));
+            setFocusNodeSelected(true);
+
+        }
+
+        const resultPathSearchData = localStorage.getItem("resultPath-search");
+        if (resultPathSearchData) {
+            setResultPathSearch(JSON.parse(resultPathSearchData));
+            setResultPathSelected(true);
+        }
+    }, []);
 
     // Check invalid inputs
     const isValidSearch = () => {
@@ -302,6 +384,7 @@ function SearchEntry(props) {
                 </div>
 
                 <div id="resultPanel">
+                    <p className="totalEntries">Total Entries Found: {totalEntries}</p>
                     {violationEntries}
                 </div>
             </div>

@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 
 
 const UploadFile = () => {
+    localStorage.clear();
 
     // shacl validation report upload
     const [file, setFile] = useState(null);

@@ -6,6 +6,17 @@ import SearchEntry from './SearchEntry';
 import '../style/Dashboard.css';
 
 
+// getInitial useStates
+const getInitialIsOverview = () => {
+    const isOverviewData = localStorage.getItem("is-overview");
+    return isOverviewData ? JSON.parse(isOverviewData) : true;
+}
+
+const getInitialIsFilterview = () => {
+    const isFilterviewData = localStorage.getItem("is-filterview");
+    return isFilterviewData ? JSON.parse(isFilterviewData) : false;
+}
+
 const Dashboard = () => {
     // saves data from backend
     const [result, setResult] = useState(null);
@@ -17,8 +28,8 @@ const Dashboard = () => {
 
     // side menu
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isOverview, setIsOverview] = useState(true);
-    const [isFilterView, setIsFilterView] = useState(false);
+    const [isOverview, setIsOverview] = useState(getInitialIsOverview());
+    const [isFilterView, setIsFilterView] = useState(getInitialIsFilterview());
 
     // Functions
     const toggleMenu = () => {
@@ -40,7 +51,25 @@ const Dashboard = () => {
         setIsFilterView(false);
     }
 
+    // stores in local storage
+    useEffect(() => {
+        localStorage.setItem("is-overview", JSON.stringify(isOverview));
+        localStorage.setItem("is-filterview", JSON.stringify(isFilterView));
+    }, [isOverview, isFilterView]);
     
+    // retrieves from local storage
+    React.useEffect(() => {
+        const isOverviewData = localStorage.getItem("is-overview");
+        if (isOverviewData) {
+          setIsOverview(JSON.parse(isOverviewData));
+        }
+
+        const isFilterViewData = localStorage.getItem("is-filterview");
+        if(isFilterViewData) {
+            setIsFilterView(JSON.parse(isFilterViewData));
+        }
+      }, []);
+
     // fetches data from backend
     useEffect(() => {
         const fetchResult = async () => {
