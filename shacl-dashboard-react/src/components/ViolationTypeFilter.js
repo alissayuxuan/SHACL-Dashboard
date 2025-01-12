@@ -32,7 +32,7 @@ const ViolationTypeFilter = (props) => {
                 <div className="card" key={index}>
                 <h3>{title}</h3>
                 {/*TODO: kann es sein, dass da im result was fehlt?? checken!!*/}
-                <p>{index === 0 ? result.total_violations : index === 1 ? result.total_violating_nodes : result.total_violating_resultPaths}</p>
+                <p>{index === 0 ? result.total_violations : index === 1 ? result.total_focusNodes : result.total_resultPaths}</p>
                 </div>
             ))}
             </div>

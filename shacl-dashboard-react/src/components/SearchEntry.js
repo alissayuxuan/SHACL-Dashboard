@@ -232,14 +232,14 @@ function SearchEntry(props) {
 
     // Check invalid inputs
     const isValidSearch = () => {
-        if (violationTypeSearch == "" && focusNodeSearch == "" && resultPathSearch == "") {
+        if (violationTypeSearch === "" && focusNodeSearch === "" && resultPathSearch === "") {
             const noInput = document.getElementById('invalidSearch-noInput');
             noInput.style.display = 'flex';
             return false;
         }
-        else if ((violationTypeSearch != "" && !violationTypes.includes(violationTypeSearch)) || 
-                (focusNodeSearch != "" && !violatingNodes.includes(focusNodeSearch)) || 
-                (resultPathSearch != "" && !violatingPaths.includes(resultPathSearch))) {
+        else if ((violationTypeSearch !== "" && !violationTypes.includes(violationTypeSearch)) || 
+                (focusNodeSearch !== "" && !violatingNodes.includes(focusNodeSearch)) || 
+                (resultPathSearch !== "" && !violatingPaths.includes(resultPathSearch))) {
             const invalidInput = document.getElementById('invalidSearch-input');
             invalidInput.style.display = 'flex';
             return false;

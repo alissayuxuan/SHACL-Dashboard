@@ -209,21 +209,9 @@ const Filter = (props) => {
     // retrieves filterViews from local storage
     useEffect(() => {
         const filterViewsData = localStorage.getItem("filter-views");
-        //console.log("Retrieved filter views from local storage:", filterViewsData);
+        
         if (filterViewsData) {
             const parsedFilters = JSON.parse(filterViewsData);
-
-            /*const restoredFilters = parsedFilters.map(filterView => ({
-                ...filterView,
-                filter: filterView.filter_type === "ViolationTypeFilter"
-                    ? <ViolationTypeFilter name={filterView.name} result={filterView.result} />
-                    : <ViolatedNodePath result={filterView.result} />
-            }));
-
-            console.log("Restored Filters:", restoredFilters);
-            */
-
-            //setFilterViews(restoredFilters);
             setFilterViews(parsedFilters)
         }
     }, []);
@@ -326,18 +314,6 @@ const Filter = (props) => {
 
             {/*filtered results */}
             <div style={{ marginTop: "20px" }}>
-                {/*{filterViews.map((filterView) => (
-                    <div key={filterView.id} ref={refsFilterViews.current[filterView.id]} style={{ marginTop: "30px" }}>
-                        <div className="filter-title">
-                            <h3>{filterView.name}</h3>
-                            <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
-                        </div>
-                        <div style={{ marginRight: '10px' }} id={'filter-' + filterView.id}>{filterView.filter}</div>
-                        <div className='download-container'>
-                            <button className='download-btn' onClick={() => downloadFilter(filterView.id, filterView.name)}>Download</button>
-                        </div>
-                    </div>
-                ))} */}
                 {filterViews.map((filterView) => (
                     <div key={filterView.id} ref={refsFilterViews.current[filterView.id]} style={{ marginTop: "30px" }}>
                         <div className="filter-title">

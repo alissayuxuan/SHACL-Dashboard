@@ -9,7 +9,7 @@ SH = Namespace("http://www.w3.org/ns/shacl#")
 
 def addPrefix(input):
     prefix_dict = get_prefix_dict()
-    print(f"Prefix Dict:\n {prefix_dict}")
+    #print(f"Prefix Dict:\n {prefix_dict}")
 
     if input in prefix_dict:
         return prefix_dict[input] + input
