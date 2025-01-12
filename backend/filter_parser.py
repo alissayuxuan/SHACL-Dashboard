@@ -287,6 +287,8 @@ LIMIT 1
         "most_frequent_resultPath" : str(prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(fscc_queryMostViolatingResultPath))), graph)),
         "focusNode_violations" : prefixEntfernenMehrere(fscc_focusNodeDistributionFunction(graph, inputNeu), graph),
         "result_path_occurance": prefixEntfernenMehrere(fscc_resultPathDistributionFunction(graph, inputNeu), graph),
+        "total_focusNodes": extract_sparql_result(graph.query(fscc_queryNumberViolatedNodes)),
+        "total_resultPaths": extract_sparql_result(graph.query(fscc_queryNumberViolatedResultPaths))
     }
 
    
