@@ -21,7 +21,6 @@ def getNamespaces(graph):
     liste = []
     for prefix, namespace in graph.namespaces():
         liste.append(namespace)
-    
     return liste
 
 
@@ -97,7 +96,7 @@ def queryFocusNodeDistributionFunction(graph):
     """
     results = graph.query(queryFocusNodeDistribution)
 
-    # Alissa: added str() to JSON serialize result
+    # added str() to JSON serialize result
     return [
     {
         "key": str(row[0]),
@@ -120,7 +119,7 @@ def queryResultPathDistributionFunction(graph):
     """
     results = graph.query(queryResultPathDistribution)
 
-    # Alissa: added str() to JSON serialize result
+    #added str() to JSON serialize result
     return [
     {
         "key": str(row[0]),
@@ -154,7 +153,7 @@ def resultSourceConstraintComponentDistribution(graph):
     """
     results = graph.query(queryResultSourceConstraintComponentDistribution)
 
-    # Alissa: added string to JSON serialize result
+    #added string to JSON serialize result
     return [
     {
         "key": str(row[0]),
@@ -165,15 +164,11 @@ def resultSourceConstraintComponentDistribution(graph):
     ]
 
 
-# Alissa: extract the sparql result, bc Object of type SPARQLResult is not JSON serializable
+#extract the sparql result, bc Object of type SPARQLResult is not JSON serializable
 def extract_sparql_result(sparql_result):
-    # Falls SPARQLResult ein iterierbares Objekt ist
     return [str(row[0]) for row in sparql_result] if sparql_result else None
 
-# Alissa: added extract_sparql_result
 def analyze_graph(graph):
-    print("hallo")
-    # Example analysis: Count the number of triples in the graph
     total_violations = extract_sparql_result(graph.query(queryGesamtzahlViolations))
     total_violating_nodes = extract_sparql_result(graph.query(queryAnzahlViolatingNodes))
     total_violating_resultPaths = extract_sparql_result(graph.query(queryAnzahlViolatingResultPaths))
@@ -193,7 +188,6 @@ def analyze_graph(graph):
         "most_frequent_resultPath" : str(prefixEntfernenEinzeln(most_frequent_result_path, graph)),
         "result_path_occurance": prefixEntfernenMehrere(queryResultPathDistributionFunction(graph), graph)
     }
-        # Add more analysis results as needed         
     return analysis_result
 
 
@@ -204,10 +198,9 @@ def prefixEntfernenEinzeln(eingabe, g):
     for a,b in namespaces.items():
         if eingabe.startswith("['" + a) or eingabe.startswith(a):
             listePrefixe.append(a)
-            cut_off_input = eingabe.replace(a, "") #Alissa
-            prefix_dict[cut_off_input] = a #Alissa -> save prefix in dict
-            print("neuer Prefix: ", a)
-            return cut_off_input#eingabe.replace(a, "")
+            cut_off_input = eingabe.replace(a, "")
+            prefix_dict[cut_off_input] = a #save prefix in dict
+            return cut_off_input
     return eingabe
 
 def prefixEntfernenMehrere(eingabe, g):
@@ -215,6 +208,6 @@ def prefixEntfernenMehrere(eingabe, g):
         a['key'] = prefixEntfernenEinzeln(a['key'], g)
     return eingabe
 
-#Alissa -> to access prefix_dict from another file
+#to access prefix_dict from another file
 def get_prefix_dict():
     return prefix_dict

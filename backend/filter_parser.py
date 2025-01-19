@@ -139,16 +139,10 @@ def filterNode(graph, input):
 
 
 
-  #  fn_total_violations = extract_sparql_result(graph.query(fn_queryGesamtzahlViolations))
 
 
 def filterResultPath(graph, input):
     namespaces = getNamespaces(graph)
-
-   # for a in namespaces:
-    #    print(a)
-
-#    inputNeu = 'http://swat.cse.lehigh.edu/onto/univ-bench.owl#' + input
 
     for n in namespaces: 
         inputNeu = n + input
@@ -162,9 +156,7 @@ def filterResultPath(graph, input):
             }}
         """
 
-        print(inputNeu)
         a = extract_sparql_result(graph.query(frp_queryGesamtzahlViolations))
-        print(a)
         if a == ['0']:
             print()
         else:
@@ -200,16 +192,11 @@ def filterResultPath(graph, input):
 
 
 def filterSourceConstraintComponent(graph, input):
-   # inputNeu = 'http://www.w3.org/ns/shacl#' + input
     namespaces = getNamespaces(graph)
-
-
 
     for n in namespaces: 
         inputNeu = n + input
 
-        
-     
         fscc_queryGesamtzahlViolations = f"""
         SELECT (COUNT(?result) as ?c)
         WHERE {{
@@ -218,9 +205,7 @@ def filterSourceConstraintComponent(graph, input):
             }}
         """
 
-        print(inputNeu)
         a = extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations))
-        print(a)
         if a == ['0']:
             print()
         else:
@@ -278,9 +263,6 @@ ORDER BY DESC(?count)
 LIMIT 1 
 """
     
-         #   "most_frequent_violation_type": prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(frp_queryMostFrequentViolationtype))), graph),
-
-    
     return{
         "total_violations": extract_sparql_result(graph.query(fscc_queryGesamtzahlViolations)), 
         "most_violating_node": str(prefixEntfernenEinzeln(str(extract_sparql_result(graph.query(fscc_queryMostViolatingNode))), graph)),
@@ -291,6 +273,3 @@ LIMIT 1
         "total_resultPaths": extract_sparql_result(graph.query(fscc_queryNumberViolatedResultPaths))
     }
 
-   
-def filterSeverity(graph, input):
-    return
