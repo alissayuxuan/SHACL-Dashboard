@@ -48,7 +48,7 @@ function Home() {
         <h1 className="title" id="FeatureSection">Our Features.</h1>
         <div className="features">
           <div className="feature">
-            <img className="feature-img" src="/images/dash1.png" alt="Feature 1" />
+            <img className="feature-img" src="/images/overviewFeature-main.png" alt="Feature 1" />
             <h3>Visualize Data</h3>
             <p>Visualize the data of your validation report in a dashboard.</p>
             <button className="feature-btn" onClick={() => setOverviewFeatureOpen(true)}>Learn more</button>
@@ -69,7 +69,7 @@ function Home() {
           </Model>
 
           <div className="feature">
-            <img className="feature-img" src="/images/dash2.png" alt="Feature 2" />
+            <img className="feature-img" src="/images/filterFeature-main.png" alt="Feature 2" />
             <h3>Analyze Violations</h3>
             <p>Break down constraint violations and pinpoint problems.</p>
             <button className="feature-btn" onClick={() => setFilterFeatureOpen(true)}>Learn more</button>
@@ -83,7 +83,7 @@ function Home() {
               <div className="feature-content">
                 <img className="featureInstruction-img" src="/images/filterFeature1.png" alt="Feature 1" />
                 <br/>
-                <p>When a search is performed, a filter component is generated, displaying all relevant information for that category.
+                <p className="feature-p">When a search is performed, a filter component is generated, displaying all relevant information for that category.
                 The displayed Information is specific to the filtered category.
                 </p>
                 <br/>
@@ -96,13 +96,12 @@ function Home() {
                 <br/>
                 <br/>
                 <img className="featureInstruction-img" src="/images/filterFeature6.png" alt="Feature 6" />
-
               </div>
             </div>
           </Model>
 
           <div className="feature">
-            <img className="feature-img" src="/images/dash2.png" alt="Feature 3" />
+            <img className="feature-img" src="/images/searchFeature-main.png" alt="Feature 3" />
             <h3>Search Violations</h3>
             <p>Filter out certain violations based on your individualized search.</p>
             <button className="feature-btn" onClick={() => setSearchFeatureOpen(true)}>Learn more</button>
@@ -114,13 +113,13 @@ function Home() {
               <h1>Search Violations</h1>
               <p>Apply your filters, and we'll find all violation entries in the validation report that match your criteria.</p>
               <div className="feature-content">
-                
+                <img className="featureInstruction-img" src="/images/searchFeature1.png" alt="Feature 1" />
               </div>
             </div>
           </Model>
 
           <div className="feature">
-            <img className="feature-img" src="/images/dash3.png" alt="Feature 4" />
+            <img className="feature-img" src="/images/downloadFeature-main.png" alt="Feature 4" />
             <h3>Export Insights</h3>
             <p>Download summarized reports for easy sharing and documentation.</p>
             <button className="feature-btn" onClick={() => setDownloadFeatureOpen(true)}>Learn more</button>
@@ -133,10 +132,16 @@ function Home() {
               <h1>Export Insights</h1>
               <p>You can download all dashboards as PDFs.</p>
               <div className="feature-content">
-                <img className="overviewFeature-img" src="/images/overviewFeature1.png" alt="Feature 1" />
-                <img className="overviewFeature-img" src="/images/overviewFeature2.png" alt="Feature 2" />
-                <img className="overviewFeature-img" src="/images/overviewFeature3.png" alt="Feature 3" />
-                <img className="overviewFeature-img" src="/images/overviewFeature4.png" alt="Feature 4" />
+                <p className="feature-p">Download Overview Dashboard.</p>
+                <img className="featureInstruction-img" src="/images/downloadFeature1.png" alt="Feature 1" />
+                <br/>
+                <br/>
+                <p className="feature-p">Download single Filter Dashboards.</p>
+                <img className="featureInstruction-img" src="/images/downloadFeature2.png" alt="Feature 2" />
+                <br/>
+                <br/>
+                <p className="feature-p">Download the Results of your Search.</p>
+                <img className="featureInstruction-img" src="/images/downloadFeature3.png" alt="Feature 3" />
               </div>
             </div>
           </Model>

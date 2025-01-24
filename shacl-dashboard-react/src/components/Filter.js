@@ -107,7 +107,7 @@ const Filter = (props) => {
                 formData.append("category", selectedCategory);
             }
 
-            formData.append("input", searchQuery)
+            formData.append("input", searchQuery);
 
             let url = 'http://localhost:5000/filter';
 
@@ -123,7 +123,6 @@ const Filter = (props) => {
                 }
 
                 const result = await response.json();
-                console.log("RESULT:\n", result);
 
                 addFilter(result.data);
 
@@ -148,16 +147,14 @@ const Filter = (props) => {
         const newId = Date.now(); // unique id
 
         console.log("selected Category: ", selectedCategory);
+        console.log("searchQuery: ", searchQuery);
         if(selectedCategory === "All") {
             if(violationTypes.includes(searchQuery)) {
                 setFilterViews([...filterViews, { 
                     name: searchQuery, 
                     id: newId,
                     filter_type: "ViolationTypeFilter",
-                    result: filterResult, 
-                    filter: <ViolationTypeFilter
-                                name={searchQuery}
-                                result={filterResult}/>
+                    result: filterResult
                 }])
             } else {
                 console.log("All - not in violationTypes");
@@ -166,30 +163,23 @@ const Filter = (props) => {
                     name: searchQuery, 
                     id: newId, 
                     filter_type: "ViolatedNodePath",
-                    result: filterResult,
-                    filter: <ViolatedNodePath
-                                result={filterResult}/>
+                    result: filterResult
                 }])
             }
         }
-        if(selectedCategoryList === violationTypes) {
+        else if(selectedCategoryList === violationTypes) {
             setFilterViews([...filterViews, { 
                 name: searchQuery, 
                 id: newId,
                 filter_type: "ViolationTypeFilter",
-                result: filterResult,
-                //filter: <ViolationTypeFilter 
-                //            name={searchQuery}
-                //            result={filterResult}/>
+                result: filterResult
             }])
         } else {
             setFilterViews([...filterViews, { 
                 name: searchQuery, 
                 id: newId, 
                 filter_type: "ViolatedNodePath",
-                result: filterResult,
-                //filter: <ViolatedNodePath 
-                //            result={filterResult}/>
+                result: filterResult
             }])
         }
 
@@ -321,10 +311,12 @@ const Filter = (props) => {
                             <button className="closeFilter-btn" onClick={() => removeFilter(filterView.id)}>✕</button>
                         </div>
                         <div style={{ marginRight: '10px' }} id={'filter-' + filterView.id}>
-                            {filterView.filter_type === "ViolationTypeFilter" ? 
-                                <ViolationTypeFilter name={filterView.name} result={filterView.result}/> :
-                                <ViolatedNodePath result={filterView.result}/>
-                        }</div>
+                            {filterView.filter_type === "ViolatedNodePath" ?
+                                <ViolatedNodePath result={filterView.result}/>:                            
+                                /*<ViolationTypeFilter name={filterView.name} result={filterView.result}/>:*/
+                                <ViolationTypeFilter name={filterView.name} result={filterView.result}/>
+                            } 
+                        </div>
                         <div className='download-container'>
                             <button className='download-btn' onClick={() => downloadFilter(filterView.id, filterView.name)}>Download</button>
                         </div>

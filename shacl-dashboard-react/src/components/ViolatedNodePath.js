@@ -7,6 +7,8 @@ const ViolatedNodePath = (props) => {
 
     const { result } = props;
 
+    console.log("violatednodepath: ", result);
+
     const most_frequent_violation_type = result.most_frequent_violation_type.substring(2, result.most_frequent_violation_type.length - 2);
     const violationTypes = result.violationTypes_occurance.map(item => item.key);
     const violationTypes_values = result.violationTypes_occurance.map(item => item.value);

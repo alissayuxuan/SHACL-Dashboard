@@ -26,9 +26,8 @@ def upload_file(graph):
     """
     
     analysis_result = analyze_graph(graph)  
- #   print(f"{GREEN}ANALYSIS:  {analysis_result}{RESET}")
 
-        # Store result in temporary storage
+    # Store result in temporary storage
     analysis_results['last_analysis'] = analysis_result
     return jsonify({'status': 'File parsed successfully'})
 
@@ -70,18 +69,11 @@ def upload_file(graph):
 """
 
 def get_result():
-  #  print(f"{YELLOW}HERE!!!!!!!{RESET}")
-   # print(f"{YELLOW}{analysis_results}{RESET}")
     if 'last_analysis' in analysis_results:
-       # print(f"{YELLOW}last_analysis{RESET}")
         return jsonify({'analysis': analysis_results['last_analysis']})
     else:
         print(f"{YELLOW}no last_analysis{RESET}")
         return jsonify({'error': 'No analysis result available'}), 404
     
-
-
-
-
 def getFile():
     return file

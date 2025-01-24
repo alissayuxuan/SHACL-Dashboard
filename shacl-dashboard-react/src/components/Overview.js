@@ -1,6 +1,6 @@
 // main overview of the dashboard
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Plot from 'react-plotly.js'
 import '../style/Overview.css';
 
@@ -24,9 +24,7 @@ const Overview = (props) => {
 
     const top10_violatingPaths = result.result_path_occurance.map(item => item.key).slice(0, 10);  
     const top10_violatingPaths_values = result.result_path_occurance.map(item => item.value).slice(0, 10); 
-    
-    //TODO pie chart: "sonstiges"
-    
+        
   // download dashboard
     const downloadDashboard = () => {
         const dashboard = document.getElementById('dashboard-pdf');

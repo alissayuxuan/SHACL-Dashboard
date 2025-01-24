@@ -1,5 +1,3 @@
-# TODO: implement parser function
-
 from rdflib import Graph, URIRef
 from rdflib.plugins.sparql.processor import prepareQuery
 

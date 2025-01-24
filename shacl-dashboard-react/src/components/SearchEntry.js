@@ -3,6 +3,10 @@ import '../style/SearchEntry.css';
 
 import html2pdf from 'html2pdf.js';
 
+// Material UI
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 // getInitial useStates -> so local storage doesn't get resetted
 const getInitialViolationEntries = () => {
     const violationEntriesData = localStorage.getItem("violation-entries");
@@ -30,7 +34,7 @@ const getInitialResultPathSearch = () => {
 }
 
 const getInitialTotalEntries = () => {
-    const totalEntriesData = localStorage.getItem("total-searcf-entries");
+    const totalEntriesData = localStorage.getItem("total-search-entries");
     return totalEntriesData ? JSON.parse(totalEntriesData) : 0;
 }
 
@@ -56,6 +60,8 @@ function SearchEntry(props) {
     const [hasResult, setHasResult] = useState(getInitialHasSearchResult());
     const [totalEntries, setTotalEntries] = useState(getInitialTotalEntries());
 
+    // loading
+    const [isLoading, setIsLoading] = useState(false);
 
     // Violation Type Input Search
     const handleViolationTypeChange = (e) => {
@@ -144,6 +150,8 @@ function SearchEntry(props) {
         invalidInput.style.display = 'none';
 
         event.preventDefault();
+        setIsLoading(true);
+
         const formData = new FormData();
         formData.append("violationType", violationTypeSearch);
         formData.append("focusNode", focusNodeSearch);
@@ -179,6 +187,8 @@ function SearchEntry(props) {
 
         } catch (error) {
             console.error("Error: ", error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -389,6 +399,14 @@ function SearchEntry(props) {
                 </div>
             </div>
         ) : <div></div>}
+
+        {/* Loading */}
+        <Backdrop
+            sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+            open={isLoading}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
         
     </div>
   );

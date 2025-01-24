@@ -9,7 +9,6 @@ SH = Namespace("http://www.w3.org/ns/shacl#")
 
 def addPrefix(input):
     prefix_dict = get_prefix_dict()
-    #print(f"Prefix Dict:\n {prefix_dict}")
 
     if input in prefix_dict:
         return prefix_dict[input] + input
@@ -63,7 +62,6 @@ def search(graph: Graph, violation_type=None, focus_node=None, result_path=None)
 
     # Format the output with line breaks
     pretty_output = "\n\n".join(result_entries)
-    print(pretty_output)
 
     # Return the result as JSON response
     if result_entries:

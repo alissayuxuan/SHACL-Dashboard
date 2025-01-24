@@ -1,0 +1,319 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.2.232:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-729-456
+INFO:root:/upload processed in 0.4053 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:12:09] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:12:09] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:12:10] "GET /result HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.2776 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:13:53] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3983 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:14:13] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.2474 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:14:35] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3126 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:14:50] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0428 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:15:17] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0572 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:15:28] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.4532 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:15:41] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.4508 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:16:14] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3873 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:16:55] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0498 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:17:05] "POST /filter HTTP/1.1" 200 -
+INFO:root:/search processed in 0.1000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:19:17] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0320 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:19:34] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0248 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:19:43] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0193 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:19:55] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0320 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:19:59] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0311 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:20:39] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0324 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:20:56] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0219 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:21:20] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0283 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:21:35] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0243 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:21] "POST /search HTTP/1.1" 200 -
+INFO:root:/upload processed in 0.1835 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:46] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:46] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:47] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 0.1540 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:54] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:55] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:22:55] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 0.1677 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:35] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:36] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:36] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 0.1761 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:46] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:46] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:23:46] "GET /result HTTP/1.1" 200 -
+
+
+INFO:root:/upload processed in 3.2595 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:39] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0156 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:39] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0054 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:39] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 2.3394 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:51] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0162 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:51] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0082 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:24:52] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 2.1711 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:08] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0157 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:09] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0082 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:09] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 2.3096 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:19] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0194 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:20] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0161 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:20] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 2.9343 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:39] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0168 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:39] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0151 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:25:40] "GET /result HTTP/1.1" 200 -
+
+
+INFO:root:/filter processed in 1.2511 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:27:29] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 1.0298 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:27:37] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0659 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:27:44] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0413 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:02] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0670 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:08] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0899 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:19] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0498 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:44] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.7454 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:50] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3860 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:28:56] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.4586 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:29:05] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.4791 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:29:15] "POST /filter HTTP/1.1" 200 -
+INFO:root:/search processed in 0.6775 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:30:32] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.3609 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:30:38] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0307 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:30:44] "POST /search HTTP/1.1" 200 -
+
+INFO:root:/search processed in 0.0201 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:31:31] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0317 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:31:37] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.2381 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:31:44] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0474 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:31:48] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.2055 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:31:55] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.3952 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:32:04] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0346 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:32:57] "POST /search HTTP/1.1" 200 -
+INFO:root:/upload processed in 30.1369 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:33:52] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0108 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:33:53] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0326 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:33:53] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 23.9946 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:34:27] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0212 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:34:28] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0163 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:34:28] "GET /result HTTP/1.1" 200 -
+
+INFO:root:/upload processed in 26.5818 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:35:23] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0083 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:35:23] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0070 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:35:24] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 25.3226 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:36:01] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0208 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:36:01] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0081 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:36:01] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 25.9857 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:37:13] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0117 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:37:13] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0031 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:37:13] "GET /result HTTP/1.1" 200 -
+
+INFO:root:/filter processed in 1.2660 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:37:51] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 15.5992 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:14] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.2827 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:26] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.2893 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:32] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0678 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:45] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0859 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:50] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.0479 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:38:57] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.1968 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:39:10] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3991 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:39:17] "POST /filter HTTP/1.1" 200 -
+INFO:root:/filter processed in 0.3195 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:39:24] "POST /filter HTTP/1.1" 200 -
+
+INFO:root:/search processed in 18.9476 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:41:23] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 39.4639 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:41:23] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 45.0710 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:41:23] "POST /search HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0138 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:41:57] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0157 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:41:57] "GET /result HTTP/1.1" 200 -
+INFO:root:/search processed in 0.5399 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:42:03] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0314 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:42:31] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0243 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:42:46] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0320 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:42:53] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0321 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:43:07] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0150 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:43:49] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0318 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:44:03] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0583 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:44:09] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0824 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:44:30] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0635 seconds
+INFO:werkzeug:127.0.0.1 - - [21/Jan/2025 23:44:37] "POST /search HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.2.232:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-729-456
+INFO:root:/upload processed in 59.0883 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:21:19] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0316 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:21:19] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0156 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:21:19] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 0.3250 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:28:42] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:28:42] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0000 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:28:42] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 6.9910 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:29:14] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0241 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:29:14] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0240 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 20:29:14] "GET /result HTTP/1.1" 200 -
+INFO:root:/upload processed in 59.0996 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:34:58] "POST /upload HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0164 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:34:58] "GET /result HTTP/1.1" 200 -
+INFO:root:/result processed in 0.0155 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:34:59] "GET /result HTTP/1.1" 200 -
+INFO:root:/filter processed in 32.8743 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:36:02] "POST /filter HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0491 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:43:40] "POST /search HTTP/1.1" 200 -
+INFO:root:/search processed in 0.0412 seconds
+INFO:werkzeug:127.0.0.1 - - [22/Jan/2025 21:44:14] "POST /search HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'D:\\Alissa\\Documents\\Universität\\7. Semester\\Data_Engineering\\SHACL-Dashboard\\backend\\graph_parser.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 118-729-456
+INFO:werkzeug: * Detected change in 'D:\\Alissa\\Documents\\Universität\\7. Semester\\Data_Engineering\\SHACL-Dashboard\\backend\\server.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
