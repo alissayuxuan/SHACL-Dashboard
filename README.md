@@ -32,11 +32,12 @@ backend:
 pip install flask
 pip install flask-cors
 pip install rdflib
+pip install SPARQLWrapper
 
 
 frontend:
 bootstrap
-router-dom?
+router-dom
 npm install react-plotly.js plotly.js
 npm install @mui/material @emotion/react @emotion/styled
 
@@ -66,3 +67,20 @@ Both components act as filter dashboards, displaying different content based on 
 SearchEntry.js:
 This component provides the search functionality. The user's search input is sent to the backend for processing, and the returned data is displayed on the screen.
 
+# backend
+
+graph_parser: from outside, the analyze_graph(graph) function is called. The function then executes the SPARQL queries and calls other methods to collect all the data and KPIs that are needed. Extract_sparql_result is a helper function to better process data from sparql queries. The prefixEntfernen functions are used to extract the essential parts of the results by shortening them. Finally analyze_graph returns a dictionary with the collected data. 
+
+filter_parser: there is a method for each filter, these are called from outside. Afterwards this class works similar as Graph parser.
+
+Server: the server class is the routing class. Additionally the graph is stored here to facilitate easier handling between the other classes. 
+
+uploadFile: is used to call the analyze_graph function and to store the returned results. 
+
+filterFile: is used to call the chosen filter function and to store the returned filterResults.
+
+
+# Run it:
+backend: navigate to \backend and execute python server.py
+
+frontend: navigate to \shacl-dashboard-react and execute npm start
