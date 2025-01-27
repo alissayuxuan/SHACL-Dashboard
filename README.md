@@ -6,7 +6,7 @@
     git clone https://github.com/alissayuxuan/SHACL-Dashboard.git
 
 
-    2. Create a Virtual Environment for Flask
+    2. Create and Activate Virtual Environment for Flask (optional but best practice to isolate dependencies)
 
     cd backend
 
@@ -18,28 +18,43 @@
     python -m venv venv
     venv\Scripts\activate
 
+    #might need to edit execution policies if activation is not possible
+        i. run powershell as administrator
+        ii. To allow the execution of scripts only for this session, enter the following command:
+        "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass"
+        This changes the execution policy only for the current PowerShell window and has no permanent effect on your system.   
 
-# might need to edit execution policies if not able to activate
-    1. run powershell as administrator
-    2. Um die Ausführung von Skripten nur für diese Sitzung zu erlauben, gib den folgenden Befehl ein:
-    "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass"
-    Dies ändert die Execution Policy nur für das aktuelle PowerShell-Fenster und hat keine dauerhaften Auswirkungen auf dein System    
+    2. Install Dependencies for Backend (/backend)
 
+    pip install -r requirements.txt
 
-# installed packages
-backend:
+    3. Run Backend (/backend)
 
-pip install flask
-pip install flask-cors
-pip install rdflib
-pip install SPARQLWrapper
+    python server.py
 
+    4. Install Dependencies for Frontend (/shacl-dashboard-react)
 
-frontend:
-bootstrap
-router-dom
-npm install react-plotly.js plotly.js
-npm install @mui/material @emotion/react @emotion/styled
+    npm install
+
+    5. Run Frontend (/shacl-dashboard-react)
+
+    npm start
+
+    6. You can find 2 SHACL validation reports in /backend/datasets
+
+# backend
+
+Server: the server class is the routing class. Additionally the graph is stored here to facilitate easier handling between the other classes. 
+
+uploadFile: is used to call the analyze_graph function and to store the returned results.
+
+graph_parser: from outside, the analyze_graph(graph) function is called. The function then executes the SPARQL queries and calls other methods to collect all the data and KPIs that are needed. Extract_sparql_result is a helper function to better process data from sparql queries. The prefixEntfernen functions are used to extract the essential parts of the results by shortening them. Finally analyze_graph returns a dictionary with the collected data. 
+
+filter_parser: there is a method for each filter, these are called from outside. Afterwards this class works similar as Graph parser.
+
+filterFile: is used to call the chosen filter function and to store the returned filterResults.
+
+search_parser: retrieves all entries of the rdf graph that meets the given search query and send them to the frontend.
 
 # frontend
 You can find all the components in the component-directory and the css-files for each component in the style directory.
@@ -66,21 +81,3 @@ Both components act as filter dashboards, displaying different content based on 
 
 SearchEntry.js:
 This component provides the search functionality. The user's search input is sent to the backend for processing, and the returned data is displayed on the screen.
-
-# backend
-
-graph_parser: from outside, the analyze_graph(graph) function is called. The function then executes the SPARQL queries and calls other methods to collect all the data and KPIs that are needed. Extract_sparql_result is a helper function to better process data from sparql queries. The prefixEntfernen functions are used to extract the essential parts of the results by shortening them. Finally analyze_graph returns a dictionary with the collected data. 
-
-filter_parser: there is a method for each filter, these are called from outside. Afterwards this class works similar as Graph parser.
-
-Server: the server class is the routing class. Additionally the graph is stored here to facilitate easier handling between the other classes. 
-
-uploadFile: is used to call the analyze_graph function and to store the returned results. 
-
-filterFile: is used to call the chosen filter function and to store the returned filterResults.
-
-
-# Run it:
-backend: navigate to \backend and execute python server.py
-
-frontend: navigate to \shacl-dashboard-react and execute npm start

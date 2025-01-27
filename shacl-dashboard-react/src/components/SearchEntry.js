@@ -180,6 +180,7 @@ function SearchEntry(props) {
                 setTotalEntries(result.total_entries);
             } else {
                 setViolationEntries(result.message);
+                setTotalEntries(0);
             }
 
             setHasResult(true);

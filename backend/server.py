@@ -21,6 +21,8 @@ def handle_upload():
     global graph
     graph = Graph()
     graph.parse(file, format='turtle') 
+    #graph.parse(file, format='xml')
+    print("parsed")
     return upload_file(graph)# Call the function from uploadFile.py
 
 @app.route('/result', methods=['GET'])
