@@ -20,7 +20,15 @@ def handle_upload():
     file = request.files['file']
     global graph
     graph = Graph()
-    graph.parse(file, format='turtle') 
+    try: 
+       graph.parse(file, format='turtle') 
+    except:
+        try:
+            file.seek(0)
+            graph.parse(file,format='xml')
+        except:
+            print("error parsing file")
+            
     return upload_file(graph)# Call the function from uploadFile.py
 
 @app.route('/result', methods=['GET'])
