@@ -18,7 +18,7 @@
     python -m venv venv
     venv\Scripts\activate
 
-    #might need to edit execution policies if activation is not possible
+    # might need to edit execution policies if activation is not possible
         i. run powershell as administrator
         ii. To allow the execution of scripts only for this session, enter the following command:
         "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass"
